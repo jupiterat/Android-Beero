@@ -1,4 +1,4 @@
-package utility;
+package com.au.beero.beero.utility;
 
 import android.app.Activity;
 import android.content.Context;
