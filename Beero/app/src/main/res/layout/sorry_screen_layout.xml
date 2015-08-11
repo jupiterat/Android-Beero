@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sorry_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    android:background="@color/main_aap_color">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/sorry_title"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="@string/sorry" />
+
+    <TextView
+        android:id="@+id/sorry_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/logo_not_supported"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:text="@string/sorry_title" />
+
+    <ImageView
+        android:id="@+id/logo_not_supported"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/com_50dp"
+        android:layout_marginTop="@dimen/com_50dp"
+        android:src="@drawable/logo_notsupported" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo_not_supported"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:text="@string/sorry_msg" />
+
+</RelativeLayout>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_back"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true" >
+
+    <ImageView
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/com_15dp"
+        android:layout_marginRight="@dimen/com_5dp"
+        android:contentDescription="@null"
+        android:src="@drawable/back_icon"/>
+
+    <TextView
+        android:id="@+id/title_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/back_button"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_detail"
+        android:layout_toRightOf="@+id/back_button"
+        android:ellipsize="end"
+        android:lines="1"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/selected_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lines="1"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

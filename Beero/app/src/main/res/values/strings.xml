@@ -3,4 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="sorry">Sorry.</string>
+    <string name="sorry_title">Your Location Is Not\nSupported Just Yet.</string>
+    <string name="sorry_msg">Beero is currently only available in the\nSydney Northern Beaches area. We’re\nworking hard on getting Beero happening\neverywhere, but for now, please check\nback regularly.</string>
 </resources>
