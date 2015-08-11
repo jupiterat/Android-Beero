@@ -50,7 +50,8 @@ public class Constants {
         public static final String RES_LOSING_DEALS = "losing_deals";
         public static final String RES_PRICE_PER_LITRE = "price_per_litre";
         public static final String RES_STORE_NAME = "store_name";
-
+        public static final String RES_REASON = "reason";
+        public static final String RES_INFO = "info";
     }
 
 
