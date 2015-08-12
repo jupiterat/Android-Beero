@@ -1,20 +1,14 @@
 package com.au.beero.beero.ui.activity;
 
-import android.app.Activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
-import com.au.beero.beero.R;
 import com.au.beero.beero.ui.base.BaseFragmentActivity;
 import com.au.beero.beero.ui.stack.HomeStackFragment;
 

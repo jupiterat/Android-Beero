@@ -30,10 +30,9 @@ import android.widget.TextView;
 
 import com.au.beero.beero.R;
 import com.au.beero.beero.ui.stack.StackFragment;
+import com.au.beero.beero.utility.Utility;
 
 import java.lang.reflect.Field;
-
-import com.au.beero.beero.utility.Utility;
 
 /**
  * This is a base class for activity contains Fragment transition

@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.au.beero.beero.R;
+import com.au.beero.beero.ui.activity.MainActivity;
 import com.au.beero.beero.ui.base.BaseFragment;
+import com.au.beero.beero.ui.stack.StackFragment;
 
 /**
  * Created by jupiter.at@gmail.com on 8/12/2015.
@@ -30,6 +32,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().getActionBar().hide();
     }
 
     @Override
@@ -44,21 +47,21 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().getActionBar().hide();
+
         showSplash();
     }
 
-    private void showSplash(){
+    private void showSplash() {
         new Handler().postDelayed(new Runnable() {
-			/*
+            /*
              * Showing splash screen with a timer. This will be useful when you
 			 * want to show case your app logo / company
 			 */
 
             @Override
             public void run() {
-                if (false) {
-                    gotoSearchScreen();
+                if (true) {
+                    gotoBrandScreen();
                 } else {
                     gotoNotSupported();
                 }
@@ -66,8 +69,10 @@ public class HomeFragment extends BaseFragment {
         }, SPLASH_TIME_OUT);
     }
 
-    private void gotoSearchScreen() {
-
+    private void gotoBrandScreen() {
+        Fragment brandFrag = BrandFragment.makeInstance();
+        ((StackFragment) ((MainActivity) getActivity()).getCurrentFragment())
+                .addFragmentToStack(brandFrag);
     }
 
     private void gotoNotSupported() {

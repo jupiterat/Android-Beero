@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="?android:attr/actionBarSize"
+    android:background="@android:color/white">
+
+    <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+        android:id="@+id/brand_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/done_select_brand"/>
+
+    <TextView
+        android:id="@+id/done_select_brand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+
+        android:background="@color/main_yellow"
+        android:drawablePadding="@dimen/com_10dp"
+        android:drawableRight="@drawable/arrow_right_white"
+        android:gravity="right|center_vertical"
+        android:padding="@dimen/com_20dp"
+        android:text="@string/done"
+        android:textColor="@drawable/select_brand_text_selector"
+        android:textSize="18sp" />
+
+</RelativeLayout>

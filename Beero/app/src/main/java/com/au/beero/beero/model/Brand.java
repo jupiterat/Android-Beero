@@ -10,8 +10,10 @@ import org.json.JSONObject;
 public class Brand extends BaseModel {
     private String name;
     private String position;
+    private boolean isSelected = false;
 
     public Brand() {
+
     }
 
     public Brand(JSONObject jsonObject) {
@@ -26,6 +28,13 @@ public class Brand extends BaseModel {
         }catch (Exception e){
 
         }
+    }
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(boolean isSelected) {
+        this.isSelected = isSelected;
     }
 
     public String getName() {
