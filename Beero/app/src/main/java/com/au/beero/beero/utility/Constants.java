@@ -19,6 +19,7 @@ public class Constants {
     public static class SERVER_RES_KEY {
         public static final String RES_RESPONSE = "response";
         public static final String RES_STATUS = "status";
+        public static final String RES_OK = "ok";
         public static final String RES_RESULTS = "results";
         public static final String RES_1ST_ITEM = "1";
         public static final String RES_WINNING_DEAL = "winning_deal";
