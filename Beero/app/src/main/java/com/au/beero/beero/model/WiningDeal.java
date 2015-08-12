@@ -16,6 +16,7 @@ public class WiningDeal {
     String drivingDistance;
     String drivingTime;
     boolean isExclusive;
+    Store store;
 
     public WiningDeal() {
     }
@@ -61,6 +62,11 @@ public class WiningDeal {
             }
             try {
                 setIsExclusive(jsonObject.getBoolean(Constants.SERVER_RES_KEY.RES_IS_EXCLUSIVE));
+            } catch (Exception e) {
+
+            }
+            try {
+                setStore(new Store(jsonObject.getJSONObject(Constants.SERVER_RES_KEY.RES_STORE_DETAILS)));
             } catch (Exception e) {
 
             }
@@ -129,5 +135,13 @@ public class WiningDeal {
 
     public void setIsExclusive(boolean isExclusive) {
         this.isExclusive = isExclusive;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
 }

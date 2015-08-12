@@ -5,7 +5,7 @@ package com.au.beero.beero.utility;
 
 public class Constants {
     //
-    public static final String SERVER_API_PATH = "https://beero.com.au/api/v1/";
+    public static final String SERVER_API_PATH = "http://beero.com.au/api/v1/";
     //
     public static final String DEVICE_TYPE = "android";
     public static final String IMAGE_PATH = "/Image/";
