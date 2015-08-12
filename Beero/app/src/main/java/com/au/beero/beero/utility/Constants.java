@@ -52,6 +52,7 @@ public class Constants {
         public static final String RES_STORE_NAME = "store_name";
         public static final String RES_REASON = "reason";
         public static final String RES_INFO = "info";
+        public static final String RES_POSITION = "position";
     }
 
 
@@ -64,5 +65,22 @@ public class Constants {
     public static class SERVER_API_KEY {
     }
 
+    public enum WEEKDAY {
+        WEEKDAY_SUNDAY("sun"),
+        WEEKDAY_MONDAY("mon"),
+        WEEKDAY_TUESDAY("tue"),
+        WEEKDAY_WEDNESDAY("wed"),
+        WEEKDAY_THURSDAY("thu"),
+        WEEKDAY_FRIDAY("fri"),
+        WEEKDAY_SATURDAY("sat");
+        private final String name;
 
+        WEEKDAY(String name) {
+            this.name = name;
+        }
+
+        private String getName() {
+            return this.name;
+        }
+    }
 }
