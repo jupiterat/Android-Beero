@@ -32,7 +32,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().getActionBar().hide();
+        showSplash();
     }
 
     @Override
@@ -47,8 +47,8 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        showSplash();
+        getActivity().getActionBar().hide();
+        gotoNotSupported();
     }
 
     private void showSplash() {
@@ -76,7 +76,11 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void gotoNotSupported() {
-        mLogoIcon.setVisibility(View.GONE);
-        mSorryContaner.setVisibility(View.VISIBLE);
+        if(mLogoIcon != null && mLogoIcon.getVisibility() != View.GONE) {
+            mLogoIcon.setVisibility(View.GONE);
+        }
+        if(mSorryContaner != null && mSorryContaner.getVisibility() != View.VISIBLE) {
+            mSorryContaner.setVisibility(View.VISIBLE);
+        }
     }
 }

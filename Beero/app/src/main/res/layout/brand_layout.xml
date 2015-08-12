@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="?android:attr/actionBarSize"
-    android:background="@android:color/white">
+    android:background="@color/grey_bg">
 
     <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
         android:id="@+id/brand_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/done_select_brand"/>
 
     <TextView
@@ -16,7 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-
         android:background="@color/main_yellow"
         android:drawablePadding="@dimen/com_10dp"
         android:drawableRight="@drawable/arrow_right_white"
