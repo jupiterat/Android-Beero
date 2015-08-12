@@ -9,8 +9,14 @@ import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
 
+import com.au.beero.beero.model.response.BrandResponse;
+import com.au.beero.beero.request.BrandRequest;
+import com.au.beero.beero.task.BrandTask;
 import com.au.beero.beero.ui.base.BaseFragmentActivity;
 import com.au.beero.beero.ui.stack.HomeStackFragment;
+import com.framework.network.request.AbstractHttpRequest;
+import com.framework.network.task.IDataEventHandler;
+import com.framework.utility.CommonMethod;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -35,6 +41,13 @@ public class MainActivity extends BaseFragmentActivity {
         } catch (NoSuchAlgorithmException e) {
 
         }
+        /*BrandTask task = new BrandTask(mContext, new IDataEventHandler<BrandResponse>() {
+            @Override
+            public void onNotifyData(BrandResponse data, AbstractHttpRequest request) {
+
+            }
+        }, new BrandRequest());
+        CommonMethod.executeAsyTask(task);*/
         Fragment fragment = new HomeStackFragment();
         addFragmentToStack(fragment);
 
