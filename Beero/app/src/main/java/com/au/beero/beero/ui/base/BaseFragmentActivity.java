@@ -33,7 +33,7 @@ import com.au.beero.beero.ui.stack.StackFragment;
 
 import java.lang.reflect.Field;
 
-import utility.Utility;
+import com.au.beero.beero.utility.Utility;
 
 /**
  * This is a base class for activity contains Fragment transition
@@ -416,7 +416,6 @@ public class BaseFragmentActivity extends BaseActivity {
     /**
      * Show progress dialog to notify when the thread is running.
      *
-     * @param msgResId id of the message.
      */
     public void showProgress() {
         showProgress(0, null);
