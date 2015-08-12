@@ -36,7 +36,7 @@ public class BrandFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().getActionBar().show();
+
     }
 
     @Nullable
@@ -47,14 +47,14 @@ public class BrandFragment extends BaseFragment {
         mDoneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showToast("clicked");
+                gotoBrandScreen();
             }
         });
         mBrandListview = (UltimateRecyclerView)view.findViewById(R.id.brand_list);
         mBrandListview.setLayoutManager(new LinearLayoutManager(mActivity));
         mBrandListview.addItemDividerDecoration(mActivity);
         mBrandList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             Brand br = new Brand();
             br.setName("Beer band" + i);
             if(i % 2 == 0) {
@@ -71,10 +71,17 @@ public class BrandFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().getActionBar().show();
         String title = getString(R.string.brand_title);
         ((MainActivity) getActivity()).displayBackIcon(true, (StackFragment) getParentFragment(),
                 title, "", false);
         mBrandAdapter = new BrandAdapter(mActivity,mBrandList);
         mBrandListview.setAdapter(mBrandAdapter);
+    }
+
+    private void gotoBrandScreen() {
+        Fragment searchFrag = SearchFragment.makeInstance();
+        ((StackFragment) ((MainActivity) getActivity()).getCurrentFragment())
+                .addFragmentToStack(searchFrag);
     }
 }

@@ -29,4 +29,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.android.support:support-v4:22.2.0'
     compile 'com.marshalchen.ultimaterecyclerview:library:0.3.7'
+    compile files('libs/quickaction-1.2.jar')
 }

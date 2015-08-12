@@ -9,4 +9,9 @@
     <string name="ERROR_NETWORK">Network Error</string>
     <string name="done">DONE</string>
     <string name="brand_title">WHICH BEERS ARE YOU?</string>
+    <string name="my_beers">MY BEERS</string>
+    <string name="all_beers">ALL BEERS</string>
+    <string name="finding">Finding beers&#8230;</string>
+    <string name="cases">CASES</string>
+    <string name="bottle">BOTTLES/CANS</string>
 </resources>
