@@ -6,6 +6,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.au.beero.beero.manager.BeeroLocationManager;
+import com.au.beero.beero.manager.BeeroSearchManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class BeeroApplication extends Application {
     public static final int APPLICATION_STOP = 3;
     private static int appStatus = -1;
     private static Application sInstance;
+
     private class Status {
         public boolean isVisible = true;
         public boolean isFocused = true;
@@ -35,6 +37,7 @@ public class BeeroApplication extends Application {
         super.onCreate();
         sInstance = this;
         BeeroLocationManager.initialize(this.getApplicationContext());
+        BeeroSearchManager.initialize(this.getApplicationContext());
     }
 
     private boolean hasVisibleActivity() {
@@ -102,7 +105,8 @@ public class BeeroApplication extends Application {
     public static int getApplicationStatus() {
         return appStatus;
     }
-    public static Context getAppContext(){
+
+    public static Context getAppContext() {
         return sInstance.getApplicationContext();
     }
 

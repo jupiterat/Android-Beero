@@ -11,13 +11,13 @@ import java.util.List;
 /**
  * Created by shintabmt@gmai.com on 8/12/2015.
  */
-public class BrandResponse {
+public class ResponseBrand {
     List<Brand> brands;
 
-    public BrandResponse() {
+    public ResponseBrand() {
     }
 
-    public BrandResponse(JSONObject jsonObject) {
+    public ResponseBrand(JSONObject jsonObject) {
         Iterator<?> keys = jsonObject.keys();
         List<Brand> brands = new ArrayList<>();
         while (keys.hasNext()) {

@@ -9,9 +9,9 @@ import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
 
-import com.au.beero.beero.model.response.BrandResponse;
-import com.au.beero.beero.request.BrandRequest;
-import com.au.beero.beero.task.BrandTask;
+import com.au.beero.beero.model.response.ResponseSearch;
+import com.au.beero.beero.request.SearchRequest;
+import com.au.beero.beero.task.SearchTask;
 import com.au.beero.beero.ui.base.BaseFragmentActivity;
 import com.au.beero.beero.ui.stack.HomeStackFragment;
 import com.framework.network.request.AbstractHttpRequest;
@@ -22,7 +22,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends BaseFragmentActivity {
-
 
 
     @Override
@@ -41,13 +40,20 @@ public class MainActivity extends BaseFragmentActivity {
         } catch (NoSuchAlgorithmException e) {
 
         }
-        /*BrandTask task = new BrandTask(mContext, new IDataEventHandler<BrandResponse>() {
+        /*BrandTask task = new BrandTask(mContext, new IDataEventHandler<ResponseBrand>() {
             @Override
-            public void onNotifyData(BrandResponse data, AbstractHttpRequest request) {
+            public void onNotifyData(ResponseBrand data, AbstractHttpRequest request) {
 
             }
         }, new BrandRequest());
         CommonMethod.executeAsyTask(task);*/
+        SearchTask task = new SearchTask(mContext, new IDataEventHandler<ResponseSearch>() {
+            @Override
+            public void onNotifyData(ResponseSearch data, AbstractHttpRequest request) {
+
+            }
+        }, new SearchRequest());
+        CommonMethod.executeAsyTask(task);
         Fragment fragment = new HomeStackFragment();
         addFragmentToStack(fragment);
 

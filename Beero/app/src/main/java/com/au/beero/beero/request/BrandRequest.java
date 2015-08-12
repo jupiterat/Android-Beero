@@ -1,6 +1,6 @@
 package com.au.beero.beero.request;
 
-import com.au.beero.beero.model.response.BrandResponse;
+import com.au.beero.beero.model.response.ResponseBrand;
 import com.au.beero.beero.utility.Constants;
 import com.framework.network.ResponseError;
 import com.framework.network.request.AbstractHttpRequest;
@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * Created by shintabmt@gmai.com on 8/12/2015.
  */
-public class BrandRequest extends AbstractHttpRequest<Void, BrandResponse> {
+public class BrandRequest extends AbstractHttpRequest<Void, ResponseBrand> {
     public BrandRequest() {
         super(null, 0);
         setMethodType(NetworkConstant.GET_TYPE);
@@ -35,22 +35,18 @@ public class BrandRequest extends AbstractHttpRequest<Void, BrandResponse> {
     }
 
     @Override
-    protected BrandResponse readJSON(JSONObject jsonObject) throws JSONException, IOException {
-
+    protected ResponseBrand readJSON(JSONObject jsonObject) throws JSONException, IOException {
         if (jsonObject != null) {
             ResponseError respondError = new ResponseError();
             respondError.setStatusCode(jsonObject.getString(Constants.SERVER_RES_KEY.RES_STATUS));
             if (respondError.getStatusCode() != null && respondError.getStatusCode().equalsIgnoreCase(Constants.SERVER_RES_KEY.RES_OK)) {
-                BrandResponse responseLogin = new BrandResponse(jsonObject.getJSONObject(Constants.SERVER_RES_KEY.RES_RESULTS));
-                return responseLogin;
+                ResponseBrand responseBrand = new ResponseBrand(jsonObject.getJSONObject(Constants.SERVER_RES_KEY.RES_RESULTS));
+                return responseBrand;
             } else {
-
                 String error = jsonObject.getString(Constants.SERVER_RES_KEY.RES_REASON);
                 respondError.setMessage(error);
                 setResponseError(respondError);
             }
-
-
         }
         return null;
     }

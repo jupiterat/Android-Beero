@@ -28,6 +28,12 @@ public class BeeroLocationManager {
             sInstance.mLocation = sInstance.getLocation();
         }
     }
+    public static BeeroLocationManager makeInstance(){
+        return sInstance;
+    }
+    public Location getCurrentLocation(){
+        return  mLocation;
+    }
 
     private Location getLocation() {
         if (mLocationManager == null) {
@@ -78,6 +84,7 @@ public class BeeroLocationManager {
 
         @Override
         public void onLocationChanged(Location location) {
+            mLocation = location;
         }
 
         @Override
