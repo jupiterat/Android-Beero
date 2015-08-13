@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.au.beero.beero.manager.BeeroLocationManager;
 import com.au.beero.beero.manager.BeeroSearchManager;
+import com.au.beero.beero.utility.PlistParsing;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +39,8 @@ public class BeeroApplication extends Application {
         sInstance = this;
         BeeroLocationManager.initialize(this.getApplicationContext());
         BeeroSearchManager.initialize(this.getApplicationContext());
+//        PlistParsing parsing = new PlistParsing(this.getApplicationContext());
+//        parsing.getSupportArea();
     }
 
     private boolean hasVisibleActivity() {
