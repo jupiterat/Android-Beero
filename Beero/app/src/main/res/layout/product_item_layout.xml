@@ -1,39 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/com_60dp"
+    android:layout_height="@dimen/com_100dp"
     android:background="@android:color/white"
     android:padding="@dimen/com_10dp"
     >
-
-    <CheckBox
-        android:id="@+id/brand_select_chk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/product_img"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:button="@drawable/brand_checkbox_drawable"
-        android:layout_centerVertical="true" />
+        android:layout_marginRight="@dimen/com_10dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/beer_folder_smooth" />
 
     <TextView
-        android:id="@+id/brand_name"
-        android:layout_width="wrap_content"
+        android:id="@+id/product_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/com_10dp"
-        android:layout_marginRight="@dimen/com_10dp"
-        android:layout_toLeftOf="@+id/brand_img"
-        android:layout_toRightOf="@+id/brand_select_chk"
+        android:layout_toLeftOf="@+id/exclusive_icon"
+        android:layout_toRightOf="@+id/product_img"
+        android:layout_above="@+id/product_container"
         android:text="Toohey new"
         android:textColor="@color/main_aap_color"
         android:textSize="20sp"
         android:textStyle="bold" />
-
-    <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/brand_img"
-        android:layout_width="@dimen/com_50dp"
-        android:layout_height="@dimen/com_50dp"
-        android:layout_alignParentRight="true"
+    <TextView
+        android:id="@+id/product_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:src="@drawable/beer_folder_smooth" />
+        android:layout_toLeftOf="@+id/exclusive_icon"
+        android:layout_toRightOf="@+id/product_img"
+        android:text="30 x 375ml Cans"
+        android:textColor="@color/grey_darker"
+        android:textSize="16sp"
+        />
+    <TextView
+        android:id="@+id/product_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/product_img"
+        android:layout_below="@+id/product_container"
+        android:text="%38.89"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/product_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/product_price"
+        android:layout_below="@+id/product_container"
+        android:text="7 mins"
+        android:textColor="@color/main_aap_color"
+        android:textSize="20sp"
+        />
+
+    <ImageView
+        android:id="@+id/exclusive_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/com_10dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/arrow_right"
+        android:src="@drawable/badge_exclusive_small"/>
+    <ImageView
+        android:id="@+id/arrow_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/arrow_right_dark"/>
 
 </RelativeLayout>

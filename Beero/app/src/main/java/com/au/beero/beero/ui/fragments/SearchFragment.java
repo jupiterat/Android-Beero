@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.au.beero.beero.R;
 import com.au.beero.beero.model.Brand;
 import com.au.beero.beero.ui.adapter.BrandAdapter;
+import com.au.beero.beero.ui.adapter.ProductAdapter;
 import com.au.beero.beero.ui.base.BaseFragment;
 import com.au.beero.beero.ui.widget.ActionItem;
 import com.au.beero.beero.ui.widget.QuickAction;
@@ -47,7 +48,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     private RotateAnimation rotateAnimation;
     private UltimateRecyclerView mProductListview;
     private List<Brand> mBrandList;
-    private BrandAdapter mBrandAdapter;
+    private ProductAdapter mBrandAdapter;
     private Animation bounceAnimation;
     RelativeLayout mProductListContainer;
 
@@ -97,7 +98,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         super.onResume();
         getActivity().getActionBar().hide();
         searchBeer();
-        mBrandAdapter = new BrandAdapter(mActivity, mBrandList);
+        mBrandAdapter = new ProductAdapter(mActivity, mBrandList);
         mProductListview.setAdapter(mBrandAdapter);
         setHeight(mBrandList.size());
         new Handler().postDelayed(new Runnable() {
@@ -173,7 +174,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     private void setHeight(int size) {
         int screenHeight = Utility.getScreenHeight(mActivity);
         int header = getResources().getDimensionPixelSize(R.dimen.com_50dp);
-        int listHeight = size * getResources().getDimensionPixelSize(R.dimen.com_60dp);
+        int listHeight = size * getResources().getDimensionPixelSize(R.dimen.com_100dp);
         int functionHeight = getResources().getDimensionPixelSize(R.dimen.com_60dp);
 
         int height = 0;

@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/add_beer_container"
-
+                android:background="@android:color/white"
                 />
 
             <LinearLayout
@@ -87,30 +87,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/com_50dp"
                 android:layout_alignParentBottom="true"
-                android:paddingTop="1dp"
                 android:background="@color/grey_bg"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="1dp">
 
                 <TextView
                     android:id="@+id/refresh"
-                    android:background="@android:color/white"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@android:color/white"
+                    android:drawableLeft="@drawable/icon_refresh"
                     android:gravity="center"
-                    android:text="@string/refresh" />
+                    android:text="@string/refresh"
+                    android:textColor="@color/main_aap_color"
+                    android:textSize="18sp" />
+
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="@color/grey_bg"/>
+                    android:background="@color/grey_bg" />
+
                 <TextView
                     android:id="@+id/add_beer"
-                    android:background="@android:color/white"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@android:color/white"
+                    android:drawableLeft="@drawable/icon_add"
                     android:gravity="center"
-                    android:text="@string/add_beers" />
+                    android:text="@string/add_beers"
+                    android:textColor="@color/main_aap_color"
+                    android:textSize="18sp" />
             </LinearLayout>
 
 
