@@ -5,8 +5,9 @@
     android:background="@color/main_aap_color">
 
     <LinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/com_50dp"
         android:layout_alignParentTop="true"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/com_10dp"
@@ -26,38 +27,101 @@
             android:layout_weight="1"
             android:text="@string/all_beers" />
     </LinearLayout>
-    <RelativeLayout
-        android:id="@+id/logo_search_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_search_background" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/com_15dp"
-            android:src="@drawable/logo_search_beer" />
-    </RelativeLayout>
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/logo_search_container"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:text="@string/finding"
-        android:textColor="@android:color/white" />
-
-    <LinearLayout
+    <!--logo search-->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/footer"
+        android:layout_below="@+id/header">
+
+        <RelativeLayout
+            android:id="@+id/logo_search_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/icon_search_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/logo_search_background" />
+
+            <ImageView
+                android:id="@+id/icon_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/com_15dp"
+                android:src="@drawable/logo_search_beer" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/icon_search_bg"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/com_15dp"
+                android:gravity="center"
+                android:text="@string/finding"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/product_list_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+                android:id="@+id/product_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/add_beer_container"
+
+                />
+
+            <LinearLayout
+                android:id="@+id/add_beer_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/com_50dp"
+                android:layout_alignParentBottom="true"
+                android:paddingTop="1dp"
+                android:background="@color/grey_bg"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/refresh"
+                    android:background="@android:color/white"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/refresh" />
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/grey_bg"/>
+                <TextView
+                    android:id="@+id/add_beer"
+                    android:background="@android:color/white"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/add_beers" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/com_50dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/com_10dp"

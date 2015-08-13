@@ -9,11 +9,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import java.io.ByteArrayOutputStream;
 import com.au.beero.beero.R;
 
 import java.io.ByteArrayOutputStream;
@@ -223,5 +224,33 @@ public class Utility {
             InputMethodManager inputManager = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    /**
+     * get screen width
+     *
+     * @return
+     */
+    public static int getScreenWidth(Context context) {
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        int screenW = outMetrics.widthPixels;
+
+        return screenW;
+    }
+
+    /**
+     * get screen height
+     *
+     * @return
+     */
+    public static int getScreenHeight(Context context) {
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        int screenH = outMetrics.heightPixels;
+
+        return screenH;
     }
 }

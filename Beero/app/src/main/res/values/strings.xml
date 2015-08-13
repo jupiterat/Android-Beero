@@ -13,5 +13,11 @@
     <string name="all_beers">ALL BEERS</string>
     <string name="finding">Finding beers&#8230;</string>
     <string name="cases">CASES</string>
+    <string name="six_pack">SIX PACKS</string>
     <string name="bottle">BOTTLES/CANS</string>
+    <string name="cans">CANS</string>
+    <string name="bottles">BOTTLES</string>
+    <string name="both">BOTTLES AND CANS</string>
+    <string name="refresh">Refresh</string>
+    <string name="add_beers">Add beers</string>
 </resources>
