@@ -127,7 +127,9 @@ public class BaseFragmentActivity extends BaseActivity {
                     FRAGMENT_TAG);
             if (fragment != null && fragment instanceof StackFragment) {
                 StackFragment stackFragment = (StackFragment) fragment;
-                if (stackFragment.backToPrevious()) {
+                if (stackFragment.getStackCount() == 0) {
+                    finish();
+                } else if (stackFragment.backToPrevious()) {
                     return true;
                 }
             }
@@ -269,10 +271,6 @@ public class BaseFragmentActivity extends BaseActivity {
         ft.replace(R.id.stack_fragment_container, newFragment, FRAGMENT_TAG);
         ft.addToBackStack(null);
         ft.commit();
-        Log.e("BaseFragmentActivity", "newFragment: "
-                + newFragment.getClass().getSimpleName());
-        Log.e("BaseFragmentActivity",
-                "stack count: " + fragmentManager.getBackStackEntryCount());
     }
 
     /**
@@ -299,7 +297,7 @@ public class BaseFragmentActivity extends BaseActivity {
         return false;
     }
 
-    public Fragment getCurrentFragment() {
+    public Fragment getCurrentStackFragment() {
         return fragmentManager.findFragmentById(R.id.stack_fragment_container);
     }
 
@@ -414,7 +412,6 @@ public class BaseFragmentActivity extends BaseActivity {
 
     /**
      * Show progress dialog to notify when the thread is running.
-     *
      */
     public void showProgress() {
         showProgress(0, null);

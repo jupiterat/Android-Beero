@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,13 +128,14 @@ public class StackFragment extends Fragment {
         mStackLevel++;
         // Add the fragment to the activity, pushing this transaction
         // on to the back stack.
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        FragmentTransaction ft = fm.beginTransaction();
         //setup animation
         setupTransitionAnimation(ft);
         ft.replace(R.id.fragment_container, newFragment);
         //add fragment to STACK
         ft.addToBackStack(null);
         ft.commit();
+        Log.e("StackFragment", "stack count: " + fm.getBackStackEntryCount());
     }
     
     /**
@@ -141,7 +143,7 @@ public class StackFragment extends Fragment {
      * @return
      */
     public Fragment getCurrentFragment() {
-    	return ((Fragment)getChildFragmentManager().findFragmentById(R.id.fragment_container));
+    	return ((Fragment)fm.findFragmentById(R.id.fragment_container));
     }
     
     /**

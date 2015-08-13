@@ -6,14 +6,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.au.beero.beero.R;
+import com.au.beero.beero.manager.VolleySingleton;
 import com.au.beero.beero.model.Brand;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +31,31 @@ public class BrandAdapter extends UltimateViewAdapter {
     public BrandAdapter(Context ctx, List<Brand> brands) {
         mBrands = brands;
         mContext = ctx;
+    }
+
+    public List<Brand> getBrands() {
+        return mBrands;
+    }
+
+    public void updateList(List<Brand> lst) {
+        mBrands = lst;
+        notifyDataSetChanged();
+    }
+
+    /**
+     * @return: selected id list
+     */
+    public ArrayList<String> getSelectedBrands() {
+        ArrayList<String> selectedIds = null;
+        for (Brand br : mBrands) {
+            if (br.isSelected()) {
+                if (selectedIds == null) {
+                    selectedIds = new ArrayList<>();
+                }
+                selectedIds.add(br.getId());
+            }
+        }
+        return selectedIds;
     }
 
     @Override
@@ -51,11 +80,24 @@ public class BrandAdapter extends UltimateViewAdapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-        if(viewHolder instanceof BrandHolder) {
-            BrandHolder holder  = ((BrandHolder) viewHolder);
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int i) {
+        if (viewHolder instanceof BrandHolder) {
+            BrandHolder holder = ((BrandHolder) viewHolder);
             holder.brandName.setText(mBrands.get(i).getName());
             holder.selectedChk.setChecked(mBrands.get(i).isSelected());
+            holder.selectedChk.setTag(mBrands.get(i));
+            holder.selectedChk.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    CheckBox cb = (CheckBox) v;
+                    Brand contact = (Brand) cb.getTag();
+                    contact.setIsSelected(cb.isChecked());
+                    mBrands.get(i).setIsSelected(cb.isChecked());
+                }
+            });
+            ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
+            holder.brandImg.setImageUrl(mBrands.get(i).getUrl(), loader);
+            holder.brandImg.setDefaultImageResId(R.drawable.brand_0);
+            holder.brandImg.setErrorImageResId(R.drawable.brand_0);
         }
     }
 

@@ -12,6 +12,10 @@ public class Brand extends BaseModel {
     private String position;
     private boolean isSelected = false;
 
+
+
+    private String url = "";
+
     public Brand() {
 
     }
@@ -51,5 +55,13 @@ public class Brand extends BaseModel {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

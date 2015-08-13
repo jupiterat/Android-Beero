@@ -20,4 +20,5 @@
     <string name="both">BOTTLES AND CANS</string>
     <string name="refresh">Refresh</string>
     <string name="add_beers">Add beers</string>
+    <string name="select_brand_warning">Please select at least one brand!</string>
 </resources>

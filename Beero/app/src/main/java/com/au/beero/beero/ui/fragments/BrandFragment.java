@@ -1,5 +1,6 @@
 package com.au.beero.beero.ui.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,6 @@ import com.au.beero.beero.ui.base.BaseFragment;
 import com.au.beero.beero.ui.stack.StackFragment;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,16 +27,21 @@ public class BrandFragment extends BaseFragment {
     private TextView mDoneBtn;
     private UltimateRecyclerView mBrandListview;
     private BrandAdapter mBrandAdapter;
-    private List<Brand> mBrandList;
+    private static List<Brand> mBrandList;
+    public static final String PREFS_NAME = "BeeroPrefs";
+    public static final String PREFS_SIZE = "size";
+    public static final String PREFS_VALUE = "value";
+    private String[] mSelectedIds = null;
 
-    public static Fragment makeInstance() {
+    public static Fragment makeInstance(List<Brand> brandList) {
+        mBrandList = brandList;
         return new BrandFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mSelectedIds = getPrefIds();
     }
 
     @Nullable
@@ -47,24 +52,12 @@ public class BrandFragment extends BaseFragment {
         mDoneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gotoBrandScreen();
+                handleDoneClick();
             }
         });
         mBrandListview = (UltimateRecyclerView)view.findViewById(R.id.brand_list);
         mBrandListview.setLayoutManager(new LinearLayoutManager(mActivity));
         mBrandListview.addItemDividerDecoration(mActivity);
-        mBrandList = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            Brand br = new Brand();
-            br.setName("Beer band" + i);
-            if(i % 2 == 0) {
-                br.setIsSelected(true);
-            }
-            mBrandList.add(br);
-        }
-
-
-
         return view;
     }
 
@@ -77,11 +70,55 @@ public class BrandFragment extends BaseFragment {
                 title, "", false);
         mBrandAdapter = new BrandAdapter(mActivity,mBrandList);
         mBrandListview.setAdapter(mBrandAdapter);
+        if(mSelectedIds != null && mSelectedIds.length > 0) {
+            for(Brand item : mBrandAdapter.getBrands()) {
+                for(int i = 0; i < mSelectedIds.length; i++) {
+                    if(item.getId().equals(mSelectedIds[i])) {
+                        item.setIsSelected(true);
+                    }
+                }
+            }
+            mBrandAdapter.updateList(mBrandList);
+        }
     }
 
-    private void gotoBrandScreen() {
+    private void handleDoneClick() {
+        if(mBrandAdapter != null && mBrandAdapter.getSelectedBrands() != null) {
+            String ids = "";
+            int size = mBrandAdapter.getSelectedBrands().size();
+            for(int i = 0; i <  size; i++) {
+                if(i < size - 1) {
+                    ids += mBrandAdapter.getSelectedBrands().get(i).toString() + ",";
+                } else {
+                    ids += mBrandAdapter.getSelectedBrands().get(i).toString();
+                }
+            }
+            saveSelectedIds(ids);
+            gotoSearch();
+        } else {
+            showDialog(getString(R.string.select_brand_warning));
+        }
+    }
+
+    private void saveSelectedIds(String value) {
+        SharedPreferences settings = mActivity.getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(PREFS_VALUE, value);
+        editor.commit();
+    }
+
+    private String[] getPrefIds() {
+        SharedPreferences settings = mActivity.getSharedPreferences(PREFS_NAME, 0);
+        String ids = settings.getString(PREFS_VALUE,"");
+        if(ids != null && !ids.isEmpty()) {
+            return ids.split(",");
+        }
+        return null;
+    }
+
+    private void gotoSearch() {
         Fragment searchFrag = SearchFragment.makeInstance();
-        ((StackFragment) ((MainActivity) getActivity()).getCurrentFragment())
+        ((StackFragment) ((MainActivity) getActivity()).getCurrentStackFragment())
                 .addFragmentToStack(searchFrag);
     }
 }
