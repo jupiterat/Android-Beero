@@ -51,18 +51,8 @@ public class BeeroSearchManager {
         params.add(new BasicNameValuePair("os_version", "" + android.os.Build.VERSION.SDK_INT));
         params.add(new BasicNameValuePair("app_id", "" + Settings.Secure.getString(mContext.getContentResolver(),
                 Settings.Secure.ANDROID_ID)));
-        Location location = BeeroLocationManager.makeInstance().getCurrentLocation();
-        double lat;
-        double lng;
-        if (location != null) {
-            lat = location.getLatitude();
-            lng = location.getLongitude();
-        } else {
-            lat = LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE;
-            lng = LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE;
-        }
-        params.add(new BasicNameValuePair("lat", String.format("%.6f", lat)));
-        params.add(new BasicNameValuePair("lng", String.format("%.6f", lng)));
+        params.add(new BasicNameValuePair("lat", String.format("%.6f", getLatitude())));
+        params.add(new BasicNameValuePair("lng", String.format("%.6f", getLongitude())));
         params.add(new BasicNameValuePair("brands", brands));
         params.add(new BasicNameValuePair("package", packageString));
         params.add(new BasicNameValuePair("container", container));
@@ -89,7 +79,7 @@ public class BeeroSearchManager {
 
     private String signature() {
         String signature = String.format("%s_%.6f_%.6f_%s", Settings.Secure.getString(mContext.getContentResolver(),
-                Settings.Secure.ANDROID_ID), LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE, LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE, BEERO_SECRECT_KEY);
+                Settings.Secure.ANDROID_ID), getLatitude(), getLongitude(), BEERO_SECRECT_KEY);
         try {
             return SHA1(signature);
         } catch (NoSuchAlgorithmException e) {
@@ -98,6 +88,22 @@ public class BeeroSearchManager {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private double getLatitude() {
+        if (BeeroLocationManager.makeInstance().getCurrentLocation() == null) {
+            return LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE;
+        } else {
+            return BeeroLocationManager.makeInstance().getCurrentLocation().getLatitude();
+        }
+    }
+
+    private double getLongitude() {
+        if (BeeroLocationManager.makeInstance().getCurrentLocation() == null) {
+            return LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE;
+        } else {
+            return BeeroLocationManager.makeInstance().getCurrentLocation().getLongitude();
+        }
     }
 
     private String SHA1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
