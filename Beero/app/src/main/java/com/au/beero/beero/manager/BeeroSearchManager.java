@@ -44,7 +44,7 @@ public class BeeroSearchManager {
         return sInstance;
     }
 
-    public String getTargetUrl() {
+    public String getTargetUrl(String brands, String packageString, String container) {
         String targetUrl = String.format("%s%s", Constants.SERVER_API_PATH, Constants.SERVER_PATH.SEARCH);
         List<NameValuePair> params = new LinkedList<NameValuePair>();
         params.add(new BasicNameValuePair("os", Constants.DEVICE_TYPE));
@@ -63,9 +63,9 @@ public class BeeroSearchManager {
         }
         params.add(new BasicNameValuePair("lat", String.format("%.6f", lat)));
         params.add(new BasicNameValuePair("lng", String.format("%.6f", lng)));
-        params.add(new BasicNameValuePair("brands", "1"));
-        params.add(new BasicNameValuePair("package", "case"));
-        params.add(new BasicNameValuePair("container", "any"));
+        params.add(new BasicNameValuePair("brands", brands));
+        params.add(new BasicNameValuePair("package", packageString));
+        params.add(new BasicNameValuePair("container", container));
         params.add(new BasicNameValuePair("user_time", timestamp()));
         params.add(new BasicNameValuePair("signature", signature()));
         String paramString = URLEncodedUtils.format(params, "utf-8");
