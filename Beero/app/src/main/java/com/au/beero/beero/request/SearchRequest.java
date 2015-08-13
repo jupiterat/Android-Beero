@@ -1,7 +1,6 @@
 package com.au.beero.beero.request;
 
 import com.au.beero.beero.manager.BeeroSearchManager;
-import com.au.beero.beero.model.response.ResponseBrand;
 import com.au.beero.beero.model.response.ResponseSearch;
 import com.au.beero.beero.utility.Constants;
 import com.framework.network.ResponseError;
@@ -19,16 +18,23 @@ import java.io.IOException;
  * Created by shintabmt@gmai.com on 8/12/2015.
  */
 public class SearchRequest extends AbstractHttpRequest<Void, ResponseSearch> {
-    public SearchRequest() {
+    private String brands;
+    private String packageString;
+    private String container;
+
+    public SearchRequest(String brands, String packageString, String container) {
         super(null, 0);
         setMethodType(NetworkConstant.GET_TYPE);
         Header[] headers = {new BasicHeader(NetworkConstant.CONTENT_TYPE, NetworkConstant.FORM_CONTENT_TYPE)};
         setHeaders(headers);
+        this.brands = brands;
+        this.packageString = packageString;
+        this.container = container;
     }
 
     @Override
     public String getTargetUrl() {
-        String url = BeeroSearchManager.makeInstance().getTargetUrl();
+        String url = BeeroSearchManager.makeInstance().getTargetUrl(brands, packageString, container);
         return url;
     }
 

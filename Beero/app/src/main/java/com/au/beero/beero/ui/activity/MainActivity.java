@@ -52,7 +52,7 @@ public class MainActivity extends BaseFragmentActivity {
             public void onNotifyData(ResponseSearch data, AbstractHttpRequest request) {
 
             }
-        }, new SearchRequest());
+        }, new SearchRequest("1","case","any"));
         CommonMethod.executeAsyTask(task);
         Fragment fragment = new HomeStackFragment();
         addFragmentToStack(fragment);
