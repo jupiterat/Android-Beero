@@ -72,6 +72,7 @@
             android:id="@+id/product_list_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:visibility="gone">
 
             <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
@@ -79,47 +80,70 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/add_beer_container"
-                android:background="@android:color/white"
-                />
+                android:overScrollMode="never"
+                android:background="@android:color/white" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/add_beer_container"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/com_50dp"
+                android:layout_height="@dimen/com_60dp"
                 android:layout_alignParentBottom="true"
                 android:background="@color/grey_bg"
-                android:orientation="horizontal"
+                android:gravity="center"
                 android:paddingTop="1dp">
 
-                <TextView
-                    android:id="@+id/refresh"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_toLeftOf="@+id/separator"
                     android:background="@android:color/white"
-                    android:drawableLeft="@drawable/icon_refresh"
                     android:gravity="center"
-                    android:text="@string/refresh"
-                    android:textColor="@color/main_aap_color"
-                    android:textSize="18sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/refresh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/white"
+                        android:drawableLeft="@drawable/icon_refresh"
+                        android:drawablePadding="@dimen/com_10dp"
+                        android:gravity="center"
+                        android:text="@string/refresh"
+                        android:textColor="@color/main_aap_color"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
 
                 <View
+                    android:id="@+id/separator"
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
                     android:background="@color/grey_bg" />
 
-                <TextView
-                    android:id="@+id/add_beer"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_toRightOf="@+id/separator"
                     android:background="@android:color/white"
-                    android:drawableLeft="@drawable/icon_add"
                     android:gravity="center"
-                    android:text="@string/add_beers"
-                    android:textColor="@color/main_aap_color"
-                    android:textSize="18sp" />
-            </LinearLayout>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/add_beer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/white"
+                        android:drawableLeft="@drawable/icon_add"
+                        android:drawablePadding="@dimen/com_10dp"
+                        android:gravity="center"
+                        android:text="@string/add_beers"
+                        android:textColor="@color/main_aap_color"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
 
 
         </RelativeLayout>
@@ -135,22 +159,42 @@
         android:paddingBottom="@dimen/com_10dp"
         android:paddingTop="@dimen/com_10dp">
 
-        <TextView
-            android:id="@+id/package_condition"
-            style="@style/MainTextView"
-            android:layout_centerHorizontal="true"
-            android:layout_weight="1"
-            android:drawableRight="@drawable/arrow_up"
-            android:text="@string/cases" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/separator"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/container_condition"
-            style="@style/MainTextView"
-            android:layout_width="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_weight="1"
-            android:drawableRight="@drawable/arrow_up"
-            android:text="@string/bottle" />
+            <TextView
+                android:id="@+id/package_condition"
+                style="@style/MainTextView"
+                android:layout_centerHorizontal="true"
+                android:drawableRight="@drawable/arrow_up"
+                android:drawablePadding="@dimen/com_5dp"
+                android:text="@string/cases" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/separator"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/container_condition"
+                style="@style/MainTextView"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:drawableRight="@drawable/arrow_up"
+                android:drawablePadding="@dimen/com_5dp"
+                android:text="@string/bottle" />
+        </LinearLayout>
+
+
     </LinearLayout>
 
 </RelativeLayout>

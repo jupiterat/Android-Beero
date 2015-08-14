@@ -5,12 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.au.beero.beero.R;
-import com.au.beero.beero.model.Brand;
+import com.au.beero.beero.manager.VolleySingleton;
+import com.au.beero.beero.model.SearchResult;
+import com.au.beero.beero.model.WiningDeal;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 
@@ -21,11 +24,11 @@ import java.util.List;
  */
 public class ProductAdapter extends UltimateViewAdapter {
 
-    private List<Brand> mBrands;
+    private List<SearchResult> mProducts;
     private Context mContext;
 
-    public ProductAdapter(Context ctx, List<Brand> brands) {
-        mBrands = brands;
+    public ProductAdapter(Context ctx, List<SearchResult> products) {
+        mProducts = products;
         mContext = ctx;
     }
 
@@ -39,10 +42,10 @@ public class ProductAdapter extends UltimateViewAdapter {
 
     @Override
     public int getAdapterItemCount() {
-        if (mBrands == null) {
+        if (mProducts == null) {
             return 0;
         }
-        return mBrands.size();
+        return mProducts.size();
     }
 
     @Override
@@ -52,10 +55,34 @@ public class ProductAdapter extends UltimateViewAdapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-        if(viewHolder instanceof ProductHolder) {
-            ProductHolder holder  = ((ProductHolder) viewHolder);
-//            holder.brandName.setText(mBrands.get(i).getName());
-//            holder.selectedChk.setChecked(mBrands.get(i).isSelected());
+        if (viewHolder instanceof ProductHolder) {
+            ProductHolder holder = ((ProductHolder) viewHolder);
+            WiningDeal deals = mProducts.get(i).getWiningDeal();
+
+            ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
+            holder.brandImg.setDefaultImageResId(R.drawable.brand_0);
+            holder.brandImg.setErrorImageResId(R.drawable.brand_0);
+
+            if (deals != null) {
+                holder.brandImg.setImageUrl(deals.getUrl(), loader);
+                holder.brandNameTxt.setText(deals.getBrandName());
+                String container = String.format(mContext.getString(R.string.container_format), deals.getQty(), deals.getContainerSize(), deals.getContainerType());
+                holder.containerTxt.setText(container);
+                holder.priceTxt.setText(String.format(mContext.getString(R.string.price_format), deals.getPrice()));
+                String mins = getBeautifiedDriveDistance(Integer.parseInt(deals.getDrivingTime()));
+                String value = String.format(mContext.getString(R.string.distance_format), mins);
+                holder.distanceTxt.setText(value);
+
+                int visible = deals.isExclusive() ? View.VISIBLE : View.GONE;
+                holder.exlusiveImg.setVisibility(visible);
+
+                holder.nextIcon.setVisibility(View.VISIBLE);
+            } else {
+                holder.brandNameTxt.setText(mProducts.get(i).getBrandName());
+                holder.nextIcon.setVisibility(View.GONE);
+                holder.exlusiveImg.setVisibility(View.GONE);
+            }
+
         }
     }
 
@@ -69,16 +96,36 @@ public class ProductAdapter extends UltimateViewAdapter {
 
     }
 
+    private String getBeautifiedDriveDistance(int seconds) {
+        int minute = seconds / 60;
+        int nSecond = seconds % 60;
+        if (nSecond > 0)
+            minute++;
+        return String.valueOf(minute);
+    }
+
     class ProductHolder extends UltimateRecyclerviewViewHolder {
-        CheckBox selectedChk;
-        TextView brandName;
+
+
         NetworkImageView brandImg;
+        TextView brandNameTxt;
+        TextView containerTxt;
+        TextView priceTxt;
+        TextView distanceTxt;
+        ImageView exlusiveImg;
+        ImageView nextIcon;
 
         public ProductHolder(View view) {
             super(view);
-            selectedChk = (CheckBox) view.findViewById(R.id.brand_select_chk);
-            brandName = (TextView) view.findViewById(R.id.brand_name);
-            brandImg = (NetworkImageView) view.findViewById(R.id.brand_img);
+            brandNameTxt = (TextView) view.findViewById(R.id.product_name);
+            brandImg = (NetworkImageView) view.findViewById(R.id.product_img);
+            containerTxt = (TextView) view.findViewById(R.id.product_container);
+            priceTxt = (TextView) view.findViewById(R.id.product_price);
+            distanceTxt = (TextView) view.findViewById(R.id.product_time);
+            exlusiveImg = (ImageView) view.findViewById(R.id.exclusive_icon);
+            nextIcon = (ImageView) view.findViewById(R.id. arrow_right);
         }
     }
+
+
 }

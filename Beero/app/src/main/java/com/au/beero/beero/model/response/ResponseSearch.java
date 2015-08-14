@@ -1,10 +1,6 @@
 package com.au.beero.beero.model.response;
 
-import com.au.beero.beero.model.Brand;
-import com.au.beero.beero.model.LosingDeal;
 import com.au.beero.beero.model.SearchResult;
-import com.au.beero.beero.model.WiningDeal;
-import com.au.beero.beero.utility.Constants;
 
 import org.json.JSONObject;
 
@@ -29,12 +25,15 @@ public class ResponseSearch {
             while (keys.hasNext()) {
                 String key = (String) keys.next();
                 try {
+                    SearchResult searchResult = null;
                     if (jsonObject.get(key) instanceof JSONObject) {
                         JSONObject object = (JSONObject) jsonObject.get(key);
-                        SearchResult searchResult = new SearchResult(object);
-                        searchResult.setId(key);
-                        searchResults.add(searchResult);
+                        searchResult = new SearchResult(object);
+                    } else {
+                        searchResult = new SearchResult();
                     }
+                    searchResult.setId(key);
+                    searchResults.add(searchResult);
                 } catch (Exception e) {
 
                 }
