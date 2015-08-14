@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import com.au.beero.beero.utility.ApiUtility;
 import com.au.beero.beero.utility.Utility;
 import com.framework.network.request.AbstractHttpRequest;
 import com.framework.network.task.IDataEventHandler;
+import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ import java.util.List;
 /**
  * Created by jupiter.at@gmail.com on 8/12/2015.
  */
-public class SearchFragment extends BaseFragment implements View.OnClickListener {
+public class SearchFragment extends BaseFragment implements View.OnClickListener, ItemTouchListenerAdapter.RecyclerViewOnItemClickListener {
     private TextView mPackageTxt;
     private TextView mContainerTxt;
     private static final int ID_CASES = 1;
@@ -110,6 +112,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mProductListview = (UltimateRecyclerView) view.findViewById(R.id.product_list);
         mProductListContainer = (RelativeLayout) view.findViewById(R.id.product_list_container);
         mProductListview.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
+        mProductListview.addOnItemTouchListener(new ItemTouchListenerAdapter(mProductListview.mRecyclerView, this));
         mProductListview.addItemDividerDecoration(mActivity);
         mRefreshBtn = (TextView) view.findViewById(R.id.refresh);
         mAddBtn = (TextView) view.findViewById(R.id.add_beer);
@@ -309,4 +312,13 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     }
 
 
+    @Override
+    public void onItemClick(RecyclerView recyclerView, View view, int i) {
+        showToast("pos " + i);
+    }
+
+    @Override
+    public void onItemLongClick(RecyclerView recyclerView, View view, int i) {
+
+    }
 }
