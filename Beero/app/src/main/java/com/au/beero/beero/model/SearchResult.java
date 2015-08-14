@@ -13,6 +13,9 @@ import java.util.List;
  */
 public class SearchResult {
     String id;
+
+
+    String brandName;
     WiningDeal winingDeal;
     List<LosingDeal> losingDeals;
 
@@ -70,5 +73,13 @@ public class SearchResult {
 
     public void setLosingDeals(List<LosingDeal> losingDeals) {
         this.losingDeals = losingDeals;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
     }
 }

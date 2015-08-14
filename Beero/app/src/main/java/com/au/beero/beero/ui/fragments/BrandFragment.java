@@ -32,6 +32,8 @@ public class BrandFragment extends BaseFragment {
     public static final String PREFS_SIZE = "size";
     public static final String PREFS_VALUE = "value";
     private String[] mSelectedIds = null;
+    private static final String BRAND_SEPERTOR = "|";
+    private String ids = "";
 
     public static Fragment makeInstance(List<Brand> brandList) {
         mBrandList = brandList;
@@ -83,14 +85,14 @@ public class BrandFragment extends BaseFragment {
     }
 
     private void handleDoneClick() {
-        if(mBrandAdapter != null && mBrandAdapter.getSelectedBrands() != null) {
+        if(mBrandAdapter != null && mBrandAdapter.getSelectedBrandsStr() != null) {
             String ids = "";
-            int size = mBrandAdapter.getSelectedBrands().size();
+            int size = mBrandAdapter.getSelectedBrandsStr().size();
             for(int i = 0; i <  size; i++) {
                 if(i < size - 1) {
-                    ids += mBrandAdapter.getSelectedBrands().get(i).toString() + ",";
+                    ids += mBrandAdapter.getSelectedBrandsStr().get(i).toString() + BRAND_SEPERTOR;
                 } else {
-                    ids += mBrandAdapter.getSelectedBrands().get(i).toString();
+                    ids += mBrandAdapter.getSelectedBrandsStr().get(i).toString();
                 }
             }
             saveSelectedIds(ids);
@@ -109,15 +111,16 @@ public class BrandFragment extends BaseFragment {
 
     private String[] getPrefIds() {
         SharedPreferences settings = mActivity.getSharedPreferences(PREFS_NAME, 0);
-        String ids = settings.getString(PREFS_VALUE,"");
+        ids = settings.getString(PREFS_VALUE,"");
         if(ids != null && !ids.isEmpty()) {
-            return ids.split(",");
+            return ids.split(BRAND_SEPERTOR);
         }
         return null;
     }
 
     private void gotoSearch() {
-        Fragment searchFrag = SearchFragment.makeInstance();
+        getPrefIds();
+        Fragment searchFrag = SearchFragment.makeInstance(mBrandAdapter.getSelectedBrands(),ids);
         ((StackFragment) ((MainActivity) getActivity()).getCurrentStackFragment())
                 .addFragmentToStack(searchFrag);
     }

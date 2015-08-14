@@ -1,7 +1,6 @@
 package com.au.beero.beero.ui.fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,12 +19,19 @@ import android.widget.TextView;
 
 import com.au.beero.beero.R;
 import com.au.beero.beero.model.Brand;
-import com.au.beero.beero.ui.adapter.BrandAdapter;
+import com.au.beero.beero.model.SearchResult;
+import com.au.beero.beero.model.response.ResponseSearch;
+import com.au.beero.beero.request.SearchRequest;
+import com.au.beero.beero.ui.activity.MainActivity;
 import com.au.beero.beero.ui.adapter.ProductAdapter;
 import com.au.beero.beero.ui.base.BaseFragment;
+import com.au.beero.beero.ui.stack.StackFragment;
 import com.au.beero.beero.ui.widget.ActionItem;
 import com.au.beero.beero.ui.widget.QuickAction;
+import com.au.beero.beero.utility.ApiUtility;
 import com.au.beero.beero.utility.Utility;
+import com.framework.network.request.AbstractHttpRequest;
+import com.framework.network.task.IDataEventHandler;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
 import java.util.ArrayList;
@@ -47,18 +53,51 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     private ImageView mSearchIcon;
     private RotateAnimation rotateAnimation;
     private UltimateRecyclerView mProductListview;
-    private List<Brand> mBrandList;
+    private List<SearchResult> searchResults;
     private ProductAdapter mBrandAdapter;
     private Animation bounceAnimation;
     RelativeLayout mProductListContainer;
 
-    public static Fragment makeInstance() {
-        return new SearchFragment();
+    private static final String KEY_BRANDS = "brands";
+    private static final String KEY_CASES = "case";
+    private static final String KEY_SIX_PACKS = "six";
+    private static final String KEY_CANS = "cans";
+    private static final String KEY_BOTTLE = "bottles";
+    private static final String KEY_BOTH = "any";
+    private String mBrandStr = "";
+    private String mPackage = KEY_CASES;
+    private String mContainer = KEY_BOTH;
+    private static List<Brand> mBrandsList = null;
+    private boolean isLoaded = false;
+    private TextView mRefreshBtn;
+    private TextView mAddBtn;
+
+
+    public static Fragment makeInstance(List<Brand> brands, String brandStr) {
+        mBrandsList = brands;
+        SearchFragment fragment = new SearchFragment();
+        Bundle b = new Bundle();
+        b.putString(KEY_BRANDS, brandStr);
+        fragment.setArguments(b);
+        return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mBrandStr = getArguments().getString(KEY_BRANDS, "");
+        }
+        if (mBrandsList != null) {
+            searchResults = new ArrayList<>(mBrandsList.size());
+            for (int i = 0; i < mBrandsList.size(); i++) {
+                SearchResult item = new SearchResult();
+                item.setId(mBrandsList.get(i).getId());
+                item.setBrandName(mBrandsList.get(i).getName());
+                searchResults.add(i, item);
+            }
+        }
+
     }
 
     @Nullable
@@ -72,23 +111,22 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mProductListContainer = (RelativeLayout) view.findViewById(R.id.product_list_container);
         mProductListview.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         mProductListview.addItemDividerDecoration(mActivity);
-
-        mBrandList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            Brand br = new Brand();
-            br.setName("Beer band" + i);
-            if (i % 2 == 0) {
-                br.setIsSelected(true);
-            }
-            mBrandList.add(br);
-        }
+        mRefreshBtn = (TextView) view.findViewById(R.id.refresh);
+        mAddBtn = (TextView) view.findViewById(R.id.add_beer);
 
         mPackageTxt.setOnClickListener(this);
         mContainerTxt.setOnClickListener(this);
+        mRefreshBtn.setOnClickListener(this);
+        mAddBtn.setOnClickListener(this);
 
         initRotateAnimation();
         initQuickAction();
 
+        if (!isLoaded) {
+            search(mBrandStr, mPackage, mContainer);
+        } else {
+            loadResult();
+        }
 
         return view;
     }
@@ -97,18 +135,6 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     public void onResume() {
         super.onResume();
         getActivity().getActionBar().hide();
-        searchBeer();
-        mBrandAdapter = new ProductAdapter(mActivity, mBrandList);
-        mProductListview.setAdapter(mBrandAdapter);
-        setHeight(mBrandList.size());
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initBounceAnimation();
-            }
-        }, 3000);
-
-
     }
 
     @Override
@@ -128,18 +154,16 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                 mContainerAction.show(v);
                 mPackageAction.setAnimStyle(QuickAction.ANIM_GROW_FROM_BOTTOM);
                 break;
+            case R.id.refresh:
+                mProductListContainer.setVisibility(View.GONE);
+                search(mBrandStr, mPackage, mContainer);
+                break;
+            case R.id.add_beer:
+                backToPrevious();
+                break;
             default:
                 break;
         }
-    }
-
-    private void searchBeer() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startAnimation();
-            }
-        }, 5000);
     }
 
     private void initQuickAction() {
@@ -149,6 +173,20 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mPackageAction = new QuickAction(mActivity, QuickAction.VERTICAL);
         mPackageAction.addActionItem(addItem);
         mPackageAction.addActionItem(acceptItem);
+        mPackageAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+            @Override
+            public void onItemClick(QuickAction source, int pos, int actionId) {
+                switch (pos) {
+                    case 1:
+                        mPackage = KEY_SIX_PACKS;
+                        break;
+                    case 0:
+                        mPackage = KEY_CASES;
+                        break;
+                }
+                search(mBrandStr,mPackage,mContainer);
+            }
+        });
         //
         ActionItem cansItem = new ActionItem(ID_CANS, getString(R.string.cans), null);
         ActionItem bottleItem = new ActionItem(ID_BOTTLE, getString(R.string.bottles), null);
@@ -158,6 +196,23 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mContainerAction.addActionItem(cansItem);
         mContainerAction.addActionItem(bottleItem);
         mContainerAction.addActionItem(bothItem);
+        mContainerAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+            @Override
+            public void onItemClick(QuickAction source, int pos, int actionId) {
+                switch (pos) {
+                    case 0:
+                        mContainer = KEY_CANS;
+                        break;
+                    case 1:
+                        mContainer = KEY_BOTTLE;
+                        break;
+                    case 2:
+                        mContainer = KEY_BOTH;
+                        break;
+                }
+                search(mBrandStr, mPackage, mContainer);
+            }
+        });
     }
 
     private void initRotateAnimation() {
@@ -208,7 +263,50 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void stopAnimation() {
-        mSearchIcon.clearAnimation();
+        mSearchIcon.animate().cancel();
     }
+
+    private void search(String brands, String packageString, String container) {
+        startAnimation();
+        if (mBrandStr != null && !mBrandStr.isEmpty()) {
+            ApiUtility.search(mActivity, new IDataEventHandler<ResponseSearch>() {
+                @Override
+                public void onNotifyData(ResponseSearch data, AbstractHttpRequest request) {
+                    stopAnimation();
+                    isLoaded = true;
+                    if (data == null) {
+
+                    } else {
+                        int size1 = searchResults.size();
+                        int size2 = data.getSearchResults().size();
+                        for (int i = 0; i < size1; i++) {
+                            for (int j = 0; j < size2; j++) {
+                                SearchResult result = data.getSearchResults().get(j);
+                                if (searchResults.get(i).getId().equals(result.getId())) {
+                                    searchResults.get(i).setWiningDeal(result.getWiningDeal());
+                                    searchResults.get(i).setLosingDeals(result.getLosingDeals());
+                                }
+                            }
+                        }
+                        loadResult();
+                        initBounceAnimation();
+                    }
+                }
+            }, new SearchRequest(brands, packageString, container));
+        }
+    }
+
+    private void loadResult() {
+        mBrandAdapter = new ProductAdapter(mActivity, searchResults);
+        mProductListview.setAdapter(mBrandAdapter);
+        setHeight(searchResults.size());
+    }
+
+    private void backToPrevious() {
+        StackFragment stack = ((StackFragment) ((MainActivity) mActivity).getCurrentStackFragment());
+        stack.backToPrevious();
+
+    }
+
 
 }

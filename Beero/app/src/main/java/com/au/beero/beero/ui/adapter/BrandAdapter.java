@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -27,6 +26,8 @@ public class BrandAdapter extends UltimateViewAdapter {
 
     private List<Brand> mBrands;
     private Context mContext;
+    private List<Brand> mSelectedBrands;
+    private List<String> mSelectedBrandStr;
 
     public BrandAdapter(Context ctx, List<Brand> brands) {
         mBrands = brands;
@@ -41,21 +42,30 @@ public class BrandAdapter extends UltimateViewAdapter {
         mBrands = lst;
         notifyDataSetChanged();
     }
+    public List<Brand> getSelectedBrands() {
+        getSelected();
+        return  mSelectedBrands;
+    }
+
+    public List<String> getSelectedBrandsStr() {
+        getSelected();
+        return mSelectedBrandStr;
+    }
+
+
 
     /**
      * @return: selected id list
      */
-    public ArrayList<String> getSelectedBrands() {
-        ArrayList<String> selectedIds = null;
+    private void getSelected() {
+        mSelectedBrandStr = new ArrayList<>();
+        mSelectedBrands = new ArrayList<>();
         for (Brand br : mBrands) {
             if (br.isSelected()) {
-                if (selectedIds == null) {
-                    selectedIds = new ArrayList<>();
-                }
-                selectedIds.add(br.getId());
+                mSelectedBrands.add(br);
+                mSelectedBrandStr.add(br.getId());
             }
         }
-        return selectedIds;
     }
 
     @Override

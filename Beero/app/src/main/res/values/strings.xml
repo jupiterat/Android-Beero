@@ -1,5 +1,4 @@
 <resources>
-    <string name="google_map_api_key">AIzaSyD3KE5y5-9CKemBgeK2plmV6Asj38P8JbA</string>
     <string name="app_name">Beero</string>
     <string name="file_name_string">(%s)</string>
     <string name="hello_world">Hello world!</string>
@@ -22,6 +21,8 @@
     <string name="refresh">Refresh</string>
     <string name="add_beers">Add beers</string>
     <string name="select_brand_warning">Please select at least one brand!</string>
-    <string name="cancel_txt">Cancel</string>
-    <string name="ok_txt">Ok</string>
+    <string name="price_format">$ %s</string>
+    <string name="distance_format">, %s mins away</string>
+    <string name="container_format" formatted = "false">%s x %sml %s</string>
+    <string name="no_deal">No deal found!</string>
 </resources>
