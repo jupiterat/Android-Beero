@@ -25,4 +25,6 @@
     <string name="distance_format">, %s mins away</string>
     <string name="container_format" formatted = "false">%s x %sml %s</string>
     <string name="no_deal">No deal found!</string>
+    <string name="cancel_txt">Cancel</string>
+    <string name="ok_txt">Ok</string>
 </resources>
