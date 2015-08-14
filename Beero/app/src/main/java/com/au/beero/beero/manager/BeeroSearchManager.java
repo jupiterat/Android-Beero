@@ -27,8 +27,8 @@ import java.util.TimeZone;
 public class BeeroSearchManager {
     private static final String UTF8_CHARSET = "UTF-8";
     private static final String BEERO_SECRECT_KEY = "21cda18e56dae228eb5b367f5a44a8c3e702cb36bf999879d8e7c3dbf1dafc06ef3f8c4641a9dd53db5a59197de69ff50a936b5b250bf5ded9499b07569240e2";
-    double LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE = -33.731628;
-    double LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE = 151.216935;
+  /*  double LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE = -33.731628;
+    double LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE = 151.216935;*/
 
     private static BeeroSearchManager sInstance;
     private Context mContext;
@@ -91,19 +91,11 @@ public class BeeroSearchManager {
     }
 
     private double getLatitude() {
-        if (BeeroLocationManager.makeInstance().getCurrentLocation() == null) {
-            return LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE;
-        } else {
-            return BeeroLocationManager.makeInstance().getCurrentLocation().getLatitude();
-        }
+        return BeeroLocationManager.makeInstance().getLatitude();
     }
 
     private double getLongitude() {
-        if (BeeroLocationManager.makeInstance().getCurrentLocation() == null) {
-            return LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE;
-        } else {
-            return BeeroLocationManager.makeInstance().getCurrentLocation().getLongitude();
-        }
+        return BeeroLocationManager.makeInstance().getLongitude();
     }
 
     private String SHA1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {

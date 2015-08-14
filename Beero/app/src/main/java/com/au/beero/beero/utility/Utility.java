@@ -3,6 +3,7 @@ package com.au.beero.beero.utility;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -253,4 +254,38 @@ public class Utility {
 
         return screenH;
     }
+    /**
+     * check device is large screen
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isLarge(Context context) {
+        return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
+    /**
+     * check device is Xlarge screen.
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isXLarge(Context context) {
+        return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == 4; // 4
+        // is
+        // xlarge
+    }
+
+    /**
+     * check device is Xlarge screen.
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isNormal(Context context) {
+        return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL; // 4
+        // is
+        // xlarge
+    }
+
 }

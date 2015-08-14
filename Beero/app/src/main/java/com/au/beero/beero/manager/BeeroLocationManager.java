@@ -7,6 +7,18 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.au.beero.beero.R;
+import com.framework.plistparser.xml.plist.PListXMLHandler;
+import com.framework.plistparser.xml.plist.PListXMLParser;
+import com.framework.plistparser.xml.plist.domain.*;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.String;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by shintabmt@gmai.com on 8/12/2015.
  */
@@ -21,6 +33,11 @@ public class BeeroLocationManager {
 
     // The minimum time between updates in milliseconds
     private final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
+
+
+    double LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE = -33.731628;
+    double LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE = 151.216935;
+
     public static void initialize(Context context) {
         if (sInstance == null) {
             sInstance = new BeeroLocationManager();
@@ -28,11 +45,13 @@ public class BeeroLocationManager {
             sInstance.mLocation = sInstance.getLocation();
         }
     }
-    public static BeeroLocationManager makeInstance(){
+
+    public static BeeroLocationManager makeInstance() {
         return sInstance;
     }
-    public Location getCurrentLocation(){
-        return  mLocation;
+
+    public Location getCurrentLocation() {
+        return mLocation;
     }
 
     private Location getLocation() {
@@ -80,6 +99,72 @@ public class BeeroLocationManager {
         }
         return location;
     }
+
+    private List<Dict> getSupportArea() {
+        PListXMLParser parser = new PListXMLParser();
+        PListXMLHandler handler = new PListXMLHandler();
+        parser.setHandler(handler);
+        try {
+            InputStream file = mContext.getResources().openRawResource(R.raw.supported_area);
+            parser.parse(file);
+            PList pList = ((PListXMLHandler) parser.getHandler()).getPlist();
+            Array root = (Array) pList.getRootElement();
+            List<Dict> mapList = new ArrayList<>();
+            for (PListObject obj : root) {
+                switch (obj.getType()) {
+                    case DICT:
+                        Dict dictionaryObj = (Dict) obj;
+                        mapList.add(dictionaryObj);
+                        break;
+                    case STRING:
+                        com.framework.plistparser.xml.plist.domain.String stringObj = (com.framework.plistparser.xml.plist.domain.String) obj;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            return mapList;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean isSupportArea() {
+        List<Dict> mapList = getSupportArea();
+        double lat = getLatitude();
+        double lng = getLongitude();
+        if (mapList != null) {
+            for (int i = 0; i < mapList.size(); i++) {
+                Dict dict = mapList.get(i);
+                double topLat = Double.valueOf(dict.getConfiguration("_TOP_LAT").getValue());
+                double leftLng = Double.valueOf(dict.getConfiguration("_LEFT_LNG").getValue());
+                double botLat = Double.valueOf(dict.getConfiguration("_BOTTOM_LAT").getValue());
+                double rightLng = Double.valueOf(dict.getConfiguration("_RIGHT_LNG").getValue());
+                if ((lat <= topLat) && (lat >= botLat) && (lng >= leftLng) && (lng <= rightLng))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public double getLatitude() {
+        if (BeeroLocationManager.makeInstance().getCurrentLocation() == null) {
+            return LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE;
+        } else {
+            return BeeroLocationManager.makeInstance().getCurrentLocation().getLatitude();
+        }
+    }
+
+    public double getLongitude() {
+        if (BeeroLocationManager.makeInstance().getCurrentLocation() == null) {
+            return LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE;
+        } else {
+            return BeeroLocationManager.makeInstance().getCurrentLocation().getLongitude();
+        }
+    }
+
     private final LocationListener mLocationListener = new LocationListener() {
 
         @Override
