@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
@@ -78,7 +79,7 @@ public class OpenTime implements Comparator<OpenTime> {
             SimpleDateFormat sdfDate = new SimpleDateFormat(patten, Locale.ENGLISH);//dd/MM/yyyy
             Date strDate = sdfDate.parse(hourString);
             String result = new SimpleDateFormat("hh:mm a").format(strDate);
-            System.out.println(result);
+//            System.out.println(result);
             return result;
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,13 +87,6 @@ public class OpenTime implements Comparator<OpenTime> {
         return null;
     }
 
-    public int getRemainingMinutesTillClose() {
-        return 0;
-    }
-
-    private int getOpenHourToday() {
-        return 0;
-    }
 
     @Override
     public int compare(OpenTime openTime1, OpenTime openTime2) {

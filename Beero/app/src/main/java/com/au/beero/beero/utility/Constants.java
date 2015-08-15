@@ -84,4 +84,10 @@ public class Constants {
             return this.name;
         }
     }
+
+    public static class STORE_STATE {
+        public static int WAITING = 0;
+        public static int OPENING = 1;
+        public static int CLOSED = 2;
+    }
 }
