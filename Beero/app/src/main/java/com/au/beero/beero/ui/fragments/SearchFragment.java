@@ -295,7 +295,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                             }
                         }
                         loadResult();
-                        initBounceAnimation();
+
                     }
                 }
             }, new SearchRequest(brands, packageString, container));
@@ -303,9 +303,13 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void loadResult() {
-        mBrandAdapter = new ProductAdapter(mActivity, searchResults);
+        if(mBrandAdapter == null) {
+            mBrandAdapter = new ProductAdapter(mActivity, searchResults);
+        }
         mProductListview.setAdapter(mBrandAdapter);
+//        mBrandAdapter.notifyDataSetChanged();
         setHeight(searchResults.size());
+        initBounceAnimation();
     }
 
     private void backToPrevious() {
@@ -317,9 +321,12 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onItemClick(RecyclerView recyclerView, View view, int i) {
-        StackFragment stack = ((StackFragment) ((MainActivity) mActivity).getCurrentStackFragment());
-        Fragment brandFrag = StoreDetailFragment.makeInstance();
-        stack.addFragmentToStack(brandFrag);
+        if(searchResults.get(i).getWiningDeal() != null) {
+            StackFragment stack = ((StackFragment) ((MainActivity) mActivity).getCurrentStackFragment());
+            Fragment brandFrag = DealDetailFragment.makeInstance(searchResults.get(i));
+            stack.addFragmentToStack(brandFrag);
+        }
+
     }
 
     @Override

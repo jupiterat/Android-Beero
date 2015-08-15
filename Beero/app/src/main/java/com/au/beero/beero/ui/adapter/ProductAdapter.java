@@ -69,10 +69,8 @@ public class ProductAdapter extends UltimateViewAdapter {
                 String container = String.format(mContext.getString(R.string.container_format), deals.getQty(), deals.getContainerSize(), deals.getContainerType());
                 holder.containerTxt.setText(container);
                 holder.priceTxt.setText(String.format(mContext.getString(R.string.price_format), deals.getPrice()));
-                String mins = getBeautifiedDriveDistance(Integer.parseInt(deals.getDrivingTime()));
-                String value = String.format(mContext.getString(R.string.distance_format), mins);
+                String value = String.format(mContext.getString(R.string.distance_format), deals.getBeautifiedDriveDistance());
                 holder.distanceTxt.setText(value);
-
                 int visible = deals.isExclusive() ? View.VISIBLE : View.GONE;
                 holder.exlusiveImg.setVisibility(visible);
 
@@ -96,13 +94,7 @@ public class ProductAdapter extends UltimateViewAdapter {
 
     }
 
-    private String getBeautifiedDriveDistance(int seconds) {
-        int minute = seconds / 60;
-        int nSecond = seconds % 60;
-        if (nSecond > 0)
-            minute++;
-        return String.valueOf(minute);
-    }
+
 
     class ProductHolder extends UltimateRecyclerviewViewHolder {
 
