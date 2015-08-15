@@ -39,8 +39,6 @@ public class BeeroApplication extends Application {
         sInstance = this;
         BeeroLocationManager.initialize(this.getApplicationContext());
         BeeroSearchManager.initialize(this.getApplicationContext());
-//        PlistParsing parsing = new PlistParsing(this.getApplicationContext());
-//        parsing.getSupportArea();
     }
 
     private boolean hasVisibleActivity() {

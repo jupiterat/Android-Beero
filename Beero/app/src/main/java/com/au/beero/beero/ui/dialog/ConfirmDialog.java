@@ -36,6 +36,7 @@ public class ConfirmDialog extends CustomDialog implements View.OnClickListener 
      */
     public ConfirmDialog(Context context, String title, String okTitle, View.OnClickListener okListener) {
         super(context);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         Window w = this.getWindow();
         w.setBackgroundDrawableResource(android.R.color.transparent);
         setCanceledOnTouchOutside(false);
@@ -49,6 +50,7 @@ public class ConfirmDialog extends CustomDialog implements View.OnClickListener 
 
     public ConfirmDialog(Context context, CharSequence mSpanedText, String okTitle, View.OnClickListener okListener) {
         super(context);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         Window w = this.getWindow();
         w.setBackgroundDrawableResource(android.R.color.transparent);
         setCanceledOnTouchOutside(false);
@@ -63,6 +65,7 @@ public class ConfirmDialog extends CustomDialog implements View.OnClickListener 
 
     public ConfirmDialog(Context context, String title, String okTitle, View.OnClickListener okListener, View.OnClickListener cancelListener) {
         super(context);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         Window w = this.getWindow();
         w.setBackgroundDrawableResource(android.R.color.transparent);
         setCanceledOnTouchOutside(false);

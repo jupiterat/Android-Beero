@@ -34,4 +34,6 @@
     <string name="exclusive_price">BEERO EXCLUSIVE PRICE!</string>
     <string name="exclusive_msg">Show Beero at the register to get this deal</string>
     <string name="price_super">X <sup>2</sup></string>
+    <string name="allow_location_services_waring">Allow "Beero" to access your location while you use the app?</string>
+    <string name="allow">Allow</string>
 </resources>

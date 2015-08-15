@@ -51,6 +51,9 @@ public class BeeroLocationManager {
     }
 
     public Location getCurrentLocation() {
+        if (mLocation == null){
+            mLocation = getLocation();
+        }
         return mLocation;
     }
 
@@ -72,6 +75,16 @@ public class BeeroLocationManager {
                 this.mIsEnableLocationServices = false;
             } else {
                 this.mIsEnableLocationServices = true;
+
+                // First get location from Network Provider
+                if (isNetworkEnabled) {
+                    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES,
+                            MIN_DISTANCE_CHANGE_FOR_UPDATES, mLocationListener);
+                    Log.d("Network", "Network");
+                    if (mLocationManager != null) {
+                        location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    }
+                }
                 // if GPS Enabled get lat/long using GPS Services
                 if (isGPSEnabled) {
                     if (location == null) {
@@ -84,16 +97,8 @@ public class BeeroLocationManager {
                         }
                     }
                 }
-                // First get location from Network Provider
-                if (isNetworkEnabled) {
-                    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES,
-                            MIN_DISTANCE_CHANGE_FOR_UPDATES, mLocationListener);
-                    Log.d("Network", "Network");
-                    if (mLocationManager != null) {
-                        location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                    }
-                }
             }
+            mLocation = location;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -149,21 +154,50 @@ public class BeeroLocationManager {
         return false;
     }
 
+    public boolean isSupportArea(Location location) {
+        if (location == null) {
+            return false;
+        }
+        List<Dict> mapList = getSupportArea();
+        double lat = location.getLatitude();
+        double lng = location.getLongitude();
+        if (mapList != null) {
+            for (int i = 0; i < mapList.size(); i++) {
+                Dict dict = mapList.get(i);
+                double topLat = Double.valueOf(dict.getConfiguration("_TOP_LAT").getValue());
+                double leftLng = Double.valueOf(dict.getConfiguration("_LEFT_LNG").getValue());
+                double botLat = Double.valueOf(dict.getConfiguration("_BOTTOM_LAT").getValue());
+                double rightLng = Double.valueOf(dict.getConfiguration("_RIGHT_LNG").getValue());
+                if ((lat <= topLat) && (lat >= botLat) && (lng >= leftLng) && (lng <= rightLng))
+                    return true;
+            }
+        }
+        return false;
+    }
+
     public double getLatitude() {
-        if (BeeroLocationManager.makeInstance().getCurrentLocation() == null) {
+        return LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE;
+      /*  if (getCurrentLocation() == null) {
             return LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE;
         } else {
-            return BeeroLocationManager.makeInstance().getCurrentLocation().getLatitude();
-        }
+            return getCurrentLocation().getLatitude();
+        }*/
     }
 
     public double getLongitude() {
-        if (BeeroLocationManager.makeInstance().getCurrentLocation() == null) {
+        return LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE;
+        /*if (getCurrentLocation() == null) {
             return LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE;
         } else {
-            return BeeroLocationManager.makeInstance().getCurrentLocation().getLongitude();
-        }
+            return getCurrentLocation().getLongitude();
+        }*/
     }
+
+
+    public boolean isEnableLocationServices() {
+        return mIsEnableLocationServices;
+    }
+
 
     private final LocationListener mLocationListener = new LocationListener() {
 
