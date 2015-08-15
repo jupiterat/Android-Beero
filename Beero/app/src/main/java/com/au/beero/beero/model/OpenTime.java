@@ -1,7 +1,5 @@
 package com.au.beero.beero.model;
 
-import android.hardware.camera2.CameraCaptureSession;
-
 import com.au.beero.beero.utility.Constants;
 
 import org.json.JSONObject;
@@ -86,6 +84,14 @@ public class OpenTime implements Comparator<OpenTime> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public int getRemainingMinutesTillClose() {
+        return 0;
+    }
+
+    private int getOpenHourToday() {
+        return 0;
     }
 
     @Override
