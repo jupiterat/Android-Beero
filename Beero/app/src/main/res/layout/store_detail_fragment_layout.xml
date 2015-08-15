@@ -7,7 +7,7 @@
     <com.google.android.gms.maps.MapView
         android:id="@+id/store_detail_map"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/com_100dp"
+        android:layout_height="@dimen/com_180dp"
         android:padding="@dimen/com_20dp">
 
     </com.google.android.gms.maps.MapView>

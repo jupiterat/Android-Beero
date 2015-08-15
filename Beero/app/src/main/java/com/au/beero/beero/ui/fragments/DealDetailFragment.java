@@ -23,7 +23,7 @@ import com.au.beero.beero.ui.stack.StackFragment;
 /**
  * Created by jupiter.at@gmail.com on 8/15/2015.
  */
-public class DealDetailFragment extends BaseFragment {
+public class DealDetailFragment extends BaseFragment implements View.OnClickListener {
 
     private TextView mVerifiedStock;
     private TextView mStoreName;
@@ -100,6 +100,20 @@ public class DealDetailFragment extends BaseFragment {
         }
         int losingSize = mSearchResult.getLosingDeals() != null ? mSearchResult.getLosingDeals().size() : 0;
         mLoosingTxt.setText(String.format(getString(R.string.best_deals),losingSize));
+        mLoosingTxt.setOnClickListener(this);
+    }
 
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.show_loosing:
+                if(mSearchResult.getLosingDeals() != null) {
+                    MapFragment searchFrag = MapFragment.makeInstance(mSearchResult.getBrandName(), mSearchResult.getLosingDeals());
+                    ((StackFragment) ((MainActivity) getActivity()).getCurrentStackFragment())
+                            .addFragmentToStack(searchFrag);
+                }
+                break;
+        }
     }
 }
