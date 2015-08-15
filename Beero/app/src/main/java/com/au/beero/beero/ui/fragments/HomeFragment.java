@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -51,7 +52,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getCurrentPosition();
     }
 
     @Override
@@ -59,7 +60,7 @@ public class HomeFragment extends BaseFragment {
         View v = inflater.inflate(R.layout.splash_activity_layout, null);
         mLogoIcon = (ImageView) v.findViewById(R.id.imgLogo);
         mSorryContaner = (RelativeLayout) v.findViewById(R.id.sorry_container);
-        getCurrentPosition();
+
         return v;
     }
 
@@ -137,12 +138,18 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void gotoNotSupported() {
-        if (mLogoIcon != null && mLogoIcon.getVisibility() != View.GONE) {
-            mLogoIcon.setVisibility(View.GONE);
-        }
-        if (mSorryContaner != null && mSorryContaner.getVisibility() != View.VISIBLE) {
-            mSorryContaner.setVisibility(View.VISIBLE);
-        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mLogoIcon != null && mLogoIcon.getVisibility() != View.GONE) {
+                    mLogoIcon.setVisibility(View.GONE);
+                }
+                if (mSorryContaner != null && mSorryContaner.getVisibility() != View.VISIBLE) {
+                    mSorryContaner.setVisibility(View.VISIBLE);
+                }
+            }
+        }, 3000);
+
     }
 
     private void goToGpsSettingScreen() {
