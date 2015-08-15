@@ -1,250 +1,266 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:paddingTop="?android:attr/actionBarSize">
+
+    <TextView
+        android:id="@+id/verified_txt"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:paddingTop="?android:attr/actionBarSize">
+        android:layout_height="wrap_content"
+        android:background="@color/green_bg"
+        android:gravity="center"
+        android:padding="@dimen/com_10dp"
+        android:text="@string/verify_stock"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/store_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/verified_txt">
 
         <TextView
-            android:id="@+id/verified_txt"
-            android:layout_width="match_parent"
+            android:id="@+id/store_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/green_bg"
-            android:gravity="center"
-            android:padding="@dimen/com_10dp"
-            android:text="@string/verify_stock"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
+            android:layout_marginBottom="@dimen/com_5dp"
+            android:layout_marginLeft="@dimen/com_20dp"
+            android:layout_marginTop="@dimen/com_10dp"
+            android:text="Lachlan Hotel"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/store_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/store_name"
+            android:layout_marginLeft="@dimen/com_20dp"
+            android:text="168 Midson"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/store_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/store_address"
+            android:layout_marginLeft="@dimen/com_20dp"
+            android:text="11 mins drive"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/store_opening"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/store_distance"
+            android:layout_marginLeft="@dimen/com_20dp"
+            android:layout_marginTop="@dimen/com_5dp"
+            android:drawableLeft="@drawable/mark_open_large"
+            android:drawablePadding="@dimen/com_10dp"
+            android:gravity="center"
+            android:text="Opening"
+            android:textColor="@color/green_bg"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/store_closed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/store_distance"
+            android:layout_marginLeft="@dimen/com_20dp"
+            android:layout_marginTop="@dimen/com_5dp"
+            android:drawablePadding="@dimen/com_10dp"
+            android:gravity="center"
+            android:text="Closed"
+            android:textColor="@color/main_aap_color"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/store_distance"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/com_30dp"
+            android:src="@drawable/arrow_right_dark" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/contact_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/com_50dp"
+        android:layout_below="@+id/store_container"
+        android:layout_marginTop="@dimen/com_10dp"
+        android:background="@drawable/shadow_bg1"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/separator"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/call"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:drawableLeft="@drawable/icon_phone"
+                android:drawablePadding="@dimen/com_10dp"
+                android:gravity="center"
+                android:padding="@dimen/com_10dp"
+                android:text="@string/call"
+                android:textColor="@color/main_aap_color"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@color/grey_bg" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/separator"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/catalog"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:drawableLeft="@drawable/icon_catalog"
+                android:drawablePadding="@dimen/com_10dp"
+                android:gravity="center"
+                android:padding="@dimen/com_10dp"
+                android:text="@string/catalog"
+                android:textColor="@color/main_aap_color"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/deal_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/contact_container"
+        android:background="@drawable/shadow_bg1"
+        android:padding="@dimen/com_20dp">
+
         <RelativeLayout
-            android:id="@+id/store_container"
+            android:id="@+id/deal_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/verified_txt">
+            android:gravity="center_vertical">
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/product_img"
+                android:layout_width="@dimen/com_80dp"
+                android:layout_height="@dimen/com_150dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="@dimen/com_10dp"
+                android:gravity="center"
+                android:src="@drawable/beer_folder_smooth" />
+
             <TextView
-                android:id="@+id/store_name"
+                android:id="@+id/product_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/com_5dp"
-                android:layout_marginLeft="@dimen/com_20dp"
-                android:layout_marginTop="@dimen/com_10dp"
-                android:text="Lachlan Hotel"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
+                android:layout_marginTop="@dimen/com_40dp"
+                android:layout_toRightOf="@+id/product_img"
+                android:textColor="@color/main_aap_color"
+                android:textSize="20sp" />
+
+
+            <TextView
+                android:id="@+id/product_price_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/product_container"
+                android:layout_toRightOf="@+id/product_img"
+                android:textSize="35sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/store_address"
+                android:id="@+id/product_price_small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/store_name"
-                android:layout_marginLeft="@dimen/com_20dp"
-                android:text="168 Midson"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="16sp" />
+                android:layout_below="@+id/product_container"
+                android:layout_toRightOf="@+id/product_price_big"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
 
-            <TextView
-                android:id="@+id/store_distance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/store_address"
-                android:layout_marginLeft="@dimen/com_20dp"
-                android:text="11 mins drive"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/store_opening"
-                android:layout_width="wrap_content"
+        <FrameLayout
+            android:id="@+id/exclusive_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/deal_container"
+            android:layout_marginTop="-30dp">
+
+            <RelativeLayout
+
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/store_distance"
-                android:layout_marginLeft="@dimen/com_20dp"
-                android:layout_marginTop="@dimen/com_5dp"
-                android:drawableLeft="@drawable/mark_open_large"
-                android:drawablePadding="@dimen/com_10dp"
-                android:gravity="center"
-                android:text="Opening"
-                android:textColor="@color/green_bg"
-                android:textSize="16sp" />
+                android:layout_marginTop="@dimen/com_30dp"
+                android:background="@drawable/exclusive_bg"
+                android:padding="@dimen/com_10dp">
+
+                <TextView
+                    android:id="@+id/exclusive_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/exclusive_price"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/exclusive_price"
+                    android:text="@string/exclusive_msg"
+                    android:textColor="@android:color/white" />
+            </RelativeLayout>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/store_distance"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/com_30dp"
-                android:src="@drawable/arrow_right_dark" />
-        </RelativeLayout>
+                android:layout_gravity="top|right"
+                android:src="@drawable/badge_exclusive_large" />
+        </FrameLayout>
 
-
-
-        <RelativeLayout
-            android:id="@+id/contact_container"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/com_50dp"
-            android:layout_below="@+id/store_container"
-            android:layout_marginTop="@dimen/com_10dp"
-            android:background="@drawable/shadow_bg1"
-            android:gravity="center">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toLeftOf="@+id/separator"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/call"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/white"
-                    android:drawableLeft="@drawable/icon_phone"
-                    android:drawablePadding="@dimen/com_10dp"
-                    android:gravity="center"
-                    android:padding="@dimen/com_10dp"
-                    android:text="@string/call"
-                    android:textColor="@color/main_aap_color"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-
-            <View
-                android:id="@+id/separator"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:background="@color/grey_bg" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@+id/separator"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/catalog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/white"
-                    android:drawableLeft="@drawable/icon_catalog"
-                    android:drawablePadding="@dimen/com_10dp"
-                    android:gravity="center"
-                    android:padding="@dimen/com_10dp"
-                    android:text="@string/catalog"
-                    android:textColor="@color/main_aap_color"
-                    android:textSize="18sp" />
-            </LinearLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/deal_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/contact_container"
-            android:background="@drawable/shadow_bg1"
-            android:padding="@dimen/com_20dp">
-
-            <RelativeLayout
-                android:id="@+id/deal_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical">
-
-                <com.android.volley.toolbox.NetworkImageView
-                    android:id="@+id/product_img"
-                    android:layout_width="@dimen/com_80dp"
-                    android:layout_height="@dimen/com_150dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginRight="@dimen/com_10dp"
-                    android:gravity="center"
-                    android:src="@drawable/beer_folder_smooth" />
-
-                <TextView
-                    android:id="@+id/product_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/product_img"
-                    android:layout_marginTop="@dimen/com_40dp"
-                    android:textColor="@color/main_aap_color"
-                    android:textSize="20sp" />
-
-
-                <TextView
-                    android:id="@+id/product_price_big"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/product_img"
-                    android:layout_below="@+id/product_container"
-                    android:textSize="35sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/product_price_small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/product_price_big"
-                    android:layout_below="@+id/product_container"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-
-
-            <FrameLayout
-                android:id="@+id/exclusive_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/deal_container"
-                android:layout_marginTop="-30dp">
-
-                <RelativeLayout
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/com_30dp"
-                    android:background="@drawable/exclusive_bg"
-                    android:padding="@dimen/com_10dp">
-
-                    <TextView
-                        android:id="@+id/exclusive_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/exclusive_price"
-                        android:textColor="@android:color/white"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/exclusive_price"
-                        android:text="@string/exclusive_msg"
-                        android:textColor="@android:color/white" />
-                </RelativeLayout>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top|right"
-                    android:src="@drawable/badge_exclusive_large" />
-            </FrameLayout>
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/show_loosing"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:drawableRight="@drawable/arrow_right_dark"
-            android:gravity="center_vertical"
-            android:padding="@dimen/com_10dp"
-            android:textColor="@color/main_aap_color" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/show_loosing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:drawableRight="@drawable/arrow_right_dark"
+        android:gravity="center_vertical"
+        android:padding="@dimen/com_10dp"
+        android:textColor="@color/main_aap_color" />
+</RelativeLayout>

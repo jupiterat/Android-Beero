@@ -1,8 +1,10 @@
 package com.au.beero.beero.ui.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,6 +26,7 @@ import com.au.beero.beero.ui.stack.StackFragment;
 import com.au.beero.beero.utility.ApiUtility;
 import com.framework.network.request.AbstractHttpRequest;
 import com.framework.network.task.IDataEventHandler;
+import com.framework.utility.PauseHandler;
 
 import java.util.List;
 
@@ -31,12 +34,13 @@ import java.util.List;
  * Created by jupiter.at@gmail.com on 8/12/2015.
  */
 public class HomeFragment extends BaseFragment {
-
+    final static int BEGIN_TRANSACTION = 1;
     // Splash screen timer
     private static int SPLASH_TIME_OUT = 2000;
     private ImageView mLogoIcon;
     private RelativeLayout mSorryContaner;
     private ConfirmDialog mDialog;
+    TransactionHanlder handler = new TransactionHanlder();
 
     public static final int REQUEST_CODE_OPEN_GPS_SETTINGS = 0x48;
 
@@ -63,20 +67,35 @@ public class HomeFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         getActivity().getActionBar().hide();
+        handler.setActivity(getActivity());
+        handler.resume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.pause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        handler.setActivity(null);
     }
 
     private void loadBrands() {
         ApiUtility.loadBrands(mActivity, new IDataEventHandler<ResponseBrand>() {
             @Override
             public void onNotifyData(ResponseBrand data, AbstractHttpRequest request) {
-                if (!isAdded()){
+                if (!isAdded()) {
                     return;
                 }
                 List<Brand> brandList = null;
-                if (data != null) {
+                /*if (data != null) {
                     brandList = data.getBrands();
-                }
-                gotoBrandScreen(brandList);
+                }*/
+                handler.sendMessage(handler.obtainMessage(BEGIN_TRANSACTION, data));
+//                gotoBrandScreen(brandList);
             }
         }, new BrandRequest());
     }
@@ -141,6 +160,35 @@ public class HomeFragment extends BaseFragment {
                 loadBrands();
             } else {
                 gotoNotSupported();
+            }
+        }
+    }
+
+    private class TransactionHanlder extends PauseHandler {
+        protected Activity activity;
+
+        final void setActivity(Activity activity) {
+            this.activity = activity;
+        }
+
+        @Override
+        protected boolean storeMessage(Message message) {
+            return true;
+        }
+
+        @Override
+        protected void processMessage(Message message) {
+            final Activity activity = this.activity;
+            if (activity != null) {
+                switch (message.what) {
+
+                    case BEGIN_TRANSACTION:
+                        ResponseBrand obj = (ResponseBrand) message.obj;
+                        if (obj != null) {
+                            gotoBrandScreen(obj.getBrands());
+                        }
+                        break;
+                }
             }
         }
     }
