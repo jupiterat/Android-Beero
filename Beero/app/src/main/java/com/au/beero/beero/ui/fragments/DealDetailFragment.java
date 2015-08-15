@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -35,10 +36,10 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
     private TextView mDealPriceSmall;
     private TextView mDealPackage;
     private TextView mLoosingTxt;
-    private TextView mStoreClosed;
     private NetworkImageView mProductImg;
     private static SearchResult mSearchResult;
     private FrameLayout mExclusiveContainer;
+    private RelativeLayout mStoreContainer;
 
     public static Fragment makeInstance(SearchResult searchResult) {
         mSearchResult = searchResult;
@@ -53,10 +54,9 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.store_detail_layout, null);
+        View view = inflater.inflate(R.layout.deal_detail_layout, null);
         mVerifiedStock = (TextView) view.findViewById(R.id.verified_txt);
         mStoreName = (TextView) view.findViewById(R.id.store_name);
-        mStoreClosed = (TextView) view.findViewById(R.id.store_closed);
         mStoreAdd = (TextView) view.findViewById(R.id.store_address);
         mStoreDistance = (TextView) view.findViewById(R.id.store_distance);
         mStoreOpening = (TextView) view.findViewById(R.id.store_opening);
@@ -66,6 +66,9 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
         mDealPackage = (TextView) view.findViewById(R.id.product_container);
         mLoosingTxt = (TextView) view.findViewById(R.id.show_loosing);
         mExclusiveContainer = (FrameLayout) view.findViewById(R.id.exclusive_container);
+        mStoreContainer = (RelativeLayout) view.findViewById(R.id.store_container);
+        mLoosingTxt.setOnClickListener(this);
+        mStoreContainer.setOnClickListener(this);
         loadData();
         return view;
     }
@@ -81,10 +84,6 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
     private void loadData() {
         Store store = mSearchResult.getWiningDeal().getStore();
         mStoreOpening.setText(store.getStoreState());
-        if (store.getStoreState().equalsIgnoreCase("Closed")) {
-            mStoreOpening.setVisibility(View.GONE);
-            mStoreClosed.setVisibility(View.VISIBLE);
-        }
         WiningDeal winingDeal = mSearchResult.getWiningDeal();
         mStoreName.setText(store.getName());
         mStoreAdd.setText(store.getAddress());
@@ -96,19 +95,19 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
         String container = String.format(getString(R.string.container_format), winingDeal.getQty(), winingDeal.getContainerSize(), winingDeal.getContainerType());
         mDealPackage.setText(container);
 
-        int bigPrice = (int) Float.parseFloat(winingDeal.getPrice());
+        int bigPrice = (int)Float.parseFloat(winingDeal.getPrice());
         String bigPriceStr = String.valueOf(bigPrice);
         mDealPrice.setText(bigPriceStr);
         float smallPrice = Float.parseFloat(winingDeal.getPrice()) - bigPrice;
-        mDealPriceSmall.setText(String.format("%2d", (int) (smallPrice * 100)));
-        if (winingDeal.isExclusive()) {
+        mDealPriceSmall.setText(String.format("%2d", (int)(smallPrice * 100)));
+        if(winingDeal.isExclusive()) {
             mExclusiveContainer.setVisibility(View.VISIBLE);
         } else {
             mExclusiveContainer.setVisibility(View.GONE);
         }
         int losingSize = mSearchResult.getLosingDeals() != null ? mSearchResult.getLosingDeals().size() : 0;
-        mLoosingTxt.setText(String.format(getString(R.string.best_deals), losingSize));
-        mLoosingTxt.setOnClickListener(this);
+        mLoosingTxt.setText(String.format(getString(R.string.best_deals),losingSize));
+
     }
 
     @Override
@@ -116,10 +115,17 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
         int id = view.getId();
         switch (id) {
             case R.id.show_loosing:
-                if (mSearchResult.getLosingDeals() != null) {
-                    MapFragment searchFrag = MapFragment.makeInstance(mSearchResult.getBrandName(), mSearchResult.getLosingDeals());
+                if(mSearchResult.getLosingDeals() != null) {
+                    MapFragment mapFragment = MapFragment.makeInstance(mSearchResult.getBrandName(), mSearchResult.getLosingDeals());
                     ((StackFragment) ((MainActivity) getActivity()).getCurrentStackFragment())
-                            .addFragmentToStack(searchFrag);
+                            .addFragmentToStack(mapFragment);
+                }
+                break;
+            case R.id.store_container:
+                if(mSearchResult.getWiningDeal().getStore() != null) {
+                    StoreDetailFragment storeDetailFragment = StoreDetailFragment.makeInstance(mSearchResult.getBrandName(), mSearchResult.getWiningDeal().getStore());
+                    ((StackFragment) ((MainActivity) getActivity()).getCurrentStackFragment())
+                            .addFragmentToStack(storeDetailFragment);
                 }
                 break;
         }

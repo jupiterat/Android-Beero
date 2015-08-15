@@ -1,14 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/store_detail_map"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/com_180dp"
-        android:padding="@dimen/com_20dp">
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/com_20dp"
+        android:paddingTop="?android:attr/actionBarSize">
 
-    </com.google.android.gms.maps.MapView>
-</LinearLayout>
+        <RelativeLayout
+            android:id="@+id/store_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/verified_txt"
+            android:background="@drawable/item_click_selector"
+            android:padding="@dimen/com_20dp">
+
+            <TextView
+                android:id="@+id/store_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/com_5dp"
+                android:layout_marginLeft="@dimen/com_20dp"
+                android:layout_marginTop="@dimen/com_10dp"
+                android:text="Lachlan Hotel"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/store_member_since"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/store_name"
+                android:layout_marginLeft="@dimen/com_20dp"
+                android:text="@string/beero_member"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/store_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/store_member_since"
+                android:layout_marginLeft="@dimen/com_20dp"
+                android:text="12412412"
+                android:textColor="@color/main_aap_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/store_opening"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/store_name"
+                android:layout_marginLeft="@dimen/com_20dp"
+                android:layout_marginTop="@dimen/com_5dp"
+                android:drawableLeft="@drawable/mark_open_large"
+                android:drawablePadding="@dimen/com_10dp"
+                android:gravity="center"
+                android:text="Opening"
+                android:textColor="@color/green_bg"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/time_to_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/store_opening"
+                android:layout_marginLeft="@dimen/com_20dp"
+                android:text="Closes in 12 mins"
+                android:textColor="@color/main_aap_color"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/store_detail_map"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/com_180dp"
+            android:layout_marginLeft="@dimen/com_20dp"
+            android:layout_marginRight="@dimen/com_20dp">
+
+        </com.google.android.gms.maps.MapView>
+
+        <TextView
+            android:id="@+id/store_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="168 abc street"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/com_150dp" />
+
+            <com.au.beero.beero.ui.widget.CircleImageView
+                android:id="@+id/manager"
+                android:layout_width="@dimen/com_100dp"
+                android:layout_height="@dimen/com_100dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:src="@drawable/manager_0" />
+        </FrameLayout>
+
+        <View
+            android:layout_width="@dimen/com_100dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/com_20dp"
+            android:background="@color/grey_bg" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/com_20dp"
+            android:text="@string/check_catalog"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/catalog"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/com_300dp" />
+
+            <ImageView
+                android:layout_width="@dimen/com_100dp"
+                android:layout_height="@dimen/com_100dp"
+                android:layout_gravity="center"
+                android:src="@drawable/catalog_zoom" />
+        </FrameLayout>
+
+        <View
+            android:layout_width="@dimen/com_100dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/com_20dp"
+            android:background="@color/grey_bg" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/com_20dp"
+            android:text="@string/opening_hours"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/opening_hours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"></LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
