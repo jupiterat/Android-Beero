@@ -4,9 +4,15 @@ import com.au.beero.beero.utility.Constants;
 
 import org.json.JSONObject;
 
+import java.text.DateFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by thuc.phan on 8/12/2015.
@@ -27,63 +33,64 @@ public class Store {
 
     public Store() {
     }
+
     public Store(JSONObject jsonObject) {
-        if (jsonObject == null){
+        if (jsonObject == null) {
             return;
         } else {
             try {
                 setId(jsonObject.getString(Constants.SERVER_RES_KEY.RES_ID));
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
             try {
                 setLat(jsonObject.getString(Constants.SERVER_RES_KEY.RES_LAT));
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
             try {
                 setLng(jsonObject.getString(Constants.SERVER_RES_KEY.RES_LNG));
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
             try {
                 setName(jsonObject.getString(Constants.SERVER_RES_KEY.RES_NAME));
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
             try {
                 setIsMember(jsonObject.getBoolean(Constants.SERVER_RES_KEY.RES_IS_MEMBER));
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
             try {
                 setAddress(jsonObject.getString(Constants.SERVER_RES_KEY.RES_ADDRESS));
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
             try {
                 setPhone(jsonObject.getString(Constants.SERVER_RES_KEY.RES_PHONE));
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
             try {
                 setHasCatalog(jsonObject.getBoolean(Constants.SERVER_RES_KEY.RES_HAS_CATALOG));
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
             try {
                 setHasBanner(jsonObject.getBoolean(Constants.SERVER_RES_KEY.RES_HAS_BANNER_IMG));
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
             try {
                 setHasMgr(jsonObject.getBoolean(Constants.SERVER_RES_KEY.RES_HAS_MGR_IMG));
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
             try {
                 setMgrWelcome(jsonObject.getString(Constants.SERVER_RES_KEY.RES_MGR_WELCOME));
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
             try {
@@ -109,7 +116,7 @@ public class Store {
                 }
                 setOpenHours(openTimes);
 //                setOpenHours(jsonObject.getString(Constants.SERVER_RES_KEY.RES_OPEN_HOURS));
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }
@@ -209,5 +216,71 @@ public class Store {
 
     public void setOpenHours(List<OpenTime> openHours) {
         this.openHours = openHours;
+    }
+
+    public String getStoreState() {
+        try {
+            OpenTime openHoursToday = getOpenTimeToday();
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat sdfDate = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);//dd/MM/yyyy
+            Date open = sdfDate.parse(openHoursToday.getOpenTime());
+            Date close = sdfDate.parse(openHoursToday.getCloseTime());
+            Date current = new Date();
+            String currentFormat = sdfDate.format(current);
+            current = sdfDate.parse(currentFormat);
+            if (current.before(open)) {
+                return "Open at " + openHoursToday.getOpenTime();
+//                return Constants.STORE_STATE.WAITING;
+            } else if (current.after(open) && current.before(close)) {
+                return "Till " + openHoursToday.getCloseTime();
+//                return Constants.STORE_STATE.OPENING;
+            } else {
+                return "Closed";
+//                return Constants.STORE_STATE.CLOSED;
+            }
+           /* SimpleDateFormat sdfDate = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);//dd/MM/yyyy
+            Date open;
+            Date close;
+            open = sdfDate.parse(openHoursToday.getOpenTime());
+            calendar.setTime(open);
+            int hourOpen = calendar.get(Calendar.HOUR_OF_DAY);
+            int minuteOpen = calendar.get(Calendar.MINUTE);
+            close = sdfDate.parse(openHoursToday.getCloseTime());
+            calendar.setTime(close);
+            int hourClose = calendar.get(Calendar.HOUR_OF_DAY);
+            int minuteClose = calendar.get(Calendar.MINUTE);
+            calendar.setTime(new Date());
+            int hours = calendar.get(Calendar.HOUR_OF_DAY);
+            int minutes = calendar.get(Calendar.MINUTE);
+            int seconds = calendar.get(Calendar.SECOND);
+            if (hours < hourOpen) {
+                return Constants.STORE_STATE.WAITING;
+            } else if (hours == hourOpen && hours <= hourClose) {
+                return Constants.STORE_STATE.OPENING;
+            } else {
+                return Constants.STORE_STATE.CLOSED;
+            }*/
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    private OpenTime getOpenTimeToday() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        String weekdays[] = new DateFormatSymbols(Locale.ENGLISH).getWeekdays();
+        String todayName = weekdays[dayOfWeek];
+        String openHoursToday = null;
+        for (int i = 0; i < this.openHours.size(); i++) {
+            OpenTime openTime = openHours.get(i);
+            if (openTime.getDay().equalsIgnoreCase(todayName)) {
+                return openTime;
+//                openHoursToday = openTime.getOpenTime();
+//                break;
+            }
+        }
+        return null;
     }
 }

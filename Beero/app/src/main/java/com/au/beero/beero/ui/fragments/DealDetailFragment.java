@@ -20,6 +20,7 @@ import com.au.beero.beero.model.WiningDeal;
 import com.au.beero.beero.ui.activity.MainActivity;
 import com.au.beero.beero.ui.base.BaseFragment;
 import com.au.beero.beero.ui.stack.StackFragment;
+import com.au.beero.beero.utility.Constants;
 
 /**
  * Created by jupiter.at@gmail.com on 8/15/2015.
@@ -82,6 +83,7 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
 
     private void loadData() {
         Store store = mSearchResult.getWiningDeal().getStore();
+        mStoreOpening.setText(store.getStoreState());
         WiningDeal winingDeal = mSearchResult.getWiningDeal();
         mStoreName.setText(store.getName());
         mStoreAdd.setText(store.getAddress());
