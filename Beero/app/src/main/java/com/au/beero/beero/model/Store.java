@@ -4,6 +4,10 @@ import com.au.beero.beero.utility.Constants;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Created by thuc.phan on 8/12/2015.
  */
@@ -19,7 +23,7 @@ public class Store {
     private boolean hasBanner;
     private boolean hasMgr;
     private String mgrWelcome;
-    private String openHours;
+    private List<OpenTime> openHours;
 
     public Store() {
     }
@@ -83,7 +87,28 @@ public class Store {
 
             }
             try {
-                setOpenHours(jsonObject.getString(Constants.SERVER_RES_KEY.RES_OPEN_HOURS));
+                JSONObject openHours = jsonObject.getJSONObject(Constants.SERVER_RES_KEY.RES_OPEN_HOURS);
+                Iterator<?> keys = openHours.keys();
+                List<OpenTime> openTimes = new ArrayList<>();
+                while (keys.hasNext()) {
+                    String key = (String) keys.next();
+                    try {
+                        OpenTime openTime = null;
+                        if (openHours.get(key) instanceof JSONObject) {
+                            JSONObject object = (JSONObject) openHours.get(key);
+                            openTime = new OpenTime(object);
+                        } else {
+                            openTime = new OpenTime();
+                        }
+                        openTime.setDay(key);
+                        openTimes.add(openTime);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+                    }
+                }
+                setOpenHours(openTimes);
+//                setOpenHours(jsonObject.getString(Constants.SERVER_RES_KEY.RES_OPEN_HOURS));
             }catch (Exception e){
 
             }
@@ -178,11 +203,11 @@ public class Store {
         this.mgrWelcome = mgrWelcome;
     }
 
-    public String getOpenHours() {
+    public List<OpenTime> getOpenHours() {
         return openHours;
     }
 
-    public void setOpenHours(String openHours) {
+    public void setOpenHours(List<OpenTime> openHours) {
         this.openHours = openHours;
     }
 }

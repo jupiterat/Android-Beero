@@ -47,13 +47,13 @@ public class MainActivity extends BaseFragmentActivity {
             }
         }, new BrandRequest());
         CommonMethod.executeAsyTask(task);*/
-        SearchTask task = new SearchTask(mContext, new IDataEventHandler<ResponseSearch>() {
+        /*SearchTask task = new SearchTask(mContext, new IDataEventHandler<ResponseSearch>() {
             @Override
             public void onNotifyData(ResponseSearch data, AbstractHttpRequest request) {
 
             }
         }, new SearchRequest("1","case","any"));
-        CommonMethod.executeAsyTask(task);
+        CommonMethod.executeAsyTask(task);*/
         Fragment fragment = new HomeStackFragment();
         addFragmentToStack(fragment);
 
