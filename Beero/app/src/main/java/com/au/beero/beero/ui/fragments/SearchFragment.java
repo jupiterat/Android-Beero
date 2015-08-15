@@ -73,6 +73,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     private boolean isLoaded = false;
     private TextView mRefreshBtn;
     private TextView mAddBtn;
+    private TextView mFindingStatus;
 
 
     public static Fragment makeInstance(List<Brand> brands, String brandStr) {
@@ -116,6 +117,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mProductListview.addItemDividerDecoration(mActivity);
         mRefreshBtn = (TextView) view.findViewById(R.id.refresh);
         mAddBtn = (TextView) view.findViewById(R.id.add_beer);
+        mFindingStatus = (TextView) view.findViewById(R.id.finding_status);
 
         mPackageTxt.setOnClickListener(this);
         mContainerTxt.setOnClickListener(this);
@@ -226,7 +228,6 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         rotateAnimation.setRepeatCount(Animation.INFINITE);
         rotateAnimation.setDuration(1000);
         mSearchIcon.setAnimation(rotateAnimation);
-
     }
 
     private void setHeight(int size) {
@@ -267,9 +268,11 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
 
     private void stopAnimation() {
         mSearchIcon.animate().cancel();
+        mSearchIcon.clearAnimation();
     }
 
     private void search(String brands, String packageString, String container) {
+        mFindingStatus.setText(getString(R.string.finding));
         startAnimation();
         if (mBrandStr != null && !mBrandStr.isEmpty()) {
             ApiUtility.search(mActivity, new IDataEventHandler<ResponseSearch>() {
@@ -278,7 +281,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                     stopAnimation();
                     isLoaded = true;
                     if (data == null) {
-
+                        mFindingStatus.setText(getString(R.string.no_deal));
                     } else {
                         int size1 = searchResults.size();
                         int size2 = data.getSearchResults().size();
@@ -314,7 +317,9 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onItemClick(RecyclerView recyclerView, View view, int i) {
-        showToast("pos " + i);
+        StackFragment stack = ((StackFragment) ((MainActivity) mActivity).getCurrentStackFragment());
+        Fragment brandFrag = StoreDetailFragment.makeInstance();
+        stack.addFragmentToStack(brandFrag);
     }
 
     @Override

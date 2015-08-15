@@ -57,6 +57,7 @@
                 android:src="@drawable/logo_search_beer" />
 
             <TextView
+                android:id="@+id/finding_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/icon_search_bg"
