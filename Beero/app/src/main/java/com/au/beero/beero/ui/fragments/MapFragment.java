@@ -37,7 +37,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     private MapView mMapView;
     private GoogleMap mGoogleMap;
-    private final float ZOOM_LEVEL = 15f;
+
 
     private List<LosingDeal> mLosingDeal;
 
@@ -129,7 +129,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             }
         }
         LatLngBounds bounds = builder.build();
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, Utility.getScreenWidth(mActivity), Utility.getScreenHeight(mActivity), 50));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, Utility.getScreenWidth(mActivity), Utility.getScreenHeight(mActivity), 50));
 
     }
 
