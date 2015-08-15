@@ -104,11 +104,24 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <com.android.volley.toolbox.NetworkImageView
-                android:id="@+id/banner"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/com_150dp" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <com.android.volley.toolbox.NetworkImageView
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/com_150dp" />
+                <TextView
+                    android:id="@+id/welcome_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/com_20dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
 
             <com.au.beero.beero.ui.widget.CircleImageView
                 android:id="@+id/manager"
@@ -116,6 +129,8 @@
                 android:layout_height="@dimen/com_100dp"
                 android:layout_gravity="center_horizontal|bottom"
                 android:src="@drawable/manager_0" />
+
+
         </FrameLayout>
 
         <View

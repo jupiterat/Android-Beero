@@ -10,14 +10,15 @@ import android.util.Log;
 import com.au.beero.beero.R;
 import com.framework.plistparser.xml.plist.PListXMLHandler;
 import com.framework.plistparser.xml.plist.PListXMLParser;
-import com.framework.plistparser.xml.plist.domain.*;
+import com.framework.plistparser.xml.plist.domain.Array;
+import com.framework.plistparser.xml.plist.domain.Dict;
+import com.framework.plistparser.xml.plist.domain.PList;
+import com.framework.plistparser.xml.plist.domain.PListObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by shintabmt@gmai.com on 8/12/2015.
@@ -176,21 +177,19 @@ public class BeeroLocationManager {
     }*/
 
     public double getLatitude() {
-        return LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE;
-      /*  if (getCurrentLocation() == null) {
+      if (getCurrentLocation() == null) {
             return LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE;
         } else {
             return getCurrentLocation().getLatitude();
-        }*/
+        }
     }
 
     public double getLongitude() {
-        return LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE;
-        /*if (getCurrentLocation() == null) {
+        if (getCurrentLocation() == null) {
             return LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE;
         } else {
             return getCurrentLocation().getLongitude();
-        }*/
+        }
     }
 
 

@@ -43,6 +43,7 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
     private TextView mStoreAdd;
     private TextView mStoreMember;
     private TextView mStorePhone;
+    private TextView mWelcome;
     private NetworkImageView mStoreBanner;
     private NetworkImageView mStoreCata;
     private LinearLayout mOpeningHours;
@@ -71,6 +72,7 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
         mStoreBanner = (NetworkImageView) view.findViewById(R.id.banner);
         mStoreCata = (NetworkImageView) view.findViewById(R.id.catalog);
         mOpeningHours = (LinearLayout) view.findViewById(R.id.opening_hours);
+        mWelcome = (TextView) view.findViewById(R.id. welcome_msg);
         mMapView.onCreate(savedInstanceState);
         try {
             MapsInitializer.initialize(mActivity);
@@ -153,6 +155,7 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
         } else {
 
         }
+        mWelcome.setText(mStore.getMgrWelcome());
         addOpeningHours();
     }
 
