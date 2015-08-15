@@ -123,6 +123,15 @@ public class WiningDeal {
         return drivingDistance;
     }
 
+    public String getBeautifiedDriveDistance() {
+        int seconds = Integer.parseInt(getDrivingDistance());
+        int minute = seconds / 60;
+        int nSecond = seconds % 60;
+        if (nSecond > 0)
+            minute++;
+        return String.valueOf(minute);
+    }
+
     public void setDrivingDistance(String drivingDistance) {
         this.drivingDistance = drivingDistance;
     }

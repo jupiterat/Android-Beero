@@ -24,6 +24,7 @@
     <string name="select_brand_warning">Please select at least one brand!</string>
     <string name="price_format">$ %s</string>
     <string name="distance_format">, %s mins away</string>
+    <string name="distance_drive_format">%s mins drive</string>
     <string name="container_format" formatted = "false">%s x %sml %s</string>
     <string name="no_deal">No deal found!</string>
     <string name="cancel_txt">Cancel</string>
@@ -33,5 +34,6 @@
     <string name="catalog">Catalog</string>
     <string name="exclusive_price">BEERO EXCLUSIVE PRICE!</string>
     <string name="exclusive_msg">Show Beero at the register to get this deal</string>
-    <string name="price_super">X <sup>2</sup></string>
+    <string name="price_super">%s <sup>%s</sup></string>
+    <string name="best_deals">Best of %s nearby deals</string>
 </resources>
