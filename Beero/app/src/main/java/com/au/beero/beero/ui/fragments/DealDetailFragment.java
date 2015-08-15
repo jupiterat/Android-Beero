@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -37,6 +38,7 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
     private NetworkImageView mProductImg;
     private static SearchResult mSearchResult;
     private FrameLayout mExclusiveContainer;
+    private RelativeLayout mStoreContainer;
 
     public static Fragment makeInstance(SearchResult searchResult) {
         mSearchResult = searchResult;
@@ -51,7 +53,7 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.store_detail_layout, null);
+        View view = inflater.inflate(R.layout.deal_detail_layout, null);
         mVerifiedStock = (TextView) view.findViewById(R.id.verified_txt);
         mStoreName = (TextView) view.findViewById(R.id.store_name);
         mStoreAdd = (TextView) view.findViewById(R.id.store_address);
@@ -63,6 +65,9 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
         mDealPackage = (TextView) view.findViewById(R.id.product_container);
         mLoosingTxt = (TextView) view.findViewById(R.id.show_loosing);
         mExclusiveContainer = (FrameLayout) view.findViewById(R.id.exclusive_container);
+        mStoreContainer = (RelativeLayout) view.findViewById(R.id.store_container);
+        mLoosingTxt.setOnClickListener(this);
+        mStoreContainer.setOnClickListener(this);
         loadData();
         return view;
     }
@@ -100,7 +105,7 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
         }
         int losingSize = mSearchResult.getLosingDeals() != null ? mSearchResult.getLosingDeals().size() : 0;
         mLoosingTxt.setText(String.format(getString(R.string.best_deals),losingSize));
-        mLoosingTxt.setOnClickListener(this);
+
     }
 
     @Override
@@ -109,9 +114,16 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
         switch (id) {
             case R.id.show_loosing:
                 if(mSearchResult.getLosingDeals() != null) {
-                    MapFragment searchFrag = MapFragment.makeInstance(mSearchResult.getBrandName(), mSearchResult.getLosingDeals());
+                    MapFragment mapFragment = MapFragment.makeInstance(mSearchResult.getBrandName(), mSearchResult.getLosingDeals());
                     ((StackFragment) ((MainActivity) getActivity()).getCurrentStackFragment())
-                            .addFragmentToStack(searchFrag);
+                            .addFragmentToStack(mapFragment);
+                }
+                break;
+            case R.id.store_container:
+                if(mSearchResult.getWiningDeal().getStore() != null) {
+                    StoreDetailFragment storeDetailFragment = StoreDetailFragment.makeInstance(mSearchResult.getBrandName(), mSearchResult.getWiningDeal().getStore());
+                    ((StackFragment) ((MainActivity) getActivity()).getCurrentStackFragment())
+                            .addFragmentToStack(storeDetailFragment);
                 }
                 break;
         }

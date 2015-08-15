@@ -37,4 +37,7 @@
     <string name="best_deals">Best of %s nearby deals</string>
     <string name="allow_location_services_waring">Allow "Beero" to access your location while you use the app?</string>
     <string name="allow">Allow</string>
+    <string name="beero_member">Beero member\nsince August 2015</string>
+    <string name="opening_hours">Store Opening Hours</string>
+    <string name="check_catalog">For more great details, check out our catalog!</string>
 </resources>

@@ -6,14 +6,13 @@ import org.json.JSONObject;
 
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
 /**
  * Created by thuc.phan on 8/15/2015.
  */
-public class OpenTime implements Comparator<OpenTime> {
+public class OpenTime implements Comparable<OpenTime> {
     private String day;
     private String openTime;
     private String closeTime;
@@ -94,13 +93,14 @@ public class OpenTime implements Comparator<OpenTime> {
         return 0;
     }
 
+
     @Override
-    public int compare(OpenTime openTime1, OpenTime openTime2) {
+    public int compareTo(OpenTime openTime) {
         String[] weekDay = DateFormatSymbols.getInstance().getWeekdays();
-        String day1 = openTime1.getDay();
+        String day1 = getDay();
         int index1 = 0;
         int index2 = 0;
-        String day2 = openTime2.getDay();
+        String day2 = openTime.getDay();
         for (int i = 0; i < weekDay.length; i++) {
             String day = weekDay[i];
             if (day.equalsIgnoreCase(day1)) {
@@ -117,6 +117,5 @@ public class OpenTime implements Comparator<OpenTime> {
         } else {
             return -1;
         }
-
     }
 }
