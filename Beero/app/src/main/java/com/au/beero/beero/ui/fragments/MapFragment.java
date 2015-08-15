@@ -2,19 +2,19 @@ package com.au.beero.beero.ui.fragments;
 
 import android.app.Activity;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 
 import com.au.beero.beero.R;
 import com.au.beero.beero.manager.BeeroLocationManager;
 import com.au.beero.beero.model.LosingDeal;
+import com.au.beero.beero.ui.activity.MainActivity;
 import com.au.beero.beero.ui.adapter.MyInfoWindowAdapter;
 import com.au.beero.beero.ui.base.BaseFragment;
+import com.au.beero.beero.ui.stack.StackFragment;
 import com.au.beero.beero.utility.Utility;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -38,15 +38,17 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     private MapView mMapView;
     private GoogleMap mGoogleMap;
     private final float ZOOM_LEVEL = 15f;
-
     private List<LosingDeal> mLosingDeal;
+    private String mBrandName = "";
 
     private static final String ARG_LOS = "losing_deal";
+    private static final String ARG_NAME = "brand_name";
 
-    public static MapFragment makeInstance(ArrayList<LosingDeal> losingDeals) {
+    public static MapFragment makeInstance(String title, List<LosingDeal> losingDeals) {
         MapFragment fragment = new MapFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(ARG_LOS, losingDeals);
+        bundle.putParcelableArrayList(ARG_LOS, (ArrayList) losingDeals);
+        bundle.putString(ARG_NAME, title);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -62,6 +64,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         Bundle bundle = getArguments();
         if (bundle != null) {
             mLosingDeal = bundle.getParcelableArrayList(ARG_LOS);
+            mBrandName = bundle.getString(ARG_NAME);
         }
     }
 
@@ -83,7 +86,9 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().getActionBar().hide();
+        getActivity().getActionBar().show();
+        ((MainActivity) getActivity()).displayBackIcon(true, (StackFragment) getParentFragment(),
+                mBrandName, "", false);
         mMapView.onResume();
     }
 
