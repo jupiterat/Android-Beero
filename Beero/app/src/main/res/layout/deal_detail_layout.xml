@@ -74,6 +74,21 @@
                 android:text="Opening"
                 android:textColor="@color/green_bg"
                 android:textSize="16sp" />
+            <TextView
+                android:id="@+id/store_closed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/store_distance"
+                android:layout_marginLeft="@dimen/com_20dp"
+                android:layout_marginTop="@dimen/com_5dp"
+                android:drawablePadding="@dimen/com_10dp"
+                android:gravity="center"
+                android:text="Closed"
+                android:textColor="@color/main_aap_color"
+                android:textSize="16sp"
+                android:visibility="gone" />
 
             <ImageView
                 android:layout_width="wrap_content"
