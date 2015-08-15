@@ -1,77 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/com_100dp"
-    android:clickable="true"
-    android:background="@drawable/item_click_selector"
-    android:padding="@dimen/com_10dp">
 
-    <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/product_img"
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/com_10dp"
-        android:src="@drawable/beer_folder_smooth" />
+<!--
+  ~ Copyright (C) 2013 47 Degrees, LLC
+  ~  http://47deg.com
+  ~  hello@47deg.com
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
 
-    <TextView
-        android:id="@+id/product_name"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:id="@+id/back"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:tag="back">
+
+        <TextView
+            android:id="@+id/delete_product"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:padding="@dimen/com_10dp"
+            android:textStyle="bold"
+            android:background="@color/main_yellow"
+            android:textColor="@android:color/white"
+            android:text="@string/remove" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/frontItemLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/product_container"
-        android:layout_toLeftOf="@+id/exclusive_icon"
-        android:layout_toRightOf="@+id/product_img"
-        android:textColor="@color/main_aap_color"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_height="@dimen/com_100dp"
+        android:clickable="true"
+        android:background="@drawable/item_click_selector"
+        android:padding="@dimen/com_10dp">
 
-    <TextView
-        android:id="@+id/product_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/exclusive_icon"
-        android:layout_toRightOf="@+id/product_img"
-        android:text="@string/no_deal"
-        android:textColor="@color/grey_darker"
-        android:textSize="16sp" />
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/product_img"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/com_10dp"
+            android:src="@drawable/beer_folder_smooth" />
 
-    <TextView
-        android:id="@+id/product_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/product_container"
-        android:layout_toRightOf="@+id/product_img"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/product_container"
+            android:layout_toLeftOf="@+id/exclusive_icon"
+            android:layout_toRightOf="@+id/product_img"
+            android:textColor="@color/main_aap_color"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/product_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/product_container"
-        android:layout_toRightOf="@+id/product_price"
+        <TextView
+            android:id="@+id/product_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/exclusive_icon"
+            android:layout_toRightOf="@+id/product_img"
+            android:text="@string/no_deal"
+            android:textColor="@color/grey_darker"
+            android:textSize="16sp" />
 
-        android:textColor="@color/main_aap_color"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/product_container"
+            android:layout_toRightOf="@+id/product_img"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/exclusive_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/com_10dp"
-        android:layout_toLeftOf="@+id/arrow_right"
-        android:src="@drawable/badge_exclusive_small"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/product_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/product_container"
+            android:layout_toRightOf="@+id/product_price"
 
-    <ImageView
-        android:id="@+id/arrow_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/arrow_right_dark" />
+            android:textColor="@color/main_aap_color"
+            android:textSize="20sp" />
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/exclusive_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/com_10dp"
+            android:layout_toLeftOf="@+id/arrow_right"
+            android:src="@drawable/badge_exclusive_small"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/arrow_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/arrow_right_dark" />
+
+    </RelativeLayout>
+
+</FrameLayout>

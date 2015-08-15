@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by jupiter.at@gmail.com on 8/12/15.
  */
-public class ProductAdapter extends UltimateViewAdapter {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHolder> {
 
     private List<SearchResult> mProducts;
     private Context mContext;
@@ -32,8 +32,14 @@ public class ProductAdapter extends UltimateViewAdapter {
         mContext = ctx;
     }
 
+    public List<SearchResult> getProducts() {
+        return mProducts;
+    }
+
+
+
     @Override
-    public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
+    public ProductHolder onCreateViewHolder(ViewGroup parent, int i) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.product_item_layout, parent, false);
         ProductHolder vh = new ProductHolder(v);
@@ -41,20 +47,20 @@ public class ProductAdapter extends UltimateViewAdapter {
     }
 
     @Override
-    public int getAdapterItemCount() {
+    public int getItemCount() {
         if (mProducts == null) {
             return 0;
         }
         return mProducts.size();
     }
 
-    @Override
-    public long generateHeaderId(int i) {
-        return 0;
-    }
+//    @Override
+//    public long generateHeaderId(int i) {
+//        return 0;
+//    }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(ProductHolder viewHolder, int i) {
         if (viewHolder instanceof ProductHolder) {
             ProductHolder holder = ((ProductHolder) viewHolder);
             WiningDeal deals = mProducts.get(i).getWiningDeal();
@@ -84,15 +90,15 @@ public class ProductAdapter extends UltimateViewAdapter {
         }
     }
 
-    @Override
-    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
-        return null;
-    }
+//    @Override
+//    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+//        return null;
+//    }
 
-    @Override
-    public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-
-    }
+//    @Override
+//    public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+//
+//    }
 
 
 

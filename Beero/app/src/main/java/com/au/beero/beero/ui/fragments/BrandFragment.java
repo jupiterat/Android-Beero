@@ -16,6 +16,7 @@ import com.au.beero.beero.ui.activity.MainActivity;
 import com.au.beero.beero.ui.adapter.BrandAdapter;
 import com.au.beero.beero.ui.base.BaseFragment;
 import com.au.beero.beero.ui.stack.StackFragment;
+import com.au.beero.beero.utility.Utility;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
 import java.util.List;
@@ -28,11 +29,9 @@ public class BrandFragment extends BaseFragment {
     private UltimateRecyclerView mBrandListview;
     private BrandAdapter mBrandAdapter;
     private static List<Brand> mBrandList;
-    public static final String PREFS_NAME = "BeeroPrefs";
-    public static final String PREFS_SIZE = "size";
-    public static final String PREFS_VALUE = "value";
+
     private String[] mSelectedIds = null;
-    private static final String BRAND_SEPERTOR = "|";
+
     private String ids = "";
 
     public static Fragment makeInstance(List<Brand> brandList) {
@@ -43,7 +42,7 @@ public class BrandFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSelectedIds = getPrefIds();
+
     }
 
     @Nullable
@@ -60,6 +59,10 @@ public class BrandFragment extends BaseFragment {
         mBrandListview = (UltimateRecyclerView)view.findViewById(R.id.brand_list);
         mBrandListview.setLayoutManager(new LinearLayoutManager(mActivity));
         mBrandListview.addItemDividerDecoration(mActivity);
+        if(Utility.getPrefIds(mActivity).length() > 0) {
+            mSelectedIds = Utility.getPrefIds(mActivity).split(Utility.BRAND_SEPERTOR);
+        }
+
         return view;
     }
 
@@ -85,43 +88,21 @@ public class BrandFragment extends BaseFragment {
     }
 
     private void handleDoneClick() {
-        if(mBrandAdapter != null && mBrandAdapter.getSelectedBrandsStr() != null) {
-            String ids = "";
-            int size = mBrandAdapter.getSelectedBrandsStr().size();
-            for(int i = 0; i <  size; i++) {
-                if(i < size - 1) {
-                    ids += mBrandAdapter.getSelectedBrandsStr().get(i).toString() + BRAND_SEPERTOR;
-                } else {
-                    ids += mBrandAdapter.getSelectedBrandsStr().get(i).toString();
-                }
-            }
-            saveSelectedIds(ids);
+        if(mBrandAdapter != null && mBrandAdapter.getSelectedBrandsStr() != null && mBrandAdapter.getSelectedBrandsStr().size() > 0) {
+            String ids = Utility.createIds(mBrandAdapter.getSelectedBrandsStr());
+            Utility.saveSelectedIds(mActivity,ids);
             gotoSearch();
         } else {
             showDialog(getString(R.string.select_brand_warning));
         }
     }
 
-    private void saveSelectedIds(String value) {
-        SharedPreferences settings = mActivity.getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(PREFS_VALUE, value);
-        editor.commit();
-    }
-
-    private String[] getPrefIds() {
-        SharedPreferences settings = mActivity.getSharedPreferences(PREFS_NAME, 0);
-        ids = settings.getString(PREFS_VALUE,"");
-        if(ids != null && !ids.isEmpty()) {
-            return ids.split(BRAND_SEPERTOR);
-        }
-        return null;
-    }
-
     private void gotoSearch() {
-        getPrefIds();
+        String ids = Utility.getPrefIds(mActivity);
         Fragment searchFrag = SearchFragment.makeInstance(mBrandAdapter.getSelectedBrands(),ids);
         ((StackFragment) ((MainActivity) getActivity()).getCurrentStackFragment())
                 .addFragmentToStack(searchFrag);
     }
+
+
 }

@@ -32,6 +32,7 @@
     <string name="verify_stock">VERIFIED IN STOCK</string>
     <string name="call">Call Store</string>
     <string name="catalog">Catalog</string>
+    <string name="remove">REMOVE</string>
     <string name="exclusive_price">BEERO EXCLUSIVE PRICE!</string>
     <string name="exclusive_msg">Show Beero at the register to get this deal</string>
     <string name="best_deals">Best of %s nearby deals</string>

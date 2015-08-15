@@ -1,6 +1,7 @@
 package com.au.beero.beero.ui.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,7 +35,8 @@ import com.au.beero.beero.utility.Utility;
 import com.framework.network.request.AbstractHttpRequest;
 import com.framework.network.task.IDataEventHandler;
 import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.marshalchen.ultimaterecyclerview.SwipeableUltimateRecyclerview;
+import com.marshalchen.ultimaterecyclerview.swipelistview.BaseSwipeListViewListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +56,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     private QuickAction mContainerAction;
     private ImageView mSearchIcon;
     private RotateAnimation rotateAnimation;
-    private UltimateRecyclerView mProductListview;
+    private SwipeableUltimateRecyclerview mProductListview;
     private List<SearchResult> searchResults;
     private ProductAdapter mBrandAdapter;
     private Animation bounceAnimation;
@@ -110,11 +112,87 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mPackageTxt = (TextView) view.findViewById(R.id.package_condition);
         mContainerTxt = (TextView) view.findViewById(R.id.container_condition);
         mSearchIcon = (ImageView) view.findViewById(R.id.icon_search);
-        mProductListview = (UltimateRecyclerView) view.findViewById(R.id.product_list);
+        mProductListview = (SwipeableUltimateRecyclerview) view.findViewById(R.id.product_list);
         mProductListContainer = (RelativeLayout) view.findViewById(R.id.product_list_container);
         mProductListview.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         mProductListview.addOnItemTouchListener(new ItemTouchListenerAdapter(mProductListview.mRecyclerView, this));
         mProductListview.addItemDividerDecoration(mActivity);
+        mProductListview.offsetLeftAndRight(250);
+        mProductListview.setSwipeListViewListener(new BaseSwipeListViewListener() {
+            @Override
+            public void onOpened(int position, boolean toRight) {
+            }
+
+            @Override
+            public void onClosed(int position, boolean fromRight) {
+            }
+
+            @Override
+            public void onListChanged() {
+            }
+
+            @Override
+            public void onMove(int position, float x) {
+            }
+
+            @Override
+            public void onStartOpen(int position, int action, boolean right) {
+            }
+
+            @Override
+            public void onStartClose(int position, boolean right) {
+            }
+
+            @Override
+            public void onClickFrontView(int i) {
+                if (searchResults.get(i).getWiningDeal() != null) {
+                    StackFragment stack = ((StackFragment) ((MainActivity) mActivity).getCurrentStackFragment());
+                    Fragment brandFrag = DealDetailFragment.makeInstance(searchResults.get(i));
+                    stack.addFragmentToStack(brandFrag);
+                }
+            }
+
+            @Override
+            public void onClickBackView(int position) {
+                for (Brand brand : mBrandsList) {
+                    if (brand.getId().equals(mBrandAdapter.getProducts().get(position).getId())) {
+                        brand.setIsSelected(false);
+                        break;
+                    }
+                }
+
+                mBrandAdapter.getProducts().remove(position);
+                mBrandAdapter.notifyDataSetChanged();
+                setHeight(mBrandAdapter.getProducts().size());
+                ArrayList<String> strings = new ArrayList<String>();
+                for (SearchResult item : mBrandAdapter.getProducts()) {
+                    strings.add(item.getId());
+                }
+                String ids = Utility.createIds(strings);
+                Utility.saveSelectedIds(mActivity, ids);
+                if (mBrandAdapter.getProducts() != null && mBrandAdapter.getProducts().size() > 0) {
+                    if (mProductListContainer.getVisibility() != View.VISIBLE) {
+                        mProductListContainer.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mProductListContainer.getVisibility() == View.VISIBLE) {
+                                mProductListContainer.setVisibility(View.GONE);
+                            }
+                        }
+                    },1000);
+
+                }
+            }
+
+            @Override
+            public void onDismiss(int[] reverseSortedPositions) {
+
+            }
+        });
+
         mRefreshBtn = (TextView) view.findViewById(R.id.refresh);
         mAddBtn = (TextView) view.findViewById(R.id.add_beer);
         mFindingStatus = (TextView) view.findViewById(R.id.finding_status);
@@ -189,7 +267,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                         mPackage = KEY_CASES;
                         break;
                 }
-                search(mBrandStr,mPackage,mContainer);
+                search(mBrandStr, mPackage, mContainer);
             }
         });
         //
@@ -231,18 +309,20 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void setHeight(int size) {
-        int screenHeight = Utility.getScreenHeight(mActivity);
-        int header = getResources().getDimensionPixelSize(R.dimen.com_50dp);
-        int listHeight = size * getResources().getDimensionPixelSize(R.dimen.com_100dp);
-        int functionHeight = getResources().getDimensionPixelSize(R.dimen.com_60dp);
-
         int height = 0;
-        if ((listHeight + functionHeight + (header * 2)) < screenHeight) {
-            height = listHeight + functionHeight;
-        } else {
-            height = ViewGroup.LayoutParams.MATCH_PARENT;
-        }
+        if(size > 0) {
+            int screenHeight = Utility.getScreenHeight(mActivity);
+            int header = getResources().getDimensionPixelSize(R.dimen.com_50dp);
+            int listHeight = size * getResources().getDimensionPixelSize(R.dimen.com_100dp);
+            int functionHeight = getResources().getDimensionPixelSize(R.dimen.com_60dp);
 
+
+            if ((listHeight + functionHeight + (header * 2)) < screenHeight) {
+                height = listHeight + functionHeight;
+            } else {
+                height = ViewGroup.LayoutParams.MATCH_PARENT;
+            }
+        }
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
         mProductListContainer.setLayoutParams(params);
     }
@@ -303,7 +383,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void loadResult() {
-        if(mBrandAdapter == null) {
+        if (mBrandAdapter == null) {
             mBrandAdapter = new ProductAdapter(mActivity, searchResults);
         }
         mProductListview.setAdapter(mBrandAdapter);
@@ -321,11 +401,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onItemClick(RecyclerView recyclerView, View view, int i) {
-        if(searchResults.get(i).getWiningDeal() != null) {
-            StackFragment stack = ((StackFragment) ((MainActivity) mActivity).getCurrentStackFragment());
-            Fragment brandFrag = DealDetailFragment.makeInstance(searchResults.get(i));
-            stack.addFragmentToStack(brandFrag);
-        }
+
 
     }
 

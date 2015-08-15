@@ -3,6 +3,7 @@ package com.au.beero.beero.utility;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -23,6 +24,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.text.NumberFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -286,6 +288,35 @@ public class Utility {
         return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL; // 4
         // is
         // xlarge
+    }
+    public static final String PREFS_NAME = "BeeroPrefs";
+    public static final String PREFS_SIZE = "size";
+    public static final String PREFS_VALUE = "value";
+    public static final String BRAND_SEPERTOR = "|";
+
+    public static String createIds(List<String> arr) {
+        String ids = "";
+        int size = arr.size();
+        for(int i = 0; i <  size; i++) {
+            if(i < size - 1) {
+                ids += arr.get(i).toString() + BRAND_SEPERTOR;
+            } else {
+                ids += arr.get(i).toString();
+            }
+        }
+        return ids;
+    }
+
+    public static void saveSelectedIds(Context ctx, String value) {
+        SharedPreferences settings = ctx.getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(PREFS_VALUE, value);
+        editor.commit();
+    }
+
+    public static String getPrefIds(Context ctx) {
+        SharedPreferences settings = ctx.getSharedPreferences(PREFS_NAME, 0);
+        return settings.getString(PREFS_VALUE,"");
     }
 
 }
