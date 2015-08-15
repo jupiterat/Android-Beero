@@ -35,8 +35,8 @@ public class BeeroLocationManager {
     private final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
 
 
-    public static final double LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE = -33.731628;
-    public static final double LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE = 151.216935;
+    private static final double LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE = -33.731628;
+    private static final double LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE = 151.216935;
 
     public static void initialize(Context context) {
         if (sInstance == null) {
@@ -154,7 +154,7 @@ public class BeeroLocationManager {
         return false;
     }
 
-    public boolean isSupportArea(Location location) {
+    /*public boolean isSupportArea(Location location) {
         if (location == null) {
             return false;
         }
@@ -173,7 +173,7 @@ public class BeeroLocationManager {
             }
         }
         return false;
-    }
+    }*/
 
     public double getLatitude() {
         return LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE;
