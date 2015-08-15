@@ -35,8 +35,8 @@ public class BeeroLocationManager {
     private final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
 
 
-    double LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE = -33.731628;
-    double LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE = 151.216935;
+    public static final double LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE = -33.731628;
+    public static final double LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE = 151.216935;
 
     public static void initialize(Context context) {
         if (sInstance == null) {
@@ -51,7 +51,7 @@ public class BeeroLocationManager {
     }
 
     public Location getCurrentLocation() {
-        if (mLocation == null){
+        if (mLocation == null) {
             mLocation = getLocation();
         }
         return mLocation;

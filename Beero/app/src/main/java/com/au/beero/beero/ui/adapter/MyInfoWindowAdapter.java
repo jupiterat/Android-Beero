@@ -21,13 +21,23 @@ public class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     @Override
     public View getInfoWindow(Marker marker) {
-        return null;
+        TextView name = (TextView) myContentsView.findViewById(R.id.info_brand_name);
+        TextView price = (TextView) myContentsView.findViewById(R.id.info_brand_price);
+        if (marker.getTitle() != null){
+            name.setText(marker.getTitle());
+        } else {
+            return null;
+        }
+        if (marker.getSnippet() != null){
+            price.setText(marker.getSnippet());
+        } else {
+            return null;
+        }
+        return myContentsView;
     }
 
     @Override
     public View getInfoContents(Marker marker) {
-        TextView view = (TextView) myContentsView.findViewById(R.id.name);
-        view.setText("YOLO");
-        return myContentsView;
+        return null;
     }
 }

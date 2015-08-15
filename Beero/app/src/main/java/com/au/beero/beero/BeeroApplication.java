@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.au.beero.beero.manager.BeeroLocationManager;
 import com.au.beero.beero.manager.BeeroSearchManager;
-import com.au.beero.beero.utility.PlistParsing;
 
 import java.util.HashMap;
 import java.util.Map;

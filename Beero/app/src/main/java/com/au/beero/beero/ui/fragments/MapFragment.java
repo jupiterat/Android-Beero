@@ -1,15 +1,21 @@
 package com.au.beero.beero.ui.fragments;
 
 import android.app.Activity;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.au.beero.beero.R;
+import com.au.beero.beero.manager.BeeroLocationManager;
+import com.au.beero.beero.model.LosingDeal;
 import com.au.beero.beero.ui.adapter.MyInfoWindowAdapter;
 import com.au.beero.beero.ui.base.BaseFragment;
+import com.au.beero.beero.utility.Utility;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -17,20 +23,32 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by thuc.phan on 8/14/2015.
  */
-public class MapFragment extends BaseFragment implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
+public class MapFragment extends BaseFragment implements OnMapReadyCallback, GoogleMap.OnMapLoadedCallback {
 
     private MapView mMapView;
     private GoogleMap mGoogleMap;
-    private final float ZOOM_LEVEL = 11.5f;
+    private final float ZOOM_LEVEL = 15f;
 
-    public static MapFragment makeInstance() {
-        return new MapFragment();
+    private List<LosingDeal> mLosingDeal;
+
+    private static final String ARG_LOS = "losing_deal";
+
+    public static MapFragment makeInstance(ArrayList<LosingDeal> losingDeals) {
+        MapFragment fragment = new MapFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(ARG_LOS, losingDeals);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
@@ -41,6 +59,10 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            mLosingDeal = bundle.getParcelableArrayList(ARG_LOS);
+        }
     }
 
     @Nullable
@@ -54,16 +76,14 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mGoogleMap = mMapView.getMap();
         mMapView.getMapAsync(this);
-        mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
-        mGoogleMap.setMyLocationEnabled(true);
         return v;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().getActionBar().hide();
         mMapView.onResume();
     }
 
@@ -87,28 +107,34 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-        mGoogleMap.setOnMapLongClickListener(this);
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(0, 0))
-                .title("Marker"));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(0, 0), ZOOM_LEVEL));
+        mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
+        mGoogleMap.setMyLocationEnabled(true);
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        Location myLocation = BeeroLocationManager.makeInstance().getCurrentLocation();
+        if (myLocation != null) {
+            LatLng myLatLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+            googleMap.addMarker(new MarkerOptions()
+                    .position(myLatLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_my_location)));
+            builder.include(myLatLng);
+        }
         googleMap.setInfoWindowAdapter(new MyInfoWindowAdapter(mActivity));
+        if (mLosingDeal != null) {
+            for (int i = 0; i < mLosingDeal.size(); i++) {
+                LosingDeal deal = mLosingDeal.get(i);
+                LatLng latLng = new LatLng(Double.valueOf(deal.getLat()), Double.valueOf(deal.getLng()));
+                builder.include(latLng);
+                Marker marker = googleMap.addMarker(new MarkerOptions()
+                        .position(latLng).title(deal.getStoreName())
+                        .snippet(deal.getPricePerLitre()).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_marker)));
+            }
+        }
+        LatLngBounds bounds = builder.build();
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, Utility.getScreenWidth(mActivity), Utility.getScreenHeight(mActivity), 50));
+
     }
-/*
-    @Override
-    public void onMapClick(LatLng latLng) {
-
-        Marker newMarker = mGoogleMap.addMarker(new MarkerOptions()
-                .position(latLng)
-                .snippet(latLng.toString()));
-        newMarker.setTitle(newMarker.getId());
-    }*/
 
     @Override
-    public void onMapLongClick(LatLng latLng) {
-        Marker newMarker = mGoogleMap.addMarker(new MarkerOptions()
-                .position(latLng)
-                .snippet(latLng.toString()).icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
-        newMarker.setTitle(newMarker.getId());
+    public void onMapLoaded() {
+
     }
 }
