@@ -43,6 +43,8 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
     private TextView mStoreAdd;
     private TextView mStoreMember;
     private TextView mStorePhone;
+    private TextView mStoreOpening;
+    private TextView mStoreClose;
     private TextView mWelcome;
     private NetworkImageView mStoreBanner;
     private NetworkImageView mStoreCata;
@@ -69,6 +71,8 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
         mStoreAdd = (TextView) view.findViewById(R.id.store_address);
         mStoreMember = (TextView) view.findViewById(R.id.store_member_since);
         mStorePhone = (TextView) view.findViewById(R.id.store_phone);
+        mStoreOpening = (TextView) view.findViewById(R.id.store_opening);
+        mStoreClose = (TextView) view.findViewById(R.id.store_closed);
         mStoreBanner = (NetworkImageView) view.findViewById(R.id.banner);
         mStoreCata = (NetworkImageView) view.findViewById(R.id.catalog);
         mOpeningHours = (LinearLayout) view.findViewById(R.id.opening_hours);
@@ -157,6 +161,11 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
         }
         mWelcome.setText(mStore.getMgrWelcome());
         addOpeningHours();
+        mStoreOpening.setText(mStore.getStoreState());
+        if (mStore.getStoreState().equalsIgnoreCase("Closed")) {
+            mStoreClose.setVisibility(View.VISIBLE);
+            mStoreOpening.setVisibility(View.GONE);
+        }
     }
 
     private void addOpeningHours() {

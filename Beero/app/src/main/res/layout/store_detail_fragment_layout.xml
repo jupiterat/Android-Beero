@@ -24,7 +24,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/com_5dp"
-                android:layout_marginLeft="@dimen/com_20dp"
                 android:layout_marginTop="@dimen/com_10dp"
                 android:text="Lachlan Hotel"
                 android:textColor="@android:color/black"
@@ -38,7 +37,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/store_name"
-                android:layout_marginLeft="@dimen/com_20dp"
                 android:text="@string/beero_member"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="16sp" />
@@ -50,8 +48,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/store_member_since"
-                android:layout_marginLeft="@dimen/com_20dp"
-                android:text="12412412"
                 android:textColor="@color/main_aap_color"
                 android:textSize="16sp" />
 
@@ -62,13 +58,25 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/store_name"
                 android:layout_marginLeft="@dimen/com_20dp"
-                android:layout_marginTop="@dimen/com_5dp"
                 android:drawableLeft="@drawable/mark_open_large"
-                android:drawablePadding="@dimen/com_10dp"
+                android:drawablePadding="@dimen/com_5dp"
                 android:gravity="center"
                 android:text="Opening"
                 android:textColor="@color/green_bg"
                 android:textSize="16sp" />
+            <TextView
+                android:id="@+id/store_closed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/store_name"
+                android:layout_marginLeft="@dimen/com_20dp"
+                android:layout_marginTop="@dimen/com_5dp"
+                android:gravity="center"
+                android:text="Closed"
+                android:textColor="@color/main_aap_color"
+                android:textSize="16sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/time_to_close"
@@ -79,6 +87,7 @@
                 android:layout_marginLeft="@dimen/com_20dp"
                 android:text="Closes in 12 mins"
                 android:textColor="@color/main_aap_color"
+                android:visibility="gone"
                 android:textSize="16sp" />
 
         </RelativeLayout>
@@ -88,7 +97,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/com_180dp"
             android:layout_marginLeft="@dimen/com_20dp"
-            android:layout_marginRight="@dimen/com_20dp">
+            android:layout_marginRight="@dimen/com_20dp"
+            android:visibility="gone">
 
         </com.google.android.gms.maps.MapView>
 
