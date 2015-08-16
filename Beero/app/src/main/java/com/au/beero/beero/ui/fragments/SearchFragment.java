@@ -92,6 +92,9 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mBrandStr = getArguments().getString(KEY_BRANDS, "");
+            if(!mBrandStr.isEmpty()) {
+                mBrandStr = mBrandStr.replace(Utility.BRAND_SEPERTOR,Utility.SEARCH_SEPERTOR);
+            }
         }
         if (mBrandsList != null) {
             searchResults = new ArrayList<>(mBrandsList.size());
@@ -164,12 +167,17 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                 mBrandAdapter.getProducts().remove(position);
                 mBrandAdapter.notifyDataSetChanged();
                 setHeight(mBrandAdapter.getProducts().size());
-                ArrayList<String> strings = new ArrayList<String>();
+                List<Brand> brands = new ArrayList<Brand>();
                 for (SearchResult item : mBrandAdapter.getProducts()) {
-                    strings.add(item.getId());
+                    Brand brand = new Brand();
+                    brand.setId(item.getId());
+                    brand.setName(item.getBrandName());
+                    brands.add(brand);
                 }
-                String ids = Utility.createIds(strings);
-                Utility.saveSelectedIds(mActivity, ids);
+                String[] ids = Utility.createIds(brands);
+                if(ids != null) {
+                    Utility.saveSelectedIds(mActivity, ids[0], ids[1]);
+                }
                 if (mBrandAdapter.getProducts() != null && mBrandAdapter.getProducts().size() > 0) {
                     if (mProductListContainer.getVisibility() != View.VISIBLE) {
                         mProductListContainer.setVisibility(View.VISIBLE);

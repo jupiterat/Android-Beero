@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.au.beero.beero.R;
+import com.au.beero.beero.model.Brand;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -207,6 +208,7 @@ public class Utility {
         // you can use simple text like this
         context.startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
+
     public static void showInputKeyboard(Context ctx, EditText edt) {
         InputMethodManager imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(edt, InputMethodManager.SHOW_IMPLICIT);
@@ -222,6 +224,7 @@ public class Utility {
         InputMethodManager imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(edt.getWindowToken(), 0);
     }
+
     public static void hideInputKeyboard(Context ctx, View view) {
         if (view != null) {
             InputMethodManager inputManager = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -256,6 +259,7 @@ public class Utility {
 
         return screenH;
     }
+
     /**
      * check device is large screen
      *
@@ -289,34 +293,49 @@ public class Utility {
         // is
         // xlarge
     }
-    public static final String PREFS_NAME = "BeeroPrefs";
-    public static final String PREFS_SIZE = "size";
-    public static final String PREFS_VALUE = "value";
-    public static final String BRAND_SEPERTOR = "|";
 
-    public static String createIds(List<String> arr) {
+    public static final String PREFS_NAME = "BeeroPrefs";
+    public static final String PREFS_KEY = "keys";
+    public static final String PREFS_VALUE = "values";
+    public static final String BRAND_SEPERTOR = ":";
+    public static final String SEARCH_SEPERTOR = "|";
+    public static final String ID_REGEX = "(\\d+)|";
+    public static final String NAME_REGEX = "(\\w+)|";
+
+    public static String[] createIds(List<Brand> arr) {
         String ids = "";
+        String names = "";
         int size = arr.size();
-        for(int i = 0; i <  size; i++) {
-            if(i < size - 1) {
-                ids += arr.get(i).toString() + BRAND_SEPERTOR;
+        for (int i = 0; i < size; i++) {
+            if (i < size - 1) {
+                ids += arr.get(i).getId().toString() + BRAND_SEPERTOR;
+                names += arr.get(i).getName().toString() + BRAND_SEPERTOR;
             } else {
-                ids += arr.get(i).toString();
+                ids += arr.get(i).getId().toString();
+                names += arr.get(i).getName().toString();
             }
         }
-        return ids;
-    }
-
-    public static void saveSelectedIds(Context ctx, String value) {
-        SharedPreferences settings = ctx.getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(PREFS_VALUE, value);
-        editor.commit();
+        if(ids.isEmpty() || names.isEmpty()) {
+            return null;
+        }
+        return new String[]{ids,names};
     }
 
     public static String getPrefIds(Context ctx) {
         SharedPreferences settings = ctx.getSharedPreferences(PREFS_NAME, 0);
-        return settings.getString(PREFS_VALUE,"");
+        return settings.getString(PREFS_KEY, "");
+    }
+    public static String getPrefNames(Context ctx) {
+        SharedPreferences settings = ctx.getSharedPreferences(PREFS_NAME, 0);
+        return settings.getString(PREFS_VALUE, "");
+    }
+
+    public static void saveSelectedIds(Context ctx, String ids, String values) {
+        SharedPreferences settings = ctx.getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(PREFS_KEY, ids);
+        editor.putString(PREFS_VALUE, values);
+        editor.commit();
     }
 
 }

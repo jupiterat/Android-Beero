@@ -25,10 +25,12 @@ import com.au.beero.beero.ui.base.BaseFragment;
 import com.au.beero.beero.ui.dialog.ConfirmDialog;
 import com.au.beero.beero.ui.stack.StackFragment;
 import com.au.beero.beero.utility.ApiUtility;
+import com.au.beero.beero.utility.Utility;
 import com.framework.network.request.AbstractHttpRequest;
 import com.framework.network.task.IDataEventHandler;
 import com.framework.utility.PauseHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,12 +38,12 @@ import java.util.List;
  */
 public class HomeFragment extends BaseFragment {
     final static int BEGIN_TRANSACTION = 1;
-    // Splash screen timer
-    private static int SPLASH_TIME_OUT = 2000;
+    final static int BEGIN_TRANSACTION_SEARCH = 2;
     private ImageView mLogoIcon;
     private RelativeLayout mSorryContaner;
     private ConfirmDialog mDialog;
-    TransactionHanlder handler = new TransactionHanlder();
+    private TransactionHanlder handler;
+    private List<Brand> mBrandList;
 
     public static final int REQUEST_CODE_OPEN_GPS_SETTINGS = 0x48;
 
@@ -52,6 +54,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        handler = new TransactionHanlder();
         getCurrentPosition();
     }
 
@@ -60,7 +63,6 @@ public class HomeFragment extends BaseFragment {
         View v = inflater.inflate(R.layout.splash_activity_layout, null);
         mLogoIcon = (ImageView) v.findViewById(R.id.imgLogo);
         mSorryContaner = (RelativeLayout) v.findViewById(R.id.sorry_container);
-
         return v;
     }
 
@@ -84,19 +86,64 @@ public class HomeFragment extends BaseFragment {
         handler.setActivity(null);
     }
 
+    private List<Brand> loadLocalBrand() {
+        List<Brand> brandListLocal = null;
+        String ids = Utility.getPrefIds(mActivity);
+        String names = Utility.getPrefNames(mActivity);
+
+        if (ids != null && !ids.isEmpty() && names != null && !names.isEmpty()) {
+            String[] id = ids.split(Utility.BRAND_SEPERTOR);
+            String[] name = names.split(Utility.BRAND_SEPERTOR);
+
+            if (id != null && name != null && id.length == name.length) {
+                brandListLocal = new ArrayList<>();
+                for (int i = 0; i < id.length; i++) {
+                    if (!id[i].isEmpty() && !id[i].equals(Utility.BRAND_SEPERTOR)
+                            && !name[i].isEmpty() && !name[i].equals(Utility.BRAND_SEPERTOR)) {
+                        Brand brand = new Brand();
+                        brand.setId(id[i]);
+                        brand.setName(name[i]);
+                        brandListLocal.add(brand);
+                    }
+
+                }
+            }
+        }
+        return brandListLocal;
+    }
+
+
     private void loadBrands() {
+
+        if (mBrandList != null) {
+            List<Brand> brands = loadLocalBrand();
+            if (brands != null) {
+                handler.sendMessage(handler.obtainMessage(BEGIN_TRANSACTION_SEARCH, brands));
+            } else {
+                handler.sendMessage(handler.obtainMessage(BEGIN_TRANSACTION, mBrandList));
+//                getBrands();
+            }
+        } else {
+            getBrands();
+        }
+    }
+
+    private void getBrands() {
         ApiUtility.loadBrands(mActivity, new IDataEventHandler<ResponseBrand>() {
             @Override
             public void onNotifyData(ResponseBrand data, AbstractHttpRequest request) {
+                mBrandList = data.getBrands();
                 if (!isAdded()) {
                     return;
                 }
-                List<Brand> brandList = null;
-                /*if (data != null) {
-                    brandList = data.getBrands();
-                }*/
-                handler.sendMessage(handler.obtainMessage(BEGIN_TRANSACTION, data));
-//                gotoBrandScreen(brandList);
+                if (mBrandList != null) {
+                    List<Brand> brands = loadLocalBrand();
+                    if(brands != null) {
+                        handler.sendMessage(handler.obtainMessage(BEGIN_TRANSACTION_SEARCH, brands));
+                    } else {
+                        handler.sendMessage(handler.obtainMessage(BEGIN_TRANSACTION, mBrandList));
+                    }
+                }
             }
         }, new BrandRequest());
     }
@@ -130,9 +177,17 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
+    private void gotoSearch(List<Brand> list) {
+        gotoBrandScreen(mBrandList);
+        String ids = Utility.getPrefIds(mActivity);
+        Fragment searchFrag = SearchFragment.makeInstance(list, ids);
+        ((StackFragment) ((MainActivity) getActivity()).getCurrentStackFragment())
+                .addFragmentToStack(searchFrag);
+    }
+
     private void gotoBrandScreen(List<Brand> brandList) {
         StackFragment stack = ((StackFragment) ((MainActivity) mActivity).getCurrentStackFragment());
-        stack.popFromStack();
+//        stack.popFromStack();
         Fragment brandFrag = BrandFragment.makeInstance(brandList);
         stack.addFragmentToStack(brandFrag);
     }
@@ -190,9 +245,15 @@ public class HomeFragment extends BaseFragment {
                 switch (message.what) {
 
                     case BEGIN_TRANSACTION:
-                        ResponseBrand obj = (ResponseBrand) message.obj;
+                        List<Brand> obj = (List<Brand>) message.obj;
                         if (obj != null) {
-                            gotoBrandScreen(obj.getBrands());
+                            gotoBrandScreen(obj);
+                        }
+                        break;
+                    case BEGIN_TRANSACTION_SEARCH:
+                        List<Brand> obj1 = (List<Brand>) message.obj;
+                        if (obj1 != null) {
+                            gotoSearch(obj1);
                         }
                         break;
                 }

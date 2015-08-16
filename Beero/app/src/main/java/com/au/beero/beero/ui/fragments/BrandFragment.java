@@ -1,6 +1,5 @@
 package com.au.beero.beero.ui.fragments;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,10 +28,7 @@ public class BrandFragment extends BaseFragment {
     private UltimateRecyclerView mBrandListview;
     private BrandAdapter mBrandAdapter;
     private static List<Brand> mBrandList;
-
     private String[] mSelectedIds = null;
-
-    private String ids = "";
 
     public static Fragment makeInstance(List<Brand> brandList) {
         mBrandList = brandList;
@@ -88,9 +84,11 @@ public class BrandFragment extends BaseFragment {
     }
 
     private void handleDoneClick() {
-        if(mBrandAdapter != null && mBrandAdapter.getSelectedBrandsStr() != null && mBrandAdapter.getSelectedBrandsStr().size() > 0) {
-            String ids = Utility.createIds(mBrandAdapter.getSelectedBrandsStr());
-            Utility.saveSelectedIds(mActivity,ids);
+        if(mBrandAdapter != null && mBrandAdapter.getSelectedBrands() != null && mBrandAdapter.getSelectedBrands().size() > 0) {
+            String[] ids = Utility.createIds(mBrandAdapter.getSelectedBrands());
+            if(ids != null) {
+                Utility.saveSelectedIds(mActivity, ids[0],ids[1]);
+            }
             gotoSearch();
         } else {
             showDialog(getString(R.string.select_brand_warning));
