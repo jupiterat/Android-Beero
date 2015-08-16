@@ -180,6 +180,9 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
             CountDownTimer timer = new CountDownTimer(remainingTime * 60 * 1000, Constants.COUNT_DOWN_UNIT) {
                 @Override
                 public void onTick(long millisUntilFinished) {
+                    if(!isAdded()) {
+                        return;
+                    }
                     long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished);
 //                    long diffInHours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished);
                     String time = String.format(getString(R.string.time_remaining_format), "" + diffInMinutes);

@@ -112,7 +112,7 @@
             android:layout_height="@dimen/com_180dp"
             android:layout_marginLeft="@dimen/com_20dp"
             android:layout_marginRight="@dimen/com_20dp"
-            android:visibility="gone">
+            >
 
         </com.google.android.gms.maps.MapView>
 
