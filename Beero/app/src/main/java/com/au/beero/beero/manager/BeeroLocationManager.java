@@ -138,6 +138,9 @@ public class BeeroLocationManager {
     }
 
     public boolean isSupportArea() {
+        if (mLocation == null) {
+            return false;
+        }
         List<Dict> mapList = getSupportArea();
         double lat = getLatitude();
         double lng = getLongitude();
@@ -177,7 +180,7 @@ public class BeeroLocationManager {
     }*/
 
     public double getLatitude() {
-      if (getCurrentLocation() == null) {
+        if (getCurrentLocation() == null) {
             return LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE;
         } else {
             return getCurrentLocation().getLatitude();
