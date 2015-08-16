@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by thuc.phan on 8/12/2015.
@@ -218,52 +219,66 @@ public class Store {
         this.openHours = openHours;
     }
 
-    public String getStoreState() {
+    private int getStoreState() {
         try {
             OpenTime openHoursToday = getOpenTimeToday();
             Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat sdfDate = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);//dd/MM/yyyy
+            SimpleDateFormat sdfDate = new SimpleDateFormat(Constants.STORE_DATE_TIME_FORMAT, Locale.ENGLISH);
             Date open = sdfDate.parse(openHoursToday.getOpenTime());
             Date close = sdfDate.parse(openHoursToday.getCloseTime());
             Date current = new Date();
             String currentFormat = sdfDate.format(current);
             current = sdfDate.parse(currentFormat);
             if (current.before(open)) {
-                return "Open at " + openHoursToday.getOpenTime();
-//                return Constants.STORE_STATE.WAITING;
-            } else if (current.after(open) && current.before(close)) {
-                return "Till " + openHoursToday.getCloseTime();
-//                return Constants.STORE_STATE.OPENING;
-            } else {
-                return "Closed";
-//                return Constants.STORE_STATE.CLOSED;
-            }
-           /* SimpleDateFormat sdfDate = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);//dd/MM/yyyy
-            Date open;
-            Date close;
-            open = sdfDate.parse(openHoursToday.getOpenTime());
-            calendar.setTime(open);
-            int hourOpen = calendar.get(Calendar.HOUR_OF_DAY);
-            int minuteOpen = calendar.get(Calendar.MINUTE);
-            close = sdfDate.parse(openHoursToday.getCloseTime());
-            calendar.setTime(close);
-            int hourClose = calendar.get(Calendar.HOUR_OF_DAY);
-            int minuteClose = calendar.get(Calendar.MINUTE);
-            calendar.setTime(new Date());
-            int hours = calendar.get(Calendar.HOUR_OF_DAY);
-            int minutes = calendar.get(Calendar.MINUTE);
-            int seconds = calendar.get(Calendar.SECOND);
-            if (hours < hourOpen) {
+//                return "Open at " + openHoursToday.getOpenTime();
                 return Constants.STORE_STATE.WAITING;
-            } else if (hours == hourOpen && hours <= hourClose) {
+            } else if (current.after(open) && current.before(close)) {
+//                return "Till " + openHoursToday.getCloseTime();
                 return Constants.STORE_STATE.OPENING;
             } else {
+//                return "Closed";
                 return Constants.STORE_STATE.CLOSED;
-            }*/
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return "";
+        return -1;
+    }
+
+    public String getBeautifiedLabelForOpenTimeToday() {
+        int storeState = getStoreState();
+        switch (storeState) {
+            case Constants.STORE_STATE.WAITING:
+                return "Open at " + getOpenTimeToday().getOpenTime();
+            case Constants.STORE_STATE.OPENING:
+                return "Till " + getOpenTimeToday().getCloseTime();
+            /*case Constants.STORE_STATE.CLOSED:
+                return "Closed";
+                break;*/
+            default:
+                return "Closed";
+        }
+    }
+
+    public long getRemainingTime() {
+        int storeState = getStoreState();
+        if (storeState == Constants.STORE_STATE.OPENING) {
+            try {
+                OpenTime openHoursToday = getOpenTimeToday();
+                SimpleDateFormat sdfDate = new SimpleDateFormat(Constants.STORE_DATE_TIME_FORMAT, Locale.getDefault());
+                Date close = sdfDate.parse(openHoursToday.getCloseTime());
+                Date current = new Date();
+                String currentFormat = sdfDate.format(current);
+                current = sdfDate.parse(currentFormat);
+                long duration = close.getTime() - current.getTime();
+                long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+                return diffInMinutes;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return -1;
+            }
+        }
+        return -1;
     }
 
     private OpenTime getOpenTimeToday() {

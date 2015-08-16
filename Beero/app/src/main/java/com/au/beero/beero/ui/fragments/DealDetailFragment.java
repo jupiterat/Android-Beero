@@ -87,8 +87,8 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
 
     private void loadData() {
         Store store = mSearchResult.getWiningDeal().getStore();
-        mStoreOpening.setText(store.getStoreState());
-        if (store.getStoreState().equalsIgnoreCase("Closed")) {
+        mStoreOpening.setText(store.getBeautifiedLabelForOpenTimeToday());
+        if (store.getBeautifiedLabelForOpenTimeToday().equalsIgnoreCase("Closed")) {
             mStoreClosed.setVisibility(View.VISIBLE);
             mStoreOpening.setVisibility(View.GONE);
         }

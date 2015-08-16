@@ -1,6 +1,7 @@
 package com.au.beero.beero.ui.fragments;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.au.beero.beero.model.Store;
 import com.au.beero.beero.ui.activity.MainActivity;
 import com.au.beero.beero.ui.base.BaseFragment;
 import com.au.beero.beero.ui.stack.StackFragment;
+import com.au.beero.beero.utility.Constants;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -28,7 +30,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.DateFormatSymbols;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by thuc.phan on 8/15/2015.
@@ -46,6 +52,7 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
     private TextView mStoreOpening;
     private TextView mStoreClose;
     private TextView mWelcome;
+    private TextView mRemainingTime;
     private NetworkImageView mStoreBanner;
     private NetworkImageView mStoreCata;
     private LinearLayout mOpeningHours;
@@ -69,6 +76,7 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
         mMapView = (MapView) view.findViewById(R.id.store_detail_map);
         mStoreName = (TextView) view.findViewById(R.id.store_name);
         mStoreAdd = (TextView) view.findViewById(R.id.store_address);
+        mRemainingTime = (TextView) view.findViewById(R.id.time_to_close);
         mStoreMember = (TextView) view.findViewById(R.id.store_member_since);
         mStorePhone = (TextView) view.findViewById(R.id.store_phone);
         mStoreOpening = (TextView) view.findViewById(R.id.store_opening);
@@ -76,7 +84,7 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
         mStoreBanner = (NetworkImageView) view.findViewById(R.id.banner);
         mStoreCata = (NetworkImageView) view.findViewById(R.id.catalog);
         mOpeningHours = (LinearLayout) view.findViewById(R.id.opening_hours);
-        mWelcome = (TextView) view.findViewById(R.id. welcome_msg);
+        mWelcome = (TextView) view.findViewById(R.id.welcome_msg);
         mMapView.onCreate(savedInstanceState);
         try {
             MapsInitializer.initialize(mActivity);
@@ -161,19 +169,41 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
         }
         mWelcome.setText(mStore.getMgrWelcome());
         addOpeningHours();
-        mStoreOpening.setText(mStore.getStoreState());
-        if (mStore.getStoreState().equalsIgnoreCase("Closed")) {
+        mStoreOpening.setText(mStore.getBeautifiedLabelForOpenTimeToday());
+        if (mStore.getBeautifiedLabelForOpenTimeToday().equalsIgnoreCase("Closed")) {
             mStoreClose.setVisibility(View.VISIBLE);
             mStoreOpening.setVisibility(View.GONE);
+        }
+        long remainingTime = mStore.getRemainingTime();
+        if (remainingTime != -1) {
+            mRemainingTime.setVisibility(View.VISIBLE);
+            CountDownTimer timer = new CountDownTimer(remainingTime * 60 * 1000, Constants.COUNT_DOWN_UNIT) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished);
+//                    long diffInHours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished);
+                    String time = String.format(getString(R.string.time_remaining_format), "" + diffInMinutes);
+                    mRemainingTime.setText(time);
+                }
+
+                @Override
+                public void onFinish() {
+                    mRemainingTime.setVisibility(View.GONE);
+                }
+            };
+            timer.start();
+        } else {
+            mRemainingTime.setVisibility(View.GONE);
         }
     }
 
     private void addOpeningHours() {
 
         if (mStore.getOpenHours() != null) {
-            Collections.sort(mStore.getOpenHours());
+            List<OpenTime> openTimes = mStore.getOpenHours();
+            Collections.sort(openTimes);
             LayoutInflater li = LayoutInflater.from(mActivity);
-            for (OpenTime openTime : mStore.getOpenHours()) {
+            for (OpenTime openTime : openTimes) {
                 View v = li.inflate(R.layout.opening_hours_layout, null);
                 TextView day = (TextView) v.findViewById(R.id.day);
                 TextView time = (TextView) v.findViewById(R.id.time);

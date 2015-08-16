@@ -13,7 +13,9 @@ public class Constants {
     public static final String EXTRA_USER = "user";
     public static final String EXTRA_IS_LOGGED_IN = "loggedin";
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+    public static final String STORE_DATE_TIME_FORMAT = "hh:mm a";
     public static final String FRAGMENT_INIT = "fragment_init";
+    public static final long COUNT_DOWN_UNIT = 1000 * 60;
     //
 
     public static class SERVER_RES_KEY {
@@ -86,8 +88,8 @@ public class Constants {
     }
 
     public static class STORE_STATE {
-        public static int WAITING = 0;
-        public static int OPENING = 1;
-        public static int CLOSED = 2;
+        public static final int WAITING = 0;
+        public static final int OPENING = 1;
+        public static final int CLOSED = 2;
     }
 }
