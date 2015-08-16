@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                 android:text="Lachlan Hotel"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/store_member_since"
@@ -39,7 +39,7 @@
                 android:layout_below="@+id/store_name"
                 android:text="@string/beero_member"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/store_phone"
@@ -49,12 +49,12 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/store_member_since"
                 android:textColor="@color/main_aap_color"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/store_opening"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/com_30dp"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/store_name"
                 android:layout_marginLeft="@dimen/com_20dp"
@@ -63,7 +63,8 @@
                 android:gravity="center"
                 android:text="Opening"
                 android:textColor="@color/green_bg"
-                android:textSize="16sp" />
+                android:textSize="12sp"/>
+
             <TextView
                 android:id="@+id/store_closed"
                 android:layout_width="wrap_content"
@@ -75,8 +76,8 @@
                 android:gravity="center"
                 android:text="Closed"
                 android:textColor="@color/main_aap_color"
-                android:textSize="16sp"
-                android:visibility="gone" />
+                android:textSize="12sp"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/time_to_close"
@@ -85,10 +86,23 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/store_opening"
                 android:layout_marginLeft="@dimen/com_20dp"
+                android:layout_marginTop="@dimen/com_5dp"
                 android:text="Closes in 12 mins"
                 android:textColor="@color/main_aap_color"
-                android:visibility="gone"
-                android:textSize="16sp" />
+                android:textSize="12sp"
+                android:textStyle="normal"
+                android:visibility="gone"/>
+            <!-- <LinearLayout
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentRight="true"
+                 android:layout_below="@+id/store_name"
+                 android:gravity="end|fill_horizontal"
+                 android:orientation="vertical">
+
+
+             </LinearLayout>-->
+
 
         </RelativeLayout>
 
@@ -109,28 +123,30 @@
             android:layout_gravity="center_horizontal"
             android:text="168 abc street"
             android:textColor="@android:color/darker_gray"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <com.android.volley.toolbox.NetworkImageView
                     android:id="@+id/banner"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/com_150dp" />
+                    android:layout_height="@dimen/com_150dp"/>
+
                 <TextView
                     android:id="@+id/welcome_msg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="@dimen/com_20dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
             </LinearLayout>
-
 
 
             <com.au.beero.beero.ui.widget.CircleImageView
@@ -138,7 +154,7 @@
                 android:layout_width="@dimen/com_100dp"
                 android:layout_height="@dimen/com_100dp"
                 android:layout_gravity="center_horizontal|bottom"
-                android:src="@drawable/manager_0" />
+                android:src="@drawable/manager_0"/>
 
 
         </FrameLayout>
@@ -148,7 +164,7 @@
             android:layout_height="2dp"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/com_20dp"
-            android:background="@color/grey_bg" />
+            android:background="@color/grey_bg"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -156,7 +172,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/com_20dp"
             android:text="@string/check_catalog"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -165,13 +181,13 @@
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/catalog"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/com_300dp" />
+                android:layout_height="@dimen/com_300dp"/>
 
             <ImageView
                 android:layout_width="@dimen/com_100dp"
                 android:layout_height="@dimen/com_100dp"
                 android:layout_gravity="center"
-                android:src="@drawable/catalog_zoom" />
+                android:src="@drawable/catalog_zoom"/>
         </FrameLayout>
 
         <View
@@ -179,7 +195,7 @@
             android:layout_height="2dp"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/com_20dp"
-            android:background="@color/grey_bg" />
+            android:background="@color/grey_bg"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -187,7 +203,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/com_20dp"
             android:text="@string/opening_hours"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <LinearLayout
             android:id="@+id/opening_hours"

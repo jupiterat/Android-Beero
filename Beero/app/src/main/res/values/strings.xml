@@ -25,7 +25,7 @@
     <string name="price_format">$ %s</string>
     <string name="distance_format">, %s mins away</string>
     <string name="distance_drive_format">%s mins drive</string>
-    <string name="container_format" formatted = "false">%s x %sml %s</string>
+    <string name="container_format" formatted="false">%s x %sml %s</string>
     <string name="no_deal">No deal found!</string>
     <string name="cancel_txt">Cancel</string>
     <string name="ok_txt">Ok</string>
@@ -41,4 +41,6 @@
     <string name="beero_member">Beero member\nsince August 2015</string>
     <string name="opening_hours">Store Opening Hours</string>
     <string name="check_catalog">For more great details, check out our catalog!</string>
+  <!--  <string name="time_remaining_format" formatted="false">Closes in %s hours %s minutes</string>-->
+    <string name="time_remaining_format">Closes in %s minutes</string>
 </resources>

@@ -74,9 +74,9 @@ public class OpenTime implements Comparable<OpenTime> {
             if (hourString.length() == 4) {
                 patten = "hhmm";
             }
-            SimpleDateFormat sdfDate = new SimpleDateFormat(patten, Locale.ENGLISH);//dd/MM/yyyy
+            SimpleDateFormat sdfDate = new SimpleDateFormat(patten, Locale.getDefault());//dd/MM/yyyy
             Date strDate = sdfDate.parse(hourString);
-            String result = new SimpleDateFormat("hh:mm a").format(strDate);
+            String result = new SimpleDateFormat(Constants.STORE_DATE_TIME_FORMAT).format(strDate);
 //            System.out.println(result);
             return result;
         } catch (Exception e) {
@@ -84,7 +84,6 @@ public class OpenTime implements Comparable<OpenTime> {
         }
         return null;
     }
-
 
 
     @Override
@@ -104,11 +103,11 @@ public class OpenTime implements Comparable<OpenTime> {
             }
         }
         if (index2 > index1) {
-            return 1;
+            return -1;
         } else if (index1 == index2) {
             return 0;
         } else {
-            return -1;
+            return 1;
         }
     }
 }
