@@ -8,6 +8,8 @@ import android.util.Log;
 import com.au.beero.beero.manager.BeeroLocationManager;
 import com.au.beero.beero.manager.BeeroSearchManager;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +37,7 @@ public class BeeroApplication extends Application {
     public void onCreate() {
         activities = new HashMap<Activity, Status>();
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         sInstance = this;
         BeeroLocationManager.initialize(this.getApplicationContext());
         BeeroSearchManager.initialize(this.getApplicationContext());
