@@ -383,6 +383,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                             }
                         }
                         loadResult();
+                        mFindingStatus.setText("");
 
                     }
                 }
