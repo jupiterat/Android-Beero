@@ -55,6 +55,10 @@ public class BeeroLocationManager {
         if (mLocation == null) {
             mLocation = getLocation();
         }
+        //TODO: for testing - remove later
+        mLocation = new Location("");
+        mLocation.setLatitude(LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE);
+        mLocation.setLongitude(LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE);
         return mLocation;
     }
 
@@ -138,24 +142,25 @@ public class BeeroLocationManager {
     }
 
     public boolean isSupportArea() {
-        if (mLocation == null) {
-            return false;
-        }
-        List<Dict> mapList = getSupportArea();
-        double lat = getLatitude();
-        double lng = getLongitude();
-        if (mapList != null) {
-            for (int i = 0; i < mapList.size(); i++) {
-                Dict dict = mapList.get(i);
-                double topLat = Double.valueOf(dict.getConfiguration("_TOP_LAT").getValue());
-                double leftLng = Double.valueOf(dict.getConfiguration("_LEFT_LNG").getValue());
-                double botLat = Double.valueOf(dict.getConfiguration("_BOTTOM_LAT").getValue());
-                double rightLng = Double.valueOf(dict.getConfiguration("_RIGHT_LNG").getValue());
-                if ((lat <= topLat) && (lat >= botLat) && (lng >= leftLng) && (lng <= rightLng))
-                    return true;
-            }
-        }
-        return false;
+        return true;
+//        if (mLocation == null) {
+//            return false;
+//        }
+//        List<Dict> mapList = getSupportArea();
+//        double lat = getLatitude();
+//        double lng = getLongitude();
+//        if (mapList != null) {
+//            for (int i = 0; i < mapList.size(); i++) {
+//                Dict dict = mapList.get(i);
+//                double topLat = Double.valueOf(dict.getConfiguration("_TOP_LAT").getValue());
+//                double leftLng = Double.valueOf(dict.getConfiguration("_LEFT_LNG").getValue());
+//                double botLat = Double.valueOf(dict.getConfiguration("_BOTTOM_LAT").getValue());
+//                double rightLng = Double.valueOf(dict.getConfiguration("_RIGHT_LNG").getValue());
+//                if ((lat <= topLat) && (lat >= botLat) && (lng >= leftLng) && (lng <= rightLng))
+//                    return true;
+//            }
+//        }
+//        return false;
     }
 
     /*public boolean isSupportArea(Location location) {
@@ -180,24 +185,27 @@ public class BeeroLocationManager {
     }*/
 
     public double getLatitude() {
-        if (getCurrentLocation() == null) {
-            return LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE;
-        } else {
-            return getCurrentLocation().getLatitude();
-        }
+        return LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE;
+//        if (getCurrentLocation() == null) {
+//            return LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE;
+//        } else {
+//            return getCurrentLocation().getLatitude();
+//        }
     }
 
     public double getLongitude() {
-        if (getCurrentLocation() == null) {
-            return LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE;
-        } else {
-            return getCurrentLocation().getLongitude();
-        }
+        return LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE;
+//        if (getCurrentLocation() == null) {
+//            return LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE;
+//        } else {
+//            return getCurrentLocation().getLongitude();
+//        }
     }
 
 
     public boolean isEnableLocationServices() {
-        return mIsEnableLocationServices;
+//        return mIsEnableLocationServices;
+        return true;
     }
 
 
