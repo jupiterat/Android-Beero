@@ -12,6 +12,7 @@ import java.util.List;
  * Created by thuc.phan on 8/12/2015.
  */
 public class SearchResult implements Comparable<SearchResult> {
+    String position;
     String id;
     String brandName;
     WiningDeal winingDeal;
@@ -81,13 +82,21 @@ public class SearchResult implements Comparable<SearchResult> {
         this.brandName = brandName;
     }
 
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
     @Override
     public int compareTo(SearchResult searchResult) {
         int current = 0;
         int newId = 0;
         try {
-            current = Integer.parseInt(this.getId());
-            newId = Integer.parseInt(searchResult.getId());
+            current = Integer.parseInt(this.getPosition());
+            newId = Integer.parseInt(searchResult.getPosition());
         } catch(NumberFormatException ex) {
 
         }

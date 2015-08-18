@@ -70,8 +70,8 @@ public class Brand extends BaseModel implements Comparable<Brand>{
         int current = 0;
         int newId = 0;
         try {
-            current = Integer.parseInt(this.getId());
-            newId = Integer.parseInt(brand.getId());
+            current = Integer.parseInt(this.getPosition());
+            newId = Integer.parseInt(brand.getPosition());
         } catch(NumberFormatException ex) {
 
         }

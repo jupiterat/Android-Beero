@@ -37,7 +37,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     }
 
 
-
     @Override
     public ProductHolder onCreateViewHolder(ViewGroup parent, int i) {
         View v = LayoutInflater.from(parent.getContext())
@@ -74,17 +73,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                 holder.brandNameTxt.setText(deals.getBrandName());
                 String container = String.format(mContext.getString(R.string.container_format), deals.getQty(), deals.getContainerSize(), deals.getContainerType());
                 holder.containerTxt.setText(container);
+                holder.priceTxt.setVisibility(View.VISIBLE);
                 holder.priceTxt.setText(String.format(mContext.getString(R.string.price_format), deals.getPrice()));
                 String value = String.format(mContext.getString(R.string.distance_format), deals.getBeautifiedDriveDistance());
+                holder.distanceTxt.setVisibility(View.VISIBLE);
                 holder.distanceTxt.setText(value);
                 int visible = deals.isExclusive() ? View.VISIBLE : View.GONE;
                 holder.exlusiveImg.setVisibility(visible);
-
                 holder.nextIcon.setVisibility(View.VISIBLE);
             } else {
                 holder.brandNameTxt.setText(mProducts.get(i).getBrandName());
                 holder.nextIcon.setVisibility(View.GONE);
                 holder.exlusiveImg.setVisibility(View.GONE);
+                holder.distanceTxt.setVisibility(View.GONE);
+                holder.priceTxt.setVisibility(View.GONE);
+                holder.containerTxt.setText(mContext.getString(R.string.no_deal));
             }
 
         }
@@ -99,7 +102,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 //    public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
 //
 //    }
-
 
 
     class ProductHolder extends UltimateRecyclerviewViewHolder {
@@ -121,7 +123,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
             priceTxt = (TextView) view.findViewById(R.id.product_price);
             distanceTxt = (TextView) view.findViewById(R.id.product_time);
             exlusiveImg = (ImageView) view.findViewById(R.id.exclusive_icon);
-            nextIcon = (ImageView) view.findViewById(R.id. arrow_right);
+            nextIcon = (ImageView) view.findViewById(R.id.arrow_right);
         }
     }
 
