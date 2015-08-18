@@ -11,10 +11,8 @@ import java.util.List;
 /**
  * Created by thuc.phan on 8/12/2015.
  */
-public class SearchResult {
+public class SearchResult implements Comparable<SearchResult> {
     String id;
-
-
     String brandName;
     WiningDeal winingDeal;
     List<LosingDeal> losingDeals;
@@ -81,5 +79,24 @@ public class SearchResult {
 
     public void setBrandName(String brandName) {
         this.brandName = brandName;
+    }
+
+    @Override
+    public int compareTo(SearchResult searchResult) {
+        int current = 0;
+        int newId = 0;
+        try {
+            current = Integer.parseInt(this.getId());
+            newId = Integer.parseInt(searchResult.getId());
+        } catch(NumberFormatException ex) {
+
+        }
+        if(current > newId) {
+            return 1;
+        }
+        if(current < newId) {
+            return -1;
+        }
+        return 0;
     }
 }

@@ -39,6 +39,7 @@ import com.marshalchen.ultimaterecyclerview.SwipeableUltimateRecyclerview;
 import com.marshalchen.ultimaterecyclerview.swipelistview.BaseSwipeListViewListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -104,6 +105,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                 item.setBrandName(mBrandsList.get(i).getName());
                 searchResults.add(i, item);
             }
+            Collections.sort(searchResults);
         }
 
     }
@@ -379,6 +381,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                                 if (searchResults.get(i).getId().equals(result.getId())) {
                                     searchResults.get(i).setWiningDeal(result.getWiningDeal());
                                     searchResults.get(i).setLosingDeals(result.getLosingDeals());
+                                    break;
                                 }
                             }
                         }

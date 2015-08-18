@@ -31,6 +31,7 @@ import com.framework.network.task.IDataEventHandler;
 import com.framework.utility.PauseHandler;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -132,7 +133,11 @@ public class HomeFragment extends BaseFragment {
         ApiUtility.loadBrands(mActivity, new IDataEventHandler<ResponseBrand>() {
             @Override
             public void onNotifyData(ResponseBrand data, AbstractHttpRequest request) {
+                if(data == null) {
+                    return;
+                }
                 mBrandList = data.getBrands();
+                Collections.sort(mBrandList);
                 if (!isAdded()) {
                     return;
                 }
