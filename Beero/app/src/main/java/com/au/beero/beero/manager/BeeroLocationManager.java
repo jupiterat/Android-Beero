@@ -103,7 +103,6 @@ public class BeeroLocationManager {
                     }
                 }
             }
-            mLocation = location;
         } catch (Exception e) {
             e.printStackTrace();
         }
