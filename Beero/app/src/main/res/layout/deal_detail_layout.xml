@@ -260,6 +260,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:drawableRight="@drawable/arrow_right_dark"
+            android:textSize="18sp"
             android:gravity="center_vertical"
             android:padding="@dimen/com_10dp"
             android:textColor="@color/main_aap_color" />

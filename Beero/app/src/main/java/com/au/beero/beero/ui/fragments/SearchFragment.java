@@ -389,6 +389,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                             }
                         }
                         loadResult();
+                        initAnimation();
                         mFindingStatus.setText("");
 
                     }
@@ -404,8 +405,10 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mProductListview.setAdapter(mBrandAdapter);
 //        mBrandAdapter.notifyDataSetChanged();
         setHeight(searchResults.size());
+        if (mProductListContainer != null && mProductListContainer.getVisibility() != View.VISIBLE) {
+            mProductListContainer.setVisibility(View.VISIBLE);
+        }
 //        initBounceAnimation();
-        initAnimation();
     }
 
     private void backToPrevious() {
@@ -428,29 +431,29 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
 
     private void initAnimation() {
         float yDelta = getScreenHeight();
-        if(mProductListContainer.getHeight() <= -1) {//in case MATCH_PARENT
+        if (mProductListContainer.getHeight() <= -1) {//in case MATCH_PARENT
             yDelta = mProductListContainer.getHeight();
         }
 
 
         final Animation animation = new TranslateAnimation(0, 0, -yDelta, 0);
 
-        animation.setDuration(1000);
+        animation.setDuration(1300);
         animation.setInterpolator(new BounceInterpolator());
-        animation.setAnimationListener(new Animation.AnimationListener() {
+//        animation.setAnimationListener(new Animation.AnimationListener() {
+//
+//            public void onAnimationStart(Animation animation) {
+//            }
+//
+//            public void onAnimationRepeat(Animation animation) {
+//            }
+//
+//            public void onAnimationEnd(Animation animation) {
+//                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mProductListContainer.getLayoutParams());
+//                mProductListContainer.setLayoutParams(params);
+//            }
+//        });
 
-            public void onAnimationStart(Animation animation) {
-            }
-
-            public void onAnimationRepeat(Animation animation) {
-            }
-
-            public void onAnimationEnd(Animation animation) {
-                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mProductListContainer.getLayoutParams());
-                mProductListContainer.setLayoutParams(params);
-            }
-        });
-        mProductListContainer.setVisibility(View.VISIBLE);
         mProductListContainer.startAnimation(animation);
     }
 
