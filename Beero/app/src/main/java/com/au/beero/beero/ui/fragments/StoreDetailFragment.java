@@ -201,7 +201,6 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
     }
 
     private void addOpeningHours() {
-
         if (mStore.getOpenHours() != null) {
             List<OpenTime> openTimes = mStore.getOpenHours();
             Collections.sort(openTimes);
