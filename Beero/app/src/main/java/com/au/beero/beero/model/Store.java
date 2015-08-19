@@ -262,17 +262,27 @@ public class Store {
 
     public long getRemainingTime() {
         int storeState = getStoreState();
+//        int storeState = Constants.STORE_STATE.OPENING;
         if (storeState == Constants.STORE_STATE.OPENING) {
             try {
                 OpenTime openHoursToday = getOpenTimeToday();
                 SimpleDateFormat sdfDate = new SimpleDateFormat(Constants.STORE_DATE_TIME_FORMAT, Locale.getDefault());
                 Date close = sdfDate.parse(openHoursToday.getCloseTime());
+//                Date close = sdfDate.parse("11:00 AM");
                 Date current = new Date();
                 String currentFormat = sdfDate.format(current);
                 current = sdfDate.parse(currentFormat);
                 long duration = close.getTime() - current.getTime();
-                long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
-                return diffInMinutes;
+                if (duration < 0) {
+                    return -1;
+                }
+                long diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
+                if (diffInHours > 0) {
+                    return -1;
+                } else {
+                    long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+                    return diffInMinutes;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 return -1;
