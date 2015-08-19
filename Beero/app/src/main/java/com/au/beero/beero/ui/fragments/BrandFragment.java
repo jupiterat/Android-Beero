@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.au.beero.beero.ui.adapter.BrandAdapter;
 import com.au.beero.beero.ui.base.BaseFragment;
 import com.au.beero.beero.ui.stack.StackFragment;
 import com.au.beero.beero.utility.Utility;
+import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
 import java.util.List;
@@ -55,6 +57,18 @@ public class BrandFragment extends BaseFragment {
         mBrandListview = (UltimateRecyclerView)view.findViewById(R.id.brand_list);
         mBrandListview.setLayoutManager(new LinearLayoutManager(mActivity));
         mBrandListview.addItemDividerDecoration(mActivity);
+        mBrandListview.addOnItemTouchListener(new ItemTouchListenerAdapter(mBrandListview.mRecyclerView, new ItemTouchListenerAdapter.RecyclerViewOnItemClickListener() {
+            @Override
+            public void onItemClick(RecyclerView recyclerView, View view, int i) {
+                mBrandAdapter.getBrands().get(i).setIsSelected(!mBrandAdapter.getBrands().get(i).isSelected());
+                mBrandAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onItemLongClick(RecyclerView recyclerView, View view, int i) {
+
+            }
+        }));
         if(Utility.getPrefIds(mActivity).length() > 0) {
             mSelectedIds = Utility.getPrefIds(mActivity).split(Utility.BRAND_SEPERTOR);
         }

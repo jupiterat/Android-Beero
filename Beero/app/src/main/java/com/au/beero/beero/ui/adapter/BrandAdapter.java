@@ -95,15 +95,15 @@ public class BrandAdapter extends UltimateViewAdapter {
             BrandHolder holder = ((BrandHolder) viewHolder);
             holder.brandName.setText(mBrands.get(i).getName());
             holder.selectedChk.setChecked(mBrands.get(i).isSelected());
-            holder.selectedChk.setTag(mBrands.get(i));
-            holder.selectedChk.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    CheckBox cb = (CheckBox) v;
-                    Brand contact = (Brand) cb.getTag();
-                    contact.setIsSelected(cb.isChecked());
-                    mBrands.get(i).setIsSelected(cb.isChecked());
-                }
-            });
+//            holder.selectedChk.setTag(mBrands.get(i));
+//            holder.selectedChk.setOnClickListener(new View.OnClickListener() {
+//                public void onClick(View v) {
+//                    CheckBox cb = (CheckBox) v;
+//                    Brand contact = (Brand) cb.getTag();
+//                    contact.setIsSelected(cb.isChecked());
+//                    mBrands.get(i).setIsSelected(cb.isChecked());
+//                }
+//            });
             ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
             holder.brandImg.setImageUrl(mBrands.get(i).getUrl(), loader);
             holder.brandImg.setDefaultImageResId(R.drawable.brand_0);

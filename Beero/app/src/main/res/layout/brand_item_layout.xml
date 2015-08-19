@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
-    android:padding="@dimen/com_10dp">
+    android:paddingTop="@dimen/com_20dp"
+    android:paddingLeft="@dimen/com_20dp"
+    android:paddingRight="@dimen/com_20dp"
+    android:paddingBottom="@dimen/com_20dp">
 
     <CheckBox
         android:id="@+id/brand_select_chk"
@@ -18,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/com_10dp"
+        android:layout_marginLeft="@dimen/com_20dp"
         android:layout_marginRight="@dimen/com_10dp"
         android:layout_toLeftOf="@+id/brand_img"
         android:layout_toRightOf="@+id/brand_select_chk"
