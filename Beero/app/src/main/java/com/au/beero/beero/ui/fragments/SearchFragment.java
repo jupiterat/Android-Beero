@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -93,8 +95,8 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mBrandStr = getArguments().getString(KEY_BRANDS, "");
-            if(!mBrandStr.isEmpty()) {
-                mBrandStr = mBrandStr.replace(Utility.BRAND_SEPERTOR,Utility.SEARCH_SEPERTOR);
+            if (!mBrandStr.isEmpty()) {
+                mBrandStr = mBrandStr.replace(Utility.BRAND_SEPERTOR, Utility.SEARCH_SEPERTOR);
             }
         }
         if (mBrandsList != null) {
@@ -177,7 +179,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                     brands.add(brand);
                 }
                 String[] ids = Utility.createIds(brands);
-                if(ids != null) {
+                if (ids != null) {
                     Utility.saveSelectedIds(mActivity, ids[0], ids[1]);
                 }
                 if (mBrandAdapter.getProducts() != null && mBrandAdapter.getProducts().size() > 0) {
@@ -192,7 +194,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                                 mProductListContainer.setVisibility(View.GONE);
                             }
                         }
-                    },1000);
+                    }, 1000);
 
                 }
             }
@@ -248,7 +250,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                 mPackageAction.setAnimStyle(QuickAction.ANIM_GROW_FROM_BOTTOM);
                 break;
             case R.id.refresh:
-                mProductListContainer.setVisibility(View.GONE);
+
                 search(mBrandStr, mPackage, mContainer);
                 break;
             case R.id.add_beer:
@@ -320,7 +322,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
 
     private void setHeight(int size) {
         int height = 0;
-        if(size > 0) {
+        if (size > 0) {
             int screenHeight = Utility.getScreenHeight(mActivity);
             int header = getResources().getDimensionPixelSize(R.dimen.com_50dp);
             int listHeight = size * getResources().getDimensionPixelSize(R.dimen.com_100dp);
@@ -362,6 +364,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void search(String brands, String packageString, String container) {
+        mProductListContainer.setVisibility(View.GONE);
         mFindingStatus.setText(getString(R.string.finding));
         startAnimation();
         if (mBrandStr != null && !mBrandStr.isEmpty()) {
@@ -401,7 +404,8 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mProductListview.setAdapter(mBrandAdapter);
 //        mBrandAdapter.notifyDataSetChanged();
         setHeight(searchResults.size());
-        initBounceAnimation();
+//        initBounceAnimation();
+        initAnimation();
     }
 
     private void backToPrevious() {
@@ -420,5 +424,40 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onItemLongClick(RecyclerView recyclerView, View view, int i) {
 
+    }
+
+    private void initAnimation() {
+        float yDelta = getScreenHeight();
+        if(mProductListContainer.getHeight() <= -1) {//in case MATCH_PARENT
+            yDelta = mProductListContainer.getHeight();
+        }
+
+
+        final Animation animation = new TranslateAnimation(0, 0, -yDelta, 0);
+
+        animation.setDuration(1000);
+        animation.setInterpolator(new BounceInterpolator());
+        animation.setAnimationListener(new Animation.AnimationListener() {
+
+            public void onAnimationStart(Animation animation) {
+            }
+
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            public void onAnimationEnd(Animation animation) {
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mProductListContainer.getLayoutParams());
+                mProductListContainer.setLayoutParams(params);
+            }
+        });
+        mProductListContainer.setVisibility(View.VISIBLE);
+        mProductListContainer.startAnimation(animation);
+    }
+
+    private float getScreenHeight() {
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        return (float) displaymetrics.heightPixels;
     }
 }
