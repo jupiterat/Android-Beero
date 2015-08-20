@@ -42,6 +42,7 @@ import com.marshalchen.ultimaterecyclerview.swipelistview.BaseSwipeListViewListe
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -79,7 +80,6 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     private TextView mRefreshBtn;
     private TextView mAddBtn;
     private TextView mFindingStatus;
-
 
     public static Fragment makeInstance(List<Brand> brands, String brandStr) {
         mBrandsList = brands;
@@ -280,7 +280,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                         break;
                 }
                 String searchTitle = getString(R.string.cases);
-                if(mPackage.equals(KEY_SIX_PACKS)) {
+                if (mPackage.equals(KEY_SIX_PACKS)) {
                     searchTitle = getString(R.string.six_pack);
                 }
                 mPackageTxt.setText(searchTitle);
@@ -311,9 +311,9 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                         break;
                 }
                 String searchTitle = getString(R.string.both);
-                if(mContainer.equals(KEY_CANS)) {
+                if (mContainer.equals(KEY_CANS)) {
                     searchTitle = getString(R.string.cans);
-                } else if(mContainer.equals(KEY_BOTTLE)) {
+                } else if (mContainer.equals(KEY_BOTTLE)) {
                     searchTitle = getString(R.string.bottles);
                 }
                 mContainerTxt.setText(searchTitle);
@@ -328,7 +328,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                 .5f);
         rotateAnimation.setInterpolator(new LinearInterpolator());
         rotateAnimation.setRepeatCount(Animation.INFINITE);
-        rotateAnimation.setDuration(1000);
+        rotateAnimation.setDuration(2000);
         mSearchIcon.setAnimation(rotateAnimation);
     }
 
@@ -380,31 +380,44 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mFindingStatus.setText(getString(R.string.finding));
         startAnimation();
         if (mBrandStr != null && !mBrandStr.isEmpty()) {
+//            final long start = System.currentTimeMillis();
+            final Date dateStart = new Date();
             ApiUtility.search(mActivity, new IDataEventHandler<ResponseSearch>() {
                 @Override
-                public void onNotifyData(ResponseSearch data, AbstractHttpRequest request) {
-                    stopAnimation();
-                    isLoaded = true;
-                    if (data == null) {
-                        mFindingStatus.setText(getString(R.string.no_deal));
-                    } else {
-                        int size1 = searchResults.size();
-                        int size2 = data.getSearchResults().size();
-                        for (int i = 0; i < size1; i++) {
-                            for (int j = 0; j < size2; j++) {
-                                SearchResult result = data.getSearchResults().get(j);
-                                if (searchResults.get(i).getId().equals(result.getId())) {
-                                    searchResults.get(i).setWiningDeal(result.getWiningDeal());
-                                    searchResults.get(i).setLosingDeals(result.getLosingDeals());
-                                    break;
+                public void onNotifyData(final ResponseSearch data, AbstractHttpRequest request) {
+                    Date dateEnd = new Date();
+                    long duration = dateEnd.getTime() - dateStart.getTime();
+//                    long duration = System.currentTimeMillis() - start;
+                    System.out.println("duration: " + duration);
+                    long waiting = (duration > 2000) ? 0 : (2000 - duration);
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            stopAnimation();
+                            isLoaded = true;
+                            if (data == null) {
+                                mFindingStatus.setText(getString(R.string.no_deal));
+                            } else {
+                                int size1 = searchResults.size();
+                                int size2 = data.getSearchResults().size();
+                                for (int i = 0; i < size1; i++) {
+                                    for (int j = 0; j < size2; j++) {
+                                        SearchResult result = data.getSearchResults().get(j);
+                                        if (searchResults.get(i).getId().equals(result.getId())) {
+                                            searchResults.get(i).setWiningDeal(result.getWiningDeal());
+                                            searchResults.get(i).setLosingDeals(result.getLosingDeals());
+                                            break;
+                                        }
+                                    }
                                 }
+                                loadResult();
+                                initAnimation();
+                                mFindingStatus.setText("");
+
                             }
                         }
-                        loadResult();
-                        initAnimation();
-                        mFindingStatus.setText("");
-
-                    }
+                    }, waiting);
                 }
             }, new SearchRequest(brands, packageString, container));
         }
