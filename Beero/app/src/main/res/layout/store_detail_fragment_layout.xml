@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -48,6 +49,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/store_member_since"
+                android:text="(02) 9618 9837"
                 android:textColor="@color/main_aap_color"
                 android:textSize="16sp"/>
 
@@ -112,6 +114,7 @@
             android:layout_height="@dimen/com_180dp"
             android:layout_marginLeft="@dimen/com_20dp"
             android:layout_marginRight="@dimen/com_20dp"
+            android:visibility="visible"
             >
 
         </com.google.android.gms.maps.MapView>
@@ -121,6 +124,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/com_20dp"
+            android:layout_marginTop="@dimen/com_10dp"
             android:text="168 abc street"
             android:textColor="@android:color/darker_gray"
             android:textSize="16sp"/>
@@ -139,13 +144,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/com_150dp"/>
 
-                <TextView
-                    android:id="@+id/welcome_msg"
+                <View
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="@dimen/com_20dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="italic"/>
             </LinearLayout>
 
 
@@ -154,16 +158,28 @@
                 android:layout_width="@dimen/com_100dp"
                 android:layout_height="@dimen/com_100dp"
                 android:layout_gravity="center_horizontal|bottom"
-                android:src="@drawable/manager_0"/>
+                android:src="@drawable/manager_0"
+                app:bordercolor="@android:color/white"
+                app:borderwidth="@dimen/com_2dp"/>
 
 
         </FrameLayout>
 
+        <TextView
+            android:id="@+id/welcome_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/com_20dp"
+            android:gravity="center_horizontal"
+            android:text="@string/default_welcome"
+            android:textStyle="italic"/>
+
         <View
             android:layout_width="@dimen/com_100dp"
             android:layout_height="2dp"
-            android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/com_20dp"
+            android:layout_gravity="center_horizontal"
             android:background="@color/grey_bg"/>
 
         <TextView
@@ -176,16 +192,17 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/com_20dp">
 
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/catalog"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/com_300dp"/>
+                android:layout_height="@dimen/com_400dp"/>
 
             <ImageView
-                android:layout_width="@dimen/com_100dp"
-                android:layout_height="@dimen/com_100dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/catalog_zoom"/>
         </FrameLayout>

@@ -136,13 +136,16 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
     private void loadData() {
         mStoreName.setText(mStore.getName());
         mStoreAdd.setText(mStore.getAddress());
-        if (mStore.isMember()) {
+        mStoreMember.setVisibility(View.VISIBLE);
+        /*if (mStore.isMember()) {
             mStoreMember.setVisibility(View.VISIBLE);
         } else {
             mStoreMember.setVisibility(View.GONE);
-        }
+        }*/
 
-        mStorePhone.setText(mStore.getPhone());
+        if (mStore.getPhone()!=null){
+            mStorePhone.setText(mStore.getPhone());
+        }
         ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
 
         mStoreBanner.setDefaultImageResId(R.drawable.store_0);
@@ -167,7 +170,9 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
         } else {
 
         }
-        mWelcome.setText(mStore.getMgrWelcome());
+        if (mStore.getMgrWelcome()!=null){
+            mWelcome.setText(mStore.getMgrWelcome());
+        }
         addOpeningHours();
         mStoreOpening.setText(mStore.getBeautifiedLabelForOpenTimeToday());
         if (mStore.getBeautifiedLabelForOpenTimeToday().equalsIgnoreCase("Closed")) {

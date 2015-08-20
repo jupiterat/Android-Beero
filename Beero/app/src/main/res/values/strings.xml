@@ -41,6 +41,7 @@
     <string name="beero_member">Beero member\nsince August 2015</string>
     <string name="opening_hours">Store Opening Hours</string>
     <string name="check_catalog">For more great details, check out our catalog!</string>
-  <!--  <string name="time_remaining_format" formatted="false">Closes in %s hours %s minutes</string>-->
+    <!--  <string name="time_remaining_format" formatted="false">Closes in %s hours %s minutes</string>-->
     <string name="time_remaining_format">Closes in %s minutes</string>
+    <string name="default_welcome">Hi, I’m Colin, manager of the Lachlan\nHotel bottle shop. If you need any advice\non wines, I’m here to help!</string>
 </resources>
