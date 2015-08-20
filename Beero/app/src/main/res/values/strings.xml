@@ -24,7 +24,7 @@
     <string name="select_brand_warning">Please select at least one brand!</string>
     <string name="price_format">$ %s</string>
     <string name="distance_format">, %s mins away</string>
-    <string name="distance_drive_format">%s mins drive</string>
+    <string name="distance_drive_format">%s mins drive,&#160;</string>
     <string name="container_format" formatted="false">%s x %sml %s</string>
     <string name="no_deal">No deal found!</string>
     <string name="cancel_txt">Cancel</string>

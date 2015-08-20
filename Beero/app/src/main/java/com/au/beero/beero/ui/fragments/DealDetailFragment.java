@@ -20,9 +20,6 @@ import com.au.beero.beero.model.WiningDeal;
 import com.au.beero.beero.ui.activity.MainActivity;
 import com.au.beero.beero.ui.base.BaseFragment;
 import com.au.beero.beero.ui.stack.StackFragment;
-import com.au.beero.beero.utility.Constants;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by jupiter.at@gmail.com on 8/15/2015.
@@ -87,7 +84,7 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
 
     private void loadData() {
         Store store = mSearchResult.getWiningDeal().getStore();
-        mStoreOpening.setText(store.getBeautifiedLabelForOpenTimeToday());
+        mStoreOpening.setText(store.getBeautifiedLabelForOpenTimeToday().toLowerCase());
         if (store.getBeautifiedLabelForOpenTimeToday().equalsIgnoreCase("Closed")) {
             mStoreClosed.setVisibility(View.VISIBLE);
             mStoreOpening.setVisibility(View.GONE);
@@ -107,7 +104,7 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
         String bigPriceStr = String.valueOf(bigPrice);
         mDealPrice.setText(bigPriceStr);
         float smallPrice = Float.parseFloat(winingDeal.getPrice()) - bigPrice;
-        mDealPriceSmall.setText(String.format("%2d", (int) (smallPrice * 100)));
+        mDealPriceSmall.setText(String.format("%02d", (int) (smallPrice * 100)));
         if (winingDeal.isExclusive()) {
             mExclusiveContainer.setVisibility(View.VISIBLE);
         } else {
