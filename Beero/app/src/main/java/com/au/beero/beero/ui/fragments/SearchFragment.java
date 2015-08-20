@@ -279,6 +279,11 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                         mPackage = KEY_CASES;
                         break;
                 }
+                String searchTitle = getString(R.string.cases);
+                if(mPackage.equals(KEY_SIX_PACKS)) {
+                    searchTitle = getString(R.string.six_pack);
+                }
+                mPackageTxt.setText(searchTitle);
                 search(mBrandStr, mPackage, mContainer);
             }
         });
@@ -305,6 +310,13 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                         mContainer = KEY_BOTH;
                         break;
                 }
+                String searchTitle = getString(R.string.both);
+                if(mContainer.equals(KEY_CANS)) {
+                    searchTitle = getString(R.string.cans);
+                } else if(mContainer.equals(KEY_BOTTLE)) {
+                    searchTitle = getString(R.string.bottles);
+                }
+                mContainerTxt.setText(searchTitle);
                 search(mBrandStr, mPackage, mContainer);
             }
         });
