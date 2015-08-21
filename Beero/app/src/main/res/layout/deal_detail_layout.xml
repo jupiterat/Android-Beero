@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/verified_txt"
+        android:paddingBottom="@dimen/com_10dp"
         android:background="@drawable/item_click_selector">
 
         <TextView
@@ -113,7 +114,7 @@
             android:layout_height="@dimen/com_50dp"
             android:layout_below="@+id/store_container"
             android:layout_marginBottom="@dimen/com_2dp"
-            android:layout_marginTop="@dimen/com_10dp"
+            android:layout_marginTop="@dimen/com_2dp"
             android:gravity="center">
 
             <LinearLayout
