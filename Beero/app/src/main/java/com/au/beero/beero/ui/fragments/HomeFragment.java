@@ -137,11 +137,11 @@ public class HomeFragment extends BaseFragment {
                     return;
                 }
                 mBrandList = data.getBrands();
-                Collections.sort(mBrandList);
                 if (!isAdded()) {
                     return;
                 }
                 if (mBrandList != null) {
+                    Collections.sort(mBrandList);
                     List<Brand> brands = loadLocalBrand();
                     if(brands != null) {
                         handler.sendMessage(handler.obtainMessage(BEGIN_TRANSACTION_SEARCH, brands));
