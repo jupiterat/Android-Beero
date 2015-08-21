@@ -39,6 +39,7 @@ import com.framework.network.task.IDataEventHandler;
 import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
 import com.marshalchen.ultimaterecyclerview.SwipeableUltimateRecyclerview;
 import com.marshalchen.ultimaterecyclerview.swipelistview.BaseSwipeListViewListener;
+import com.marshalchen.ultimaterecyclerview.swipelistview.SwipeListView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -124,7 +125,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mProductListview.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         mProductListview.addOnItemTouchListener(new ItemTouchListenerAdapter(mProductListview.mRecyclerView, this));
         mProductListview.addItemDividerDecoration(mActivity);
-        mProductListview.offsetLeftAndRight(250);
+        (((SwipeListView)mProductListview.mRecyclerView)).setOffsetLeft(getFrontShowWidth());
         mProductListview.setSwipeListViewListener(new BaseSwipeListViewListener() {
             @Override
             public void onOpened(int position, boolean toRight) {
@@ -482,10 +483,23 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mProductListContainer.startAnimation(animation);
     }
 
+    private int getFrontShowWidth() {
+        int behindWidth = getResources().getDimensionPixelSize(R.dimen.com_100dp);
+        int screenWidth = getScreenWidth();
+        return screenWidth - behindWidth;
+    }
+
     private float getScreenHeight() {
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         return (float) displaymetrics.heightPixels;
+    }
+
+    private int getScreenWidth() {
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        return displaymetrics.widthPixels;
     }
 }

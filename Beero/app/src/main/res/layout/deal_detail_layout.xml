@@ -87,8 +87,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/store_distance"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/com_30dp"
             android:src="@drawable/arrow_right_dark" />
     </RelativeLayout>
@@ -208,12 +208,12 @@
 
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/product_img"
-                android:layout_width="@dimen/com_100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_marginRight="@dimen/com_10dp"
                 android:gravity="center"
-                android:scaleType="fitXY"
+                android:scaleType="fitCenter"
                 android:src="@drawable/beer_folder_smooth" />
 
             <RelativeLayout
