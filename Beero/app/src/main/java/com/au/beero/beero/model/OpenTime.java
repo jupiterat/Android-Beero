@@ -98,13 +98,13 @@ public class OpenTime implements Comparable<OpenTime> {
             if (day.equalsIgnoreCase(day1)) {
                 index1 = i;
                 if (index1 == 1){
-                    index1 += 8;
+                    index1 += weekDay.length + 1;
                 }
             }
             if (day.equalsIgnoreCase(day2)) {
                 index2 = i;
                 if (index2 == 1){
-                    index2 += 8;
+                    index2 += weekDay.length  + 1;
                 }
             }
         }
