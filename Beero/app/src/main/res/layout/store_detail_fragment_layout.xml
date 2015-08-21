@@ -170,7 +170,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/com_20dp"
+            android:layout_margin="@dimen/com_10dp"
             android:gravity="center_horizontal"
             android:text="@string/default_welcome"
             android:textStyle="italic"/>
@@ -178,7 +178,7 @@
         <View
             android:layout_width="@dimen/com_100dp"
             android:layout_height="2dp"
-            android:layout_margin="@dimen/com_20dp"
+            android:layout_margin="@dimen/com_10dp"
             android:layout_gravity="center_horizontal"
             android:background="@color/grey_bg"/>
 
@@ -186,14 +186,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/com_20dp"
+            android:layout_margin="@dimen/com_10dp"
             android:text="@string/check_catalog"
             android:textStyle="bold"/>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/com_20dp">
+            android:layout_marginBottom="@dimen/com_10dp">
 
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/catalog"
@@ -211,14 +211,14 @@
             android:layout_width="@dimen/com_100dp"
             android:layout_height="2dp"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/com_20dp"
+            android:layout_margin="@dimen/com_10dp"
             android:background="@color/grey_bg"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/com_20dp"
+            android:layout_margin="@dimen/com_10dp"
             android:text="@string/opening_hours"
             android:textStyle="bold"/>
 

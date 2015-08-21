@@ -97,17 +97,27 @@ public class OpenTime implements Comparable<OpenTime> {
             String day = weekDay[i];
             if (day.equalsIgnoreCase(day1)) {
                 index1 = i;
+                if (index1 == 1){
+                    index1 += 8;
+                }
             }
             if (day.equalsIgnoreCase(day2)) {
                 index2 = i;
+                if (index2 == 1){
+                    index2 += 8;
+                }
             }
         }
-        if (index2 > index1) {
-            return -1;
-        } else if (index1 == index2) {
-            return 0;
-        } else {
+       /* if (index1 == 1){
             return 1;
-        }
+        } else{*/
+            if (index2 > index1) {
+                return -1;
+            } else if (index1 == index2) {
+                return 0;
+            } else {
+                return 1;
+            }
+//        }
     }
 }
