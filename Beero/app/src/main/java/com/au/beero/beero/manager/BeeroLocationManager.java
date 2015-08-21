@@ -37,7 +37,7 @@ public class BeeroLocationManager {
 
 
     private static final double LOCATIONMANAGER_DEFAULT_LOCATION_LATITUDE = -33.731628;
-    private static final double LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE = 151.216935;
+    private static final double LOCATIONMANAGER_DEFAULT_LOCATION_LONGITUDE = 151.216934;
 
     public static void initialize(Context context) {
         if (sInstance == null) {

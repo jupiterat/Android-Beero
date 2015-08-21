@@ -71,7 +71,8 @@ public class BeeroSearchManager {
     private String timestamp() {
         String timestamp = null;
         Calendar cal = Calendar.getInstance();
-        DateFormat dfm = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+//        DateFormat dfm = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        DateFormat dfm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dfm.setTimeZone(TimeZone.getTimeZone("GMT"));
         timestamp = dfm.format(cal.getTime());
         return timestamp;
