@@ -96,7 +96,7 @@
                 swipe:swipeBackView="@+id/back"
                 android:background="@android:color/white"
                 swipe:swipeCloseAllItemsWhenMoveList="true"
-                swipe:swipeMode="right"
+                swipe:swipeMode="left"
                 swipe:onlyOneOpenedWhenSwipe="true"
                 />
             <RelativeLayout

@@ -26,16 +26,17 @@
         android:id="@+id/back"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:gravity="right"
         android:tag="back">
 
         <TextView
             android:id="@+id/delete_product"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/com_100dp"
             android:layout_height="fill_parent"
             android:gravity="center"
             android:padding="@dimen/com_10dp"
             android:textStyle="bold"
-            android:background="@color/main_yellow"
+            android:background="@android:color/holo_red_dark"
             android:textColor="@android:color/white"
             android:text="@string/remove" />
 
