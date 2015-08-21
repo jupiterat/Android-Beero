@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -92,74 +93,110 @@
             android:src="@drawable/arrow_right_dark" />
     </RelativeLayout>
 
-
-    <RelativeLayout
+    <com.h6ah4i.android.materialshadowninepatch.MaterialShadowContainerView
         android:id="@+id/contact_container"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/com_50dp"
+        style="@style/ms9_DefaultShadowStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/store_container"
-        android:layout_marginTop="@dimen/com_10dp"
-        android:background="@drawable/shadow_bg1"
-        android:gravity="center">
+        app:ms9_affectsDisplayedPosition="true"
+        app:ms9_ambientShadowDrawablesList="@array/ms9_ambient_shadow_drawables_z18"
+        app:ms9_forceUseCompatShadow="true"
+        app:ms9_shadowElevation="4dp"
+        app:ms9_shadowTranslationZ="2dp"
+        app:ms9_spotShadowDrawablesList="@array/ms9_spot_shadow_drawables_z18"
+        app:ms9_useAmbientShadow="true"
+        app:ms9_useSpotShadow="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/com_50dp"
+            android:layout_below="@+id/store_container"
+            android:layout_marginTop="@dimen/com_10dp"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/separator"
+                android:gravity="center"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:drawableLeft="@drawable/icon_phone"
+                    android:drawablePadding="@dimen/com_10dp"
+                    android:gravity="center"
+                    android:text="@string/call"
+                    android:textColor="@color/main_aap_color"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/separator"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@color/grey_bg" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/separator"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/catalog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:drawableLeft="@drawable/icon_catalog"
+                    android:drawablePadding="@dimen/com_10dp"
+                    android:gravity="center"
+                    android:text="@string/catalog"
+                    android:textColor="@color/main_aap_color"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </com.h6ah4i.android.materialshadowninepatch.MaterialShadowContainerView>
+
+    <com.h6ah4i.android.materialshadowninepatch.MaterialShadowContainerView
+        android:id="@+id/contact_container_11"
+        style="@style/ms9_DefaultShadowStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/contact_container"
+        app:ms9_affectsDisplayedPosition="true"
+        app:ms9_forceUseCompatShadow="true"
+        app:ms9_shadowElevation="2dp"
+        app:ms9_shadowTranslationZ="4dp"
+        app:ms9_useAmbientShadow="true"
+        app:ms9_useSpotShadow="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/separator"
-            android:gravity="center"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/com_5dp"
+            android:background="@android:color/white"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/call"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:drawableLeft="@drawable/icon_phone"
-                android:drawablePadding="@dimen/com_10dp"
-                android:gravity="center"
-                android:padding="@dimen/com_10dp"
-                android:text="@string/call"
-                android:textColor="@color/main_aap_color"
-                android:textSize="18sp" />
         </LinearLayout>
 
-
-        <View
-            android:id="@+id/separator"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:background="@color/grey_bg" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/separator"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/catalog"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:drawableLeft="@drawable/icon_catalog"
-                android:drawablePadding="@dimen/com_10dp"
-                android:gravity="center"
-                android:padding="@dimen/com_10dp"
-                android:text="@string/catalog"
-                android:textColor="@color/main_aap_color"
-                android:textSize="18sp" />
-        </LinearLayout>
-    </RelativeLayout>
+    </com.h6ah4i.android.materialshadowninepatch.MaterialShadowContainerView>
 
     <RelativeLayout
         android:id="@+id/deal_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/show_loosing"
-        android:layout_below="@+id/contact_container"
-        android:background="@drawable/shadow_bg1"
+        android:layout_above="@+id/show_loosing_shadow"
+        android:layout_below="@+id/contact_container_11"
         android:padding="@dimen/com_20dp">
 
         <RelativeLayout
@@ -258,14 +295,31 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/show_loosing"
+    <com.h6ah4i.android.materialshadowninepatch.MaterialShadowContainerView
+        android:id="@+id/show_loosing_shadow"
+        style="@style/ms9_DefaultShadowStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:drawableRight="@drawable/arrow_right_dark"
-        android:gravity="center_vertical"
-        android:padding="@dimen/com_10dp"
-        android:textColor="@color/main_aap_color"
-        android:textSize="20sp" />
+        app:ms9_shadowElevation="2dp"
+        app:ms9_shadowTranslationZ="4dp">
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/com_5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/show_loosing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:drawableRight="@drawable/arrow_right_dark"
+            android:gravity="center_vertical"
+            android:padding="@dimen/com_10dp"
+            android:textColor="@color/main_aap_color"
+            android:textSize="20sp" />
+        </LinearLayout>
+    </com.h6ah4i.android.materialshadowninepatch.MaterialShadowContainerView>
 </RelativeLayout>
