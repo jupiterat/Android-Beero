@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -66,6 +68,8 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     private ProductAdapter mBrandAdapter;
     private Animation bounceAnimation;
     RelativeLayout mProductListContainer;
+    RelativeLayout mPackageSelection;
+    RelativeLayout mContainerSelection;
 
     private static final String KEY_BRANDS = "brands";
     private static final String KEY_CASES = "case";
@@ -81,6 +85,14 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     private TextView mRefreshBtn;
     private TextView mAddBtn;
     private TextView mFindingStatus;
+    private ImageView mPackageArrowDown;
+    private ImageView mContainerArrowDown;
+    private Animation animFadein;
+    private TextView mCaseBtn;
+    private TextView mSixPackBtn;
+    private TextView mCansBtn;
+    private TextView mBottleBtn;
+    private TextView mBothBtn;
 
     public static Fragment makeInstance(List<Brand> brands, String brandStr) {
         mBrandsList = brands;
@@ -117,6 +129,35 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_layout, null);
+        view.requestFocus();
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (isQuickActionVisible()) {
+                    hideQuickAction();
+                    return true;
+                }
+                return false;
+            }
+        });
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        if (isQuickActionVisible()) {
+                            hideQuickAction();
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                }
+                return false;
+            }
+        });
         mPackageTxt = (TextView) view.findViewById(R.id.package_condition);
         mContainerTxt = (TextView) view.findViewById(R.id.container_condition);
         mSearchIcon = (ImageView) view.findViewById(R.id.icon_search);
@@ -125,7 +166,17 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mProductListview.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         mProductListview.addOnItemTouchListener(new ItemTouchListenerAdapter(mProductListview.mRecyclerView, this));
         mProductListview.addItemDividerDecoration(mActivity);
-        (((SwipeListView)mProductListview.mRecyclerView)).setOffsetLeft(getFrontShowWidth());
+        (((SwipeListView) mProductListview.mRecyclerView)).setOffsetLeft(getFrontShowWidth());
+        mProductListview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (isQuickActionVisible()) {
+                    hideQuickAction();
+                    return true;
+                }
+                return false;
+            }
+        });
         mProductListview.setSwipeListViewListener(new BaseSwipeListViewListener() {
             @Override
             public void onOpened(int position, boolean toRight) {
@@ -153,50 +204,58 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
 
             @Override
             public void onClickFrontView(int i) {
-                if (searchResults.get(i).getWiningDeal() != null) {
-                    StackFragment stack = ((StackFragment) ((MainActivity) mActivity).getCurrentStackFragment());
-                    Fragment brandFrag = DealDetailFragment.makeInstance(searchResults.get(i));
-                    stack.addFragmentToStack(brandFrag);
+                if (isQuickActionVisible()) {
+                    hideQuickAction();
+                } else {
+                    if (searchResults.get(i).getWiningDeal() != null) {
+                        StackFragment stack = ((StackFragment) ((MainActivity) mActivity).getCurrentStackFragment());
+                        Fragment brandFrag = DealDetailFragment.makeInstance(searchResults.get(i));
+                        stack.addFragmentToStack(brandFrag);
+                    }
                 }
             }
 
             @Override
             public void onClickBackView(int position) {
-                for (Brand brand : mBrandsList) {
-                    if (brand.getId().equals(mBrandAdapter.getProducts().get(position).getId())) {
-                        brand.setIsSelected(false);
-                        break;
-                    }
-                }
-
-                mBrandAdapter.getProducts().remove(position);
-                mBrandAdapter.notifyDataSetChanged();
-                setHeight(mBrandAdapter.getProducts().size());
-                List<Brand> brands = new ArrayList<Brand>();
-                for (SearchResult item : mBrandAdapter.getProducts()) {
-                    Brand brand = new Brand();
-                    brand.setId(item.getId());
-                    brand.setName(item.getBrandName());
-                    brands.add(brand);
-                }
-                String[] ids = Utility.createIds(brands);
-                if (ids != null) {
-                    Utility.saveSelectedIds(mActivity, ids[0], ids[1]);
-                }
-                if (mBrandAdapter.getProducts() != null && mBrandAdapter.getProducts().size() > 0) {
-                    if (mProductListContainer.getVisibility() != View.VISIBLE) {
-                        mProductListContainer.setVisibility(View.VISIBLE);
-                    }
+                if (isQuickActionVisible()) {
+                    hideQuickAction();
                 } else {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mProductListContainer.getVisibility() == View.VISIBLE) {
-                                mProductListContainer.setVisibility(View.GONE);
-                            }
+                    for (Brand brand : mBrandsList) {
+                        if (brand.getId().equals(mBrandAdapter.getProducts().get(position).getId())) {
+                            brand.setIsSelected(false);
+                            break;
                         }
-                    }, 1000);
+                    }
 
+                    mBrandAdapter.getProducts().remove(position);
+                    mBrandAdapter.notifyDataSetChanged();
+                    setHeight(mBrandAdapter.getProducts().size());
+                    List<Brand> brands = new ArrayList<Brand>();
+                    for (SearchResult item : mBrandAdapter.getProducts()) {
+                        Brand brand = new Brand();
+                        brand.setId(item.getId());
+                        brand.setName(item.getBrandName());
+                        brands.add(brand);
+                    }
+                    String[] ids = Utility.createIds(brands);
+                    if (ids != null) {
+                        Utility.saveSelectedIds(mActivity, ids[0], ids[1]);
+                    }
+                    if (mBrandAdapter.getProducts() != null && mBrandAdapter.getProducts().size() > 0) {
+                        if (mProductListContainer.getVisibility() != View.VISIBLE) {
+                            mProductListContainer.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (mProductListContainer.getVisibility() == View.VISIBLE) {
+                                    mProductListContainer.setVisibility(View.GONE);
+                                }
+                            }
+                        }, 1000);
+
+                    }
                 }
             }
 
@@ -209,14 +268,33 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mRefreshBtn = (TextView) view.findViewById(R.id.refresh);
         mAddBtn = (TextView) view.findViewById(R.id.add_beer);
         mFindingStatus = (TextView) view.findViewById(R.id.finding_status);
+        mPackageSelection = (RelativeLayout) view.findViewById(R.id.package_condition_selection);
+        mContainerSelection = (RelativeLayout) view.findViewById(R.id.container_condition_selection);
+        mPackageArrowDown = (ImageView) view.findViewById(R.id.arrow_down);
+        mContainerArrowDown = (ImageView) view.findViewById(R.id.arrow_down_container);
+        mCaseBtn = (TextView) view.findViewById(R.id.case_btn);
+        mSixPackBtn = (TextView) view.findViewById(R.id.six_pack_btn);
+        mCansBtn = (TextView) view.findViewById(R.id.cans_btn);
+        mBottleBtn = (TextView) view.findViewById(R.id.bottle_btn);
+        mBothBtn = (TextView) view.findViewById(R.id.both_btn);
+
 
         mPackageTxt.setOnClickListener(this);
         mContainerTxt.setOnClickListener(this);
         mRefreshBtn.setOnClickListener(this);
         mAddBtn.setOnClickListener(this);
 
+        mCaseBtn.setOnClickListener(this);
+        mSixPackBtn.setOnClickListener(this);
+        mCansBtn.setOnClickListener(this);
+        mBottleBtn.setOnClickListener(this);
+        mBothBtn.setOnClickListener(this);
+        //
+
+        animFadein = AnimationUtils.loadAnimation(getActivity(),
+                R.anim.fade_in);
         initRotateAnimation();
-        initQuickAction();
+//        initQuickAction();
 
         if (!isLoaded) {
             search(mBrandStr, mPackage, mContainer);
@@ -240,27 +318,124 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+
         int id = v.getId();
         switch (id) {
             case R.id.package_condition:
-                mPackageAction.show(v);
-                mPackageAction.setAnimStyle(QuickAction.ANIM_GROW_FROM_BOTTOM);
+                showQuickAction(true);
                 break;
             case R.id.container_condition:
-                mContainerAction.show(v);
-                mPackageAction.setAnimStyle(QuickAction.ANIM_GROW_FROM_BOTTOM);
+                showQuickAction(false);
                 break;
             case R.id.refresh:
-
-                search(mBrandStr, mPackage, mContainer);
+                if (isQuickActionVisible()) {
+                    hideQuickAction();
+                } else {
+                    search(mBrandStr, mPackage, mContainer);
+                }
                 break;
             case R.id.add_beer:
-                backToPrevious();
+                if (isQuickActionVisible()) {
+                    hideQuickAction();
+                } else {
+                    backToPrevious();
+                }
                 break;
+            case R.id.case_btn:
+                mPackage = KEY_CASES;
+                mPackageTxt.setText(getString(R.string.cases));
+                search(mBrandStr, mPackage, mContainer);
+                mPackageSelection.setVisibility(View.GONE);
+                break;
+            case R.id.six_pack_btn:
+                mPackage = KEY_SIX_PACKS;
+                mPackageTxt.setText(getString(R.string.cases));
+                search(mBrandStr, mPackage, mContainer);
+                mPackageSelection.setVisibility(View.GONE);
+                break;
+            case R.id.cans_btn:
+                mContainer = KEY_CANS;
+                mContainerTxt.setText(getString(R.string.cans));
+                search(mBrandStr, mPackage, mContainer);
+                mContainerSelection.setVisibility(View.GONE);
+                break;
+            case R.id.bottle_btn:
+                mContainer = KEY_BOTTLE;
+                mContainerTxt.setText(getString(R.string.bottles));
+                search(mBrandStr, mPackage, mContainer);
+                mContainerSelection.setVisibility(View.GONE);
+                break;
+            case R.id.both_btn:
+                mContainer = KEY_BOTH;
+                mContainerTxt.setText(getString(R.string.both));
+                search(mBrandStr, mPackage, mContainer);
+                mContainerSelection.setVisibility(View.GONE);
+                break;
+
             default:
                 break;
         }
     }
+
+    /**
+     * check search condition is showing or not
+     * @return
+     */
+    private boolean isQuickActionVisible() {
+        if (mPackageSelection.getVisibility() == View.VISIBLE || mContainerSelection.getVisibility() == View.VISIBLE) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * hide search condition
+     */
+    private void hideQuickAction() {
+        if (mPackageSelection.getVisibility() == View.VISIBLE) {
+            mPackageSelection.setVisibility(View.GONE);
+        }
+        if (mContainerSelection.getVisibility() == View.VISIBLE) {
+            mContainerSelection.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * show search condition
+     * @param left: package condition
+     */
+    private void showQuickAction(boolean left) {
+        if (left) {
+            if (mPackageSelection.getVisibility() != View.VISIBLE) {
+                mPackageSelection.setVisibility(View.VISIBLE);
+                //display with animation
+                if (mContainerSelection.getVisibility() != View.VISIBLE) {
+                    int itemHeight = getResources().getDimensionPixelSize(R.dimen.com_50dp);
+                    bounceFromBottom(mPackageSelection, itemHeight * 2);
+                    mPackageArrowDown.startAnimation(animFadein);
+                }
+            }
+            if (mContainerSelection.getVisibility() != View.GONE) {
+                mContainerSelection.setVisibility(View.GONE);
+            }
+
+        } else {
+            if (mContainerSelection.getVisibility() != View.VISIBLE) {
+                mContainerSelection.setVisibility(View.VISIBLE);
+                //display with animation
+                if (mPackageSelection.getVisibility() != View.VISIBLE) {
+                    int itemHeight = getResources().getDimensionPixelSize(R.dimen.com_50dp);
+                    bounceFromBottom(mContainerSelection, itemHeight * 3);
+                    mContainerArrowDown.startAnimation(animFadein);
+                }
+
+            }
+            if (mPackageSelection.getVisibility() != View.GONE) {
+                mPackageSelection.setVisibility(View.GONE);
+            }
+        }
+    }
+
 
     private void initQuickAction() {
         ActionItem addItem = new ActionItem(ID_CASES, getString(R.string.cases), null);
@@ -371,9 +546,9 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mSearchIcon.startAnimation(rotateAnimation);
     }
 
-    private void stopAnimation() {
-        mSearchIcon.animate().cancel();
-        mSearchIcon.clearAnimation();
+    private void stopAnimation(View v) {
+        v.animate().cancel();
+        v.clearAnimation();
     }
 
     private void search(String brands, String packageString, String container) {
@@ -395,7 +570,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            stopAnimation();
+                            stopAnimation(mSearchIcon);
                             isLoaded = true;
                             if (data == null) {
                                 mFindingStatus.setText(getString(R.string.no_deal));
@@ -429,12 +604,10 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
             mBrandAdapter = new ProductAdapter(mActivity, searchResults);
         }
         mProductListview.setAdapter(mBrandAdapter);
-//        mBrandAdapter.notifyDataSetChanged();
         setHeight(searchResults.size());
         if (mProductListContainer != null && mProductListContainer.getVisibility() != View.VISIBLE) {
             mProductListContainer.setVisibility(View.VISIBLE);
         }
-//        initBounceAnimation();
     }
 
     private void backToPrevious() {
@@ -460,27 +633,17 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         if (mProductListContainer.getHeight() <= -1) {//in case MATCH_PARENT
             yDelta = mProductListContainer.getHeight();
         }
-
-
         final Animation animation = new TranslateAnimation(0, 0, -yDelta, 0);
-
         animation.setDuration(1300);
         animation.setInterpolator(new BounceInterpolator());
-//        animation.setAnimationListener(new Animation.AnimationListener() {
-//
-//            public void onAnimationStart(Animation animation) {
-//            }
-//
-//            public void onAnimationRepeat(Animation animation) {
-//            }
-//
-//            public void onAnimationEnd(Animation animation) {
-//                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mProductListContainer.getLayoutParams());
-//                mProductListContainer.setLayoutParams(params);
-//            }
-//        });
-
         mProductListContainer.startAnimation(animation);
+    }
+
+    private void bounceFromBottom(View v, int height) {
+        final Animation animation = new TranslateAnimation(0, 0, height, 0);
+        animation.setDuration(500);
+        animation.setInterpolator(new BounceInterpolator());
+        v.startAnimation(animation);
     }
 
     private int getFrontShowWidth() {
@@ -490,14 +653,12 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     }
 
     private float getScreenHeight() {
-
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         return (float) displaymetrics.heightPixels;
     }
 
     private int getScreenWidth() {
-
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         return displaymetrics.widthPixels;
