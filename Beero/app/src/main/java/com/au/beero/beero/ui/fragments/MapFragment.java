@@ -130,7 +130,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
                 builder.include(latLng);
                 Marker marker = googleMap.addMarker(new MarkerOptions()
                         .position(latLng).title(deal.getStoreName())
-                        .snippet(deal.getPricePerLitre()).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_marker)));
+                        .snippet(String.format(getString(R.string.price_per_litre), deal.getPricePerLitre())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_marker)));
             }
         }
         LatLngBounds bounds = builder.build();
