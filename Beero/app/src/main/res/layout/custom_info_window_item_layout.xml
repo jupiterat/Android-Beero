@@ -12,7 +12,7 @@
         android:background="@color/main_aap_color"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="@dimen/com_10dp">
+        android:padding="@dimen/com_15dp">
 
         <TextView
             android:id="@+id/info_brand_name"
@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:maxLines="25"
             android:singleLine="true"
-            android:text="safaf"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -32,7 +31,6 @@
             android:layout_above="@+id/marker_arrow_down"
             android:layout_below="@+id/info_brand_name"
             android:singleLine="true"
-            android:text="dgs"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
