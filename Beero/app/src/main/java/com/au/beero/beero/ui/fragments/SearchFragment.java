@@ -240,6 +240,8 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                     String[] ids = Utility.createIds(brands);
                     if (ids != null) {
                         Utility.saveSelectedIds(mActivity, ids[0], ids[1]);
+                    } else {
+                        Utility.saveSelectedIds(mActivity, "", "");
                     }
                     if (mBrandAdapter.getProducts() != null && mBrandAdapter.getProducts().size() > 0) {
                         if (mProductListContainer.getVisibility() != View.VISIBLE) {

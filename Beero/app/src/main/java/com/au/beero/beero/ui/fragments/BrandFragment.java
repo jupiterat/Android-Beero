@@ -71,6 +71,8 @@ public class BrandFragment extends BaseFragment {
         }));
         if(Utility.getPrefIds(mActivity).length() > 0) {
             mSelectedIds = Utility.getPrefIds(mActivity).split(Utility.BRAND_SEPERTOR);
+        } else {
+            mSelectedIds = null;
         }
 
         return view;
