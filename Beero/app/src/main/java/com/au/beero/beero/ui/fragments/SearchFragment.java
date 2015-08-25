@@ -346,30 +346,35 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                 mPackageTxt.setText(getString(R.string.cases));
                 search(mBrandStr, mPackage, mContainer);
                 mPackageSelection.setVisibility(View.GONE);
+                mPackageArrowDown.setVisibility(View.GONE);
                 break;
             case R.id.six_pack_btn:
                 mPackage = KEY_SIX_PACKS;
                 mPackageTxt.setText(getString(R.string.cases));
                 search(mBrandStr, mPackage, mContainer);
                 mPackageSelection.setVisibility(View.GONE);
+                mPackageArrowDown.setVisibility(View.GONE);
                 break;
             case R.id.cans_btn:
                 mContainer = KEY_CANS;
                 mContainerTxt.setText(getString(R.string.cans));
                 search(mBrandStr, mPackage, mContainer);
                 mContainerSelection.setVisibility(View.GONE);
+                mContainerArrowDown.setVisibility(View.GONE);
                 break;
             case R.id.bottle_btn:
                 mContainer = KEY_BOTTLE;
                 mContainerTxt.setText(getString(R.string.bottles));
                 search(mBrandStr, mPackage, mContainer);
                 mContainerSelection.setVisibility(View.GONE);
+                mContainerArrowDown.setVisibility(View.GONE);
                 break;
             case R.id.both_btn:
                 mContainer = KEY_BOTH;
                 mContainerTxt.setText(getString(R.string.both));
                 search(mBrandStr, mPackage, mContainer);
                 mContainerSelection.setVisibility(View.GONE);
+                mContainerArrowDown.setVisibility(View.GONE);
                 break;
 
             default:
@@ -394,9 +399,11 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     private void hideQuickAction() {
         if (mPackageSelection.getVisibility() == View.VISIBLE) {
             mPackageSelection.setVisibility(View.GONE);
+            mPackageArrowDown.setVisibility(View.GONE);
         }
         if (mContainerSelection.getVisibility() == View.VISIBLE) {
             mContainerSelection.setVisibility(View.GONE);
+            mContainerArrowDown.setVisibility(View.GONE);
         }
     }
 
@@ -408,6 +415,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         if (left) {
             if (mPackageSelection.getVisibility() != View.VISIBLE) {
                 mPackageSelection.setVisibility(View.VISIBLE);
+                mPackageArrowDown.setVisibility(View.VISIBLE);
                 //display with animation
                 if (mContainerSelection.getVisibility() != View.VISIBLE) {
                     int itemHeight = getResources().getDimensionPixelSize(R.dimen.com_50dp);
@@ -416,14 +424,17 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                 }
             } else {
                 mPackageSelection.setVisibility(View.GONE);
+                mPackageArrowDown.setVisibility(View.GONE);
             }
             if (mContainerSelection.getVisibility() != View.GONE) {
                 mContainerSelection.setVisibility(View.GONE);
+                mContainerArrowDown.setVisibility(View.GONE);
             }
 
         } else {
             if (mContainerSelection.getVisibility() != View.VISIBLE) {
                 mContainerSelection.setVisibility(View.VISIBLE);
+                mContainerArrowDown.setVisibility(View.VISIBLE);
                 //display with animation
                 if (mPackageSelection.getVisibility() != View.VISIBLE) {
                     int itemHeight = getResources().getDimensionPixelSize(R.dimen.com_50dp);
@@ -433,9 +444,11 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
 
             } else {
                 mContainerSelection.setVisibility(View.GONE);
+                mContainerArrowDown.setVisibility(View.GONE);
             }
             if (mPackageSelection.getVisibility() != View.GONE) {
                 mPackageSelection.setVisibility(View.GONE);
+                mPackageArrowDown.setVisibility(View.GONE);
             }
         }
     }

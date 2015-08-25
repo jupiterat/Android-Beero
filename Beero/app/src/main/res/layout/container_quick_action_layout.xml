@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom|right"
-    android:layout_marginBottom="@dimen/com_50dp"
     android:background="@android:color/transparent"
     android:focusable="true"
     android:focusableInTouchMode="true"
@@ -43,13 +42,6 @@
         android:text="@string/both" />
 
 
-    <ImageView
-        android:id="@+id/arrow_down_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/both_btn"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/com_50dp"
-        android:src="@drawable/arrow_down" />
+
 
 </RelativeLayout>
