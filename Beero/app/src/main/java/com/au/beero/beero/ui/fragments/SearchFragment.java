@@ -270,7 +270,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mFindingStatus = (TextView) view.findViewById(R.id.finding_status);
         mPackageSelection = (RelativeLayout) view.findViewById(R.id.package_condition_selection);
         mContainerSelection = (RelativeLayout) view.findViewById(R.id.container_condition_selection);
-        mPackageArrowDown = (ImageView) view.findViewById(R.id.arrow_down);
+        mPackageArrowDown = (ImageView) view.findViewById(R.id.arrow_down_package);
         mContainerArrowDown = (ImageView) view.findViewById(R.id.arrow_down_container);
         mCaseBtn = (TextView) view.findViewById(R.id.case_btn);
         mSixPackBtn = (TextView) view.findViewById(R.id.six_pack_btn);
@@ -346,35 +346,40 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                 mPackageTxt.setText(getString(R.string.cases));
                 search(mBrandStr, mPackage, mContainer);
                 mPackageSelection.setVisibility(View.GONE);
-                mPackageArrowDown.setVisibility(View.GONE);
+                stopAnimation(mPackageArrowDown);
+                mPackageArrowDown.setVisibility(View.INVISIBLE);
                 break;
             case R.id.six_pack_btn:
                 mPackage = KEY_SIX_PACKS;
                 mPackageTxt.setText(getString(R.string.cases));
                 search(mBrandStr, mPackage, mContainer);
                 mPackageSelection.setVisibility(View.GONE);
-                mPackageArrowDown.setVisibility(View.GONE);
+                stopAnimation(mPackageArrowDown);
+                mPackageArrowDown.setVisibility(View.INVISIBLE);
                 break;
             case R.id.cans_btn:
                 mContainer = KEY_CANS;
                 mContainerTxt.setText(getString(R.string.cans));
                 search(mBrandStr, mPackage, mContainer);
                 mContainerSelection.setVisibility(View.GONE);
-                mContainerArrowDown.setVisibility(View.GONE);
+                stopAnimation(mContainerArrowDown);
+                mContainerArrowDown.setVisibility(View.INVISIBLE);
                 break;
             case R.id.bottle_btn:
                 mContainer = KEY_BOTTLE;
                 mContainerTxt.setText(getString(R.string.bottles));
                 search(mBrandStr, mPackage, mContainer);
                 mContainerSelection.setVisibility(View.GONE);
-                mContainerArrowDown.setVisibility(View.GONE);
+                stopAnimation(mContainerArrowDown);
+                mContainerArrowDown.setVisibility(View.INVISIBLE);
                 break;
             case R.id.both_btn:
                 mContainer = KEY_BOTH;
                 mContainerTxt.setText(getString(R.string.both));
                 search(mBrandStr, mPackage, mContainer);
                 mContainerSelection.setVisibility(View.GONE);
-                mContainerArrowDown.setVisibility(View.GONE);
+                stopAnimation(mContainerArrowDown);
+                mContainerArrowDown.setVisibility(View.INVISIBLE);
                 break;
 
             default:
@@ -399,11 +404,13 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     private void hideQuickAction() {
         if (mPackageSelection.getVisibility() == View.VISIBLE) {
             mPackageSelection.setVisibility(View.GONE);
-            mPackageArrowDown.setVisibility(View.GONE);
+            stopAnimation(mPackageArrowDown);
+            mPackageArrowDown.setVisibility(View.INVISIBLE);
         }
         if (mContainerSelection.getVisibility() == View.VISIBLE) {
             mContainerSelection.setVisibility(View.GONE);
-            mContainerArrowDown.setVisibility(View.GONE);
+            stopAnimation(mContainerArrowDown);
+            mContainerArrowDown.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -424,11 +431,14 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                 }
             } else {
                 mPackageSelection.setVisibility(View.GONE);
-                mPackageArrowDown.setVisibility(View.GONE);
+                stopAnimation(mPackageArrowDown);
+                mPackageArrowDown.setVisibility(View.INVISIBLE);
+
             }
             if (mContainerSelection.getVisibility() != View.GONE) {
                 mContainerSelection.setVisibility(View.GONE);
-                mContainerArrowDown.setVisibility(View.GONE);
+                stopAnimation(mContainerArrowDown);
+                mContainerArrowDown.setVisibility(View.INVISIBLE);
             }
 
         } else {
@@ -444,11 +454,14 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
 
             } else {
                 mContainerSelection.setVisibility(View.GONE);
-                mContainerArrowDown.setVisibility(View.GONE);
+                //must call before hide
+                stopAnimation(mContainerArrowDown);
+                mContainerArrowDown.setVisibility(View.INVISIBLE);
             }
             if (mPackageSelection.getVisibility() != View.GONE) {
                 mPackageSelection.setVisibility(View.GONE);
-                mPackageArrowDown.setVisibility(View.GONE);
+                stopAnimation(mPackageArrowDown);
+                mPackageArrowDown.setVisibility(View.INVISIBLE);
             }
         }
     }
