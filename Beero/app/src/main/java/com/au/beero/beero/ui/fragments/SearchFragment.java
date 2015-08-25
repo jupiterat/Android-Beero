@@ -535,7 +535,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         rotateAnimation.setInterpolator(new LinearInterpolator());
         rotateAnimation.setRepeatCount(Animation.INFINITE);
         rotateAnimation.setDuration(2000);
-        mSearchIcon.setAnimation(rotateAnimation);
+
     }
 
     private void setHeight(int size) {
@@ -584,6 +584,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     private void search(String brands, String packageString, String container) {
         mProductListContainer.setVisibility(View.GONE);
         mFindingStatus.setText(getString(R.string.finding));
+        mSearchIcon.setAnimation(rotateAnimation);
         startAnimation();
         if (mBrandStr != null && !mBrandStr.isEmpty()) {
 //            final long start = System.currentTimeMillis();
