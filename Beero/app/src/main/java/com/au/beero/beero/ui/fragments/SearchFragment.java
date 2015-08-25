@@ -414,6 +414,8 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                     bounceFromBottom(mPackageSelection, itemHeight * 2);
                     mPackageArrowDown.startAnimation(animFadein);
                 }
+            } else {
+                mPackageSelection.setVisibility(View.GONE);
             }
             if (mContainerSelection.getVisibility() != View.GONE) {
                 mContainerSelection.setVisibility(View.GONE);
@@ -429,6 +431,8 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                     mContainerArrowDown.startAnimation(animFadein);
                 }
 
+            } else {
+                mContainerSelection.setVisibility(View.GONE);
             }
             if (mPackageSelection.getVisibility() != View.GONE) {
                 mPackageSelection.setVisibility(View.GONE);
