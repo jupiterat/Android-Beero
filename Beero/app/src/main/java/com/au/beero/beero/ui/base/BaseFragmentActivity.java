@@ -29,6 +29,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.au.beero.beero.R;
+import com.au.beero.beero.ui.fragments.BrandFragment;
 import com.au.beero.beero.ui.stack.StackFragment;
 import com.au.beero.beero.utility.Utility;
 
@@ -122,19 +123,24 @@ public class BaseFragmentActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag(
-                    FRAGMENT_TAG);
-            if (fragment != null && fragment instanceof StackFragment) {
-                StackFragment stackFragment = (StackFragment) fragment;
-                if (stackFragment.getStackCount() == 0) {
-                    finish();
-                } else if (stackFragment.backToPrevious()) {
-                    return true;
-                }
-            }
+            return handleBackClick();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private boolean handleBackClick() {
+        Fragment fragment = getCurrentStackFragment();
+        if (fragment != null && fragment instanceof StackFragment) {
+            StackFragment stackFragment = (StackFragment) fragment;
+            if (stackFragment.getStackLevel() == 0) {
+                finish();
+            } else if (stackFragment.getCurrentFragment() != null && stackFragment.getCurrentFragment() instanceof BrandFragment) {
+                finish();
+            }
+            stackFragment.backToPrevious();
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -184,7 +190,8 @@ public class BaseFragmentActivity extends BaseActivity {
         rlBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                goBackPreviousScreen(stack);
+                handleBackClick();
+//                goBackPreviousScreen(stack);
             }
         });
     }
