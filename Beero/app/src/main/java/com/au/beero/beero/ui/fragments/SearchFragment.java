@@ -20,6 +20,7 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -67,9 +68,11 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     private List<SearchResult> searchResults;
     private ProductAdapter mBrandAdapter;
     private Animation bounceAnimation;
-    RelativeLayout mProductListContainer;
-    RelativeLayout mPackageSelection;
-    RelativeLayout mContainerSelection;
+    private RelativeLayout mProductListContainer;
+    private RelativeLayout mPackageSelection;
+    private RelativeLayout mContainerSelection;
+    private LinearLayout mPackageGroup;
+    private LinearLayout mContainerGroup;
 
     private static final String KEY_BRANDS = "brands";
     private static final String KEY_CASES = "case";
@@ -279,6 +282,8 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mCansBtn = (TextView) view.findViewById(R.id.cans_btn);
         mBottleBtn = (TextView) view.findViewById(R.id.bottle_btn);
         mBothBtn = (TextView) view.findViewById(R.id.both_btn);
+        mPackageGroup = (LinearLayout) view.findViewById(R.id.package_condition_group);
+        mContainerGroup = (LinearLayout) view.findViewById(R.id.container_condition_group);
 
 
         mPackageTxt.setOnClickListener(this);
@@ -291,6 +296,8 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mCansBtn.setOnClickListener(this);
         mBottleBtn.setOnClickListener(this);
         mBothBtn.setOnClickListener(this);
+        mPackageGroup.setOnClickListener(this);
+        mContainerGroup.setOnClickListener(this);
         //
 
         animFadein = AnimationUtils.loadAnimation(getActivity(),
@@ -324,9 +331,11 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         int id = v.getId();
         switch (id) {
             case R.id.package_condition:
+            case R.id.package_condition_group:
                 showQuickAction(true);
                 break;
             case R.id.container_condition:
+            case R.id.container_condition_group:
                 showQuickAction(false);
                 break;
             case R.id.refresh:
@@ -353,7 +362,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.six_pack_btn:
                 mPackage = KEY_SIX_PACKS;
-                mPackageTxt.setText(getString(R.string.cases));
+                mPackageTxt.setText(getString(R.string.six_pack));
                 search(mBrandStr, mPackage, mContainer);
                 mPackageSelection.setVisibility(View.GONE);
                 stopAnimation(mPackageArrowDown);
