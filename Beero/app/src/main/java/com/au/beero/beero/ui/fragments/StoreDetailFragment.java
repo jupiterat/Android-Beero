@@ -1,5 +1,7 @@
 package com.au.beero.beero.ui.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
@@ -130,6 +132,19 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
         LatLng latLng = new LatLng(Double.valueOf(mStore.getLat()), Double.valueOf(mStore.getLng()));
         Marker marker = googleMap.addMarker(new MarkerOptions()
                 .position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_marker)));
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                String uriStr  = "geo:" + marker.getPosition().latitude + "," + marker.getPosition().longitude + "?z=15";
+                Uri gmmIntentUri = Uri.parse(uriStr);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                }
+                return false;
+            }
+        });
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM_LEVEL));
     }
 
