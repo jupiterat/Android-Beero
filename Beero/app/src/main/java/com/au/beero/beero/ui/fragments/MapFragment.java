@@ -134,7 +134,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             }
         }
         LatLngBounds bounds = builder.build();
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, Utility.getScreenWidth(mActivity), Utility.getScreenHeight(mActivity), 50));
+//        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, Utility.getScreenWidth(mActivity), Utility.getScreenHeight(mActivity), 50));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
 
     }
 
