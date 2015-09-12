@@ -94,7 +94,10 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
         mStoreAdd.setText(store.getAddress());
         mStoreDistance.setText(String.format(getString(R.string.distance_drive_format), winingDeal.getBeautifiedDriveDistance()));
         ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
-        mProductImg.setImageUrl(winingDeal.getUrl(), loader);
+        if (winingDeal.getUrl() != null && !winingDeal.getUrl().isEmpty()) {
+            mProductImg.setImageUrl(winingDeal.getUrl(), loader);
+        }
+
         mProductImg.setErrorImageResId(R.drawable.brand_0);
         mProductImg.setDefaultImageResId(R.drawable.brand_0);
         String container = String.format(getString(R.string.container_format), winingDeal.getQty(), winingDeal.getContainerSize(), winingDeal.getContainerType());
