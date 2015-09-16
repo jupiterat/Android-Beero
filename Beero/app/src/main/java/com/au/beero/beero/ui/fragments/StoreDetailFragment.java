@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import com.au.beero.beero.model.OpenTime;
 import com.au.beero.beero.model.Store;
 import com.au.beero.beero.ui.activity.MainActivity;
 import com.au.beero.beero.ui.base.BaseFragment;
+import com.au.beero.beero.ui.dialog.CatalogDialog;
 import com.au.beero.beero.ui.stack.StackFragment;
 import com.au.beero.beero.utility.Constants;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -41,7 +43,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by thuc.phan on 8/15/2015.
  */
-public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallback {
+public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallback, View.OnClickListener {
 
     private MapView mMapView;
     private static Store mStore;
@@ -58,6 +60,7 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
     private NetworkImageView mStoreBanner;
     private NetworkImageView mStoreCata;
     private LinearLayout mOpeningHours;
+    private ImageView mZoomCatalog;
 
     private LinearLayout mCatalogContainer;
 
@@ -90,6 +93,8 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
         mOpeningHours = (LinearLayout) view.findViewById(R.id.opening_hours);
         mWelcome = (TextView) view.findViewById(R.id.welcome_msg);
         mCatalogContainer = (LinearLayout) view.findViewById(R.id.catalog_container);
+        mZoomCatalog = (ImageView) view.findViewById(R.id.catalog_zoom);
+        mZoomCatalog.setOnClickListener(this);
         mMapView.onCreate(savedInstanceState);
         try {
             MapsInitializer.initialize(mActivity);
@@ -149,6 +154,16 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
             }
         });
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM_LEVEL));
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == mZoomCatalog){
+            if (mStore.isHasCatalog()){
+                CatalogDialog dialog = new CatalogDialog(mActivity);
+                dialog.show();
+            }
+        }
     }
 
     private void loadData() {

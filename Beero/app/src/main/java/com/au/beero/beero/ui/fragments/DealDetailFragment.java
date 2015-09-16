@@ -141,12 +141,10 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
                 }
                 break;
             case R.id.catalog:
-                CatalogDialog dialog = new CatalogDialog(mActivity);
-                dialog.show();
-//                if (mSearchResult.getWiningDeal().getStore().isHasCatalog()) {
-//                    CatalogDialog dialog = new CatalogDialog(mActivity);
-//                    dialog.show();
-//                }
+                if (mSearchResult.getWiningDeal().getStore().isHasCatalog()) {
+                    CatalogDialog dialog = new CatalogDialog(mActivity);
+                    dialog.show();
+                }
                 break;
         }
     }
