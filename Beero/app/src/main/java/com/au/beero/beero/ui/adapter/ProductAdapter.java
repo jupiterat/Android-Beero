@@ -81,6 +81,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                 int visible = deals.isExclusive() ? View.VISIBLE : View.GONE;
                 holder.exlusiveImg.setVisibility(visible);
                 holder.nextIcon.setVisibility(View.VISIBLE);
+                holder.winingStoreName.setVisibility(View.VISIBLE);
+                holder.winingStoreName.setText(deals.getStore().getName());
             } else {
                 holder.brandNameTxt.setText(mProducts.get(i).getBrandName());
                 holder.nextIcon.setVisibility(View.GONE);
@@ -88,6 +90,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                 holder.distanceTxt.setVisibility(View.GONE);
                 holder.priceTxt.setVisibility(View.GONE);
                 holder.containerTxt.setText(mContext.getString(R.string.no_deal));
+                holder.winingStoreName.setVisibility(View.GONE);
             }
 
         }
@@ -114,6 +117,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
         TextView distanceTxt;
         ImageView exlusiveImg;
         ImageView nextIcon;
+        TextView winingStoreName;
 
         public ProductHolder(View view) {
             super(view);
@@ -124,6 +128,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
             distanceTxt = (TextView) view.findViewById(R.id.product_time);
             exlusiveImg = (ImageView) view.findViewById(R.id.exclusive_icon);
             nextIcon = (ImageView) view.findViewById(R.id.arrow_right);
+            winingStoreName = (TextView) view.findViewById(R.id.winning_deal_store_name);
         }
     }
 
