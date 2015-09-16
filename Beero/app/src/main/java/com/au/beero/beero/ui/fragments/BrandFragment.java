@@ -16,6 +16,7 @@ import com.au.beero.beero.ui.activity.MainActivity;
 import com.au.beero.beero.ui.adapter.BrandAdapter;
 import com.au.beero.beero.ui.base.BaseFragment;
 import com.au.beero.beero.ui.stack.StackFragment;
+import com.au.beero.beero.utility.Constants;
 import com.au.beero.beero.utility.Utility;
 import com.marshalchen.ultimaterecyclerview.ItemTouchListenerAdapter;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
@@ -103,7 +104,7 @@ public class BrandFragment extends BaseFragment {
         if(mBrandAdapter != null && mBrandAdapter.getSelectedBrands() != null && mBrandAdapter.getSelectedBrands().size() > 0) {
             String[] ids = Utility.createIds(mBrandAdapter.getSelectedBrands());
             if(ids != null) {
-                Utility.saveSelectedIds(mActivity, ids[0],ids[1]);
+                Utility.saveSelectedIds(mActivity, ids[0], Utility.PREFS_KEY, ids[1], Utility.PREFS_VALUE);
             }
             gotoSearch();
         } else {
@@ -113,7 +114,8 @@ public class BrandFragment extends BaseFragment {
 
     private void gotoSearch() {
         String ids = Utility.getPrefIds(mActivity);
-        Fragment searchFrag = SearchFragment.makeInstance(mBrandAdapter.getSelectedBrands(),ids);
+        String idsAll = Utility.getPrefIdsAll(mActivity);
+        Fragment searchFrag = SearchFragment.makeInstance(mBrandAdapter.getBrands(), mBrandAdapter.getSelectedBrands(),ids, idsAll);
         ((StackFragment) ((MainActivity) getActivity()).getCurrentStackFragment())
                 .addFragmentToStack(searchFrag);
     }

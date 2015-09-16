@@ -297,6 +297,8 @@ public class Utility {
     public static final String PREFS_NAME = "BeeroPrefs";
     public static final String PREFS_KEY = "keys";
     public static final String PREFS_VALUE = "values";
+    public static final String PREFS_VALUE_ALL = "all_values";
+    public static final String PREFS_KEY_ALL = "all_keys";
     public static final String BRAND_SEPERTOR = ":";
     public static final String SEARCH_SEPERTOR = "|";
     public static final String ID_REGEX = "(\\d+)|";
@@ -330,11 +332,20 @@ public class Utility {
         return settings.getString(PREFS_VALUE, "");
     }
 
-    public static void saveSelectedIds(Context ctx, String ids, String values) {
+    public static String getPrefIdsAll(Context ctx) {
+        SharedPreferences settings = ctx.getSharedPreferences(PREFS_NAME, 0);
+        return settings.getString(PREFS_KEY_ALL, "");
+    }
+    public static String getPrefNamesAll(Context ctx) {
+        SharedPreferences settings = ctx.getSharedPreferences(PREFS_NAME, 0);
+        return settings.getString(PREFS_VALUE_ALL, "");
+    }
+
+    public static void saveSelectedIds(Context ctx, String ids, String idsKey, String values, String valuesKey) {
         SharedPreferences settings = ctx.getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(PREFS_KEY, ids);
-        editor.putString(PREFS_VALUE, values);
+        editor.putString(idsKey, ids);
+        editor.putString(valuesKey, values);
         editor.commit();
     }
 

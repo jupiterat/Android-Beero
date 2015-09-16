@@ -74,6 +74,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     private LinearLayout mPackageGroup;
     private LinearLayout mContainerGroup;
 
+    private static final String KEY_BRANDS_ALL = "brands_all";
     private static final String KEY_BRANDS = "brands";
     private static final String KEY_CASES = "case";
     private static final String KEY_SIX_PACKS = "six";
@@ -81,9 +82,11 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     private static final String KEY_BOTTLE = "bottles";
     private static final String KEY_BOTH = "any";
     private String mBrandStr = "";
+    private String mBrandAllStr = "";
     private String mPackage = KEY_CASES;
     private String mContainer = KEY_BOTH;
     private static List<Brand> mBrandsList = null;
+    private static List<Brand> mBrandsListAll = null;
     private boolean isLoaded = false;
     private TextView mRefreshBtn;
     private TextView mAddBtn;
@@ -96,12 +99,17 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     private TextView mCansBtn;
     private TextView mBottleBtn;
     private TextView mBothBtn;
+    private TextView mMyBeerBtn;
+    private TextView mAllBeerBtn;
+    private boolean isAllSelected = false;//default is all_beer not selected
 
-    public static Fragment makeInstance(List<Brand> brands, String brandStr) {
+    public static Fragment makeInstance(List<Brand> brandsAll, List<Brand> brands, String brandStr, String brandAllStr) {
         mBrandsList = brands;
+        mBrandsListAll = brandsAll;
         SearchFragment fragment = new SearchFragment();
         Bundle b = new Bundle();
         b.putString(KEY_BRANDS, brandStr);
+        b.putString(KEY_BRANDS_ALL,brandAllStr);
         fragment.setArguments(b);
         return fragment;
     }
@@ -111,22 +119,29 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mBrandStr = getArguments().getString(KEY_BRANDS, "");
+            mBrandAllStr = getArguments().getString(KEY_BRANDS_ALL, "");
             if (!mBrandStr.isEmpty()) {
                 mBrandStr = mBrandStr.replace(Utility.BRAND_SEPERTOR, Utility.SEARCH_SEPERTOR);
             }
-        }
-        if (mBrandsList != null) {
-            searchResults = new ArrayList<>(mBrandsList.size());
-            for (int i = 0; i < mBrandsList.size(); i++) {
-                SearchResult item = new SearchResult();
-                item.setId(mBrandsList.get(i).getId());
-                item.setBrandName(mBrandsList.get(i).getName());
-                searchResults.add(i, item);
+            if (!mBrandAllStr.isEmpty()) {
+                mBrandAllStr = mBrandAllStr.replace(Utility.BRAND_SEPERTOR, Utility.SEARCH_SEPERTOR);
             }
-            Collections.sort(searchResults);
         }
 
+//        if (mBrandsList != null) {
+//            searchResults = new ArrayList<>(mBrandsList.size());
+//            for (int i = 0; i < mBrandsList.size(); i++) {
+//                SearchResult item = new SearchResult();
+//                item.setId(mBrandsList.get(i).getId());
+//                item.setBrandName(mBrandsList.get(i).getName());
+//                searchResults.add(i, item);
+//            }
+//            Collections.sort(searchResults);
+//        }
+        searchResults = createSearchResult(mBrandsList);
     }
+
+
 
     @Nullable
     @Override
@@ -170,6 +185,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mProductListview.addOnItemTouchListener(new ItemTouchListenerAdapter(mProductListview.mRecyclerView, this));
         mProductListview.addItemDividerDecoration(mActivity);
         (((SwipeListView) mProductListview.mRecyclerView)).setOffsetLeft(getFrontShowWidth());
+
         mProductListview.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -242,9 +258,9 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                     }
                     String[] ids = Utility.createIds(brands);
                     if (ids != null) {
-                        Utility.saveSelectedIds(mActivity, ids[0], ids[1]);
+                        Utility.saveSelectedIds(mActivity, ids[0], Utility.PREFS_KEY, ids[1], Utility.PREFS_VALUE);
                     } else {
-                        Utility.saveSelectedIds(mActivity, "", "");
+                        Utility.saveSelectedIds(mActivity, "", Utility.PREFS_KEY, "", Utility.PREFS_VALUE);
                     }
                     if (mBrandAdapter.getProducts() != null && mBrandAdapter.getProducts().size() > 0) {
                         if (mProductListContainer.getVisibility() != View.VISIBLE) {
@@ -284,6 +300,8 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mBothBtn = (TextView) view.findViewById(R.id.both_btn);
         mPackageGroup = (LinearLayout) view.findViewById(R.id.package_condition_group);
         mContainerGroup = (LinearLayout) view.findViewById(R.id.container_condition_group);
+        mMyBeerBtn = (TextView) view.findViewById(R.id.my_beer);
+        mAllBeerBtn = (TextView) view.findViewById(R.id.all_beer);
 
 
         mPackageTxt.setOnClickListener(this);
@@ -298,6 +316,10 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         mBothBtn.setOnClickListener(this);
         mPackageGroup.setOnClickListener(this);
         mContainerGroup.setOnClickListener(this);
+        mMyBeerBtn.setOnClickListener(this);
+        mAllBeerBtn.setOnClickListener(this);
+        mMyBeerBtn.setSelected(!isAllSelected);
+        mAllBeerBtn.setSelected(isAllSelected);
         //
 
         animFadein = AnimationUtils.loadAnimation(getActivity(),
@@ -318,6 +340,8 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     public void onResume() {
         super.onResume();
         getActivity().getActionBar().hide();
+        int mode = isAllSelected ? SwipeListView.SWIPE_MODE_NONE : SwipeListView.SWIPE_MODE_LEFT;
+        (((SwipeListView) mProductListview.mRecyclerView)).setSwipeMode(mode);
     }
 
     @Override
@@ -392,10 +416,45 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                 stopAnimation(mContainerArrowDown);
                 mContainerArrowDown.setVisibility(View.INVISIBLE);
                 break;
-
+            case R.id.my_beer:
+                isAllSelected = false;
+                mMyBeerBtn.setSelected(!isAllSelected);
+                mAllBeerBtn.setSelected(isAllSelected);
+                searchResults = createSearchResult(mBrandsList);
+                (((SwipeListView) mProductListview.mRecyclerView)).setSwipeMode(SwipeListView.SWIPE_MODE_LEFT);
+                search(mBrandStr, mPackage, mContainer);
+                break;
+            case R.id.all_beer:
+                isAllSelected = true;
+                mMyBeerBtn.setSelected(!isAllSelected);
+                mAllBeerBtn.setSelected(isAllSelected);
+                searchResults = createSearchResult(mBrandsListAll);
+                (((SwipeListView) mProductListview.mRecyclerView)).setSwipeMode(SwipeListView.SWIPE_MODE_NONE);
+                search(mBrandAllStr, mPackage, mContainer);
+                break;
             default:
                 break;
         }
+    }
+
+    /**
+     * create search result list
+     * @param list
+     * @return
+     */
+    private List<SearchResult> createSearchResult(List<Brand> list) {
+        if (list != null) {
+            List<SearchResult> searchResults = new ArrayList<>(list.size());
+            for (int i = 0; i < list.size(); i++) {
+                SearchResult item = new SearchResult();
+                item.setId(list.get(i).getId());
+                item.setBrandName(list.get(i).getName());
+                searchResults.add(i, item);
+            }
+            Collections.sort(searchResults);
+            return  searchResults;
+        }
+        return null;
     }
 
     /**
@@ -642,10 +701,13 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void loadResult() {
-        if (mBrandAdapter == null) {
+//        if (mBrandAdapter == null) {
             mBrandAdapter = new ProductAdapter(mActivity, searchResults);
-        }
-        mProductListview.setAdapter(mBrandAdapter);
+            mProductListview.setAdapter(mBrandAdapter);
+//        } else {
+//            mBrandAdapter.notifyDataSetChanged();
+//        }
+
         setHeight(searchResults.size());
         if (mProductListContainer != null && mProductListContainer.getVisibility() != View.VISIBLE) {
             mProductListContainer.setVisibility(View.VISIBLE);
@@ -661,8 +723,13 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onItemClick(RecyclerView recyclerView, View view, int i) {
-
-
+        if(isAllSelected) {
+            if (searchResults.get(i).getWiningDeal() != null) {
+                StackFragment stack = ((StackFragment) ((MainActivity) mActivity).getCurrentStackFragment());
+                Fragment brandFrag = DealDetailFragment.makeInstance(searchResults.get(i));
+                stack.addFragmentToStack(brandFrag);
+            }
+        }
     }
 
     @Override

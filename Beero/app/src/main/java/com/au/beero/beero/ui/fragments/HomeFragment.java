@@ -142,6 +142,12 @@ public class HomeFragment extends BaseFragment {
                 }
                 if (mBrandList != null) {
                     Collections.sort(mBrandList);
+                    //save all brands pref
+                    String[] ids = Utility.createIds(mBrandList);
+                    if(ids != null) {
+                        Utility.saveSelectedIds(mActivity, ids[0],Utility.PREFS_KEY_ALL, ids[1], Utility.PREFS_VALUE_ALL);
+                    }
+                    //
                     List<Brand> brands = loadLocalBrand();
                     if(brands != null) {
                         handler.sendMessage(handler.obtainMessage(BEGIN_TRANSACTION_SEARCH, brands));
@@ -185,7 +191,8 @@ public class HomeFragment extends BaseFragment {
     private void gotoSearch(List<Brand> list) {
         gotoBrandScreen(mBrandList);
         String ids = Utility.getPrefIds(mActivity);
-        Fragment searchFrag = SearchFragment.makeInstance(list, ids);
+        String idsAll = Utility.getPrefIdsAll(mActivity);
+        Fragment searchFrag = SearchFragment.makeInstance(mBrandList, list, ids, idsAll);
         ((StackFragment) ((MainActivity) getActivity()).getCurrentStackFragment())
                 .addFragmentToStack(searchFrag);
     }

@@ -8,4 +8,5 @@
     <color name="main_text_color_disable">#688FA0</color>
     <color name="green_bg">#39B54A</color>
     <color name="blue">#00dcea</color>
+    <color name="beer_selected">#9BBBC0</color>
 </resources>
