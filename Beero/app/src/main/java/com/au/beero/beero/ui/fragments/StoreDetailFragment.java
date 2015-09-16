@@ -59,6 +59,8 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
     private NetworkImageView mStoreCata;
     private LinearLayout mOpeningHours;
 
+    private LinearLayout mCatalogContainer;
+
     public static StoreDetailFragment makeInstance(String title, Store store) {
         mStore = store;
         mTitle = title;
@@ -87,6 +89,7 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
         mStoreCata = (NetworkImageView) view.findViewById(R.id.catalog);
         mOpeningHours = (LinearLayout) view.findViewById(R.id.opening_hours);
         mWelcome = (TextView) view.findViewById(R.id.welcome_msg);
+        mCatalogContainer = (LinearLayout) view.findViewById(R.id.catalog_container);
         mMapView.onCreate(savedInstanceState);
         try {
             MapsInitializer.initialize(mActivity);
@@ -163,30 +166,39 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
         }
         ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
 
-        mStoreBanner.setDefaultImageResId(R.drawable.store_0);
-        mStoreBanner.setErrorImageResId(R.drawable.store_0);
+        mStoreBanner.setDefaultImageResId(R.drawable.store_placeholder);
+        mStoreBanner.setErrorImageResId(R.drawable.store_placeholder);
+//        mStoreBanner.setImageUrl("http://beero.com.au/stores/1/files/cover.jpg", loader);
         if (mStore.isHasBanner()) {
-//            mStoreBanner.setVisibility(View.VISIBLE);
-            mStoreBanner.setImageUrl("", loader);
+            mStoreBanner.setVisibility(View.VISIBLE);
+//            mStoreBanner.setImageUrl("", loader);
+            mStoreBanner.setImageUrl("http://beero.com.au/stores/1/files/cover.jpg", loader);
         } else {
-//            mStoreBanner.setVisibility(View.GONE);
+            mStoreBanner.setVisibility(View.GONE);
         }
 
-        mStoreCata.setDefaultImageResId(R.drawable.catalog_0);
-        mStoreCata.setErrorImageResId(R.drawable.catalog_0);
+        mStoreCata.setDefaultImageResId(R.drawable.catalog_placeholder);
+        mStoreCata.setErrorImageResId(R.drawable.catalog_placeholder);
+//        mStoreCata.setImageUrl("http://beero.com.au/stores/1/files/catalog.png", loader);
         if (mStore.isHasCatalog()) {
-//            mStoreCata.setVisibility(View.VISIBLE);
-            mStoreCata.setImageUrl("", loader);
+            mCatalogContainer.setVisibility(View.VISIBLE);
+            mStoreCata.setImageUrl("http://beero.com.au/stores/1/files/catalog.png", loader);
         } else {
-//            mStoreCata.setVisibility(View.GONE);
+            mCatalogContainer.setVisibility(View.GONE);
         }
         if (mStore.isHasMgr()) {
 
         } else {
 
         }
-        if (mStore.getMgrWelcome()!=null){
-            mWelcome.setText(mStore.getMgrWelcome());
+//        if (mStore.getMgrWelcome()!=null){
+//            mWelcome.setText(mStore.getMgrWelcome());
+//        }
+        if (mStore.getMessage() != null &&! mStore.getMessage().isEmpty()){
+            mWelcome.setText(mStore.getMessage());
+            mWelcome.setVisibility(View.VISIBLE);
+        } else {
+            mWelcome.setVisibility(View.GONE);
         }
         addOpeningHours();
         mStoreOpening.setText(mStore.getBeautifiedLabelForOpenTimeToday());

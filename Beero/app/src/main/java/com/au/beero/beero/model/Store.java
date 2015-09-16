@@ -31,6 +31,7 @@ public class Store {
     private boolean hasMgr;
     private String mgrWelcome;
     private List<OpenTime> openHours;
+    private String message;
 
     public Store() {
     }
@@ -120,6 +121,11 @@ public class Store {
             } catch (Exception e) {
 
             }
+            try {
+                setMessage(jsonObject.getString(Constants.SERVER_RES_KEY.RES_MESSAGE));
+            } catch (Exception e) {
+
+            }
         }
     }
 
@@ -205,6 +211,14 @@ public class Store {
 
     public String getMgrWelcome() {
         return mgrWelcome;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public void setMgrWelcome(String mgrWelcome) {

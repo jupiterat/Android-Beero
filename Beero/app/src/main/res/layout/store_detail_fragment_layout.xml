@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
                 android:text="Lachlan Hotel"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/store_member_since"
@@ -40,7 +40,7 @@
                 android:layout_below="@+id/store_name"
                 android:text="@string/beero_member"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/store_phone"
@@ -51,7 +51,7 @@
                 android:layout_below="@+id/store_member_since"
                 android:text="(02) 9618 9837"
                 android:textColor="@color/main_aap_color"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/store_opening"
@@ -65,7 +65,7 @@
                 android:gravity="center"
                 android:text="Opening"
                 android:textColor="@color/green_bg"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/store_closed"
@@ -79,7 +79,7 @@
                 android:text="Closed"
                 android:textColor="@color/main_aap_color"
                 android:textSize="12sp"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/time_to_close"
@@ -93,7 +93,7 @@
                 android:textColor="@color/main_aap_color"
                 android:textSize="12sp"
                 android:textStyle="normal"
-                android:visibility="gone" />
+                android:visibility="gone"/>
             <!-- <LinearLayout
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
             android:layout_marginTop="@dimen/com_10dp"
             android:text="168 abc street"
             android:textColor="@android:color/darker_gray"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -141,15 +141,15 @@
                 <com.android.volley.toolbox.NetworkImageView
                     android:id="@+id/banner"
                     android:layout_width="match_parent"
-                    android:scaleType="fitXY"
-                    android:layout_height="@dimen/com_150dp" />
+                    android:layout_height="@dimen/com_150dp"
+                    android:scaleType="fitXY"/>
 
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="@dimen/com_20dp"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"/>
             </LinearLayout>
 
 
@@ -159,8 +159,9 @@
                 android:layout_height="@dimen/com_100dp"
                 android:layout_gravity="center_horizontal|bottom"
                 android:src="@drawable/manager_0"
+                android:visibility="gone"
                 app:bordercolor="@android:color/white"
-                app:borderwidth="@dimen/com_2dp" />
+                app:borderwidth="@dimen/com_2dp"/>
 
 
         </FrameLayout>
@@ -173,46 +174,53 @@
             android:layout_margin="@dimen/com_10dp"
             android:gravity="center_horizontal"
             android:text="@string/default_welcome"
-            android:textStyle="italic" />
+            android:textStyle="italic"/>
 
-        <View
-            android:layout_width="@dimen/com_100dp"
-            android:layout_height="2dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/com_10dp"
-            android:background="@color/grey_bg" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/com_10dp"
-            android:text="@string/check_catalog"
-            android:textStyle="bold" />
-
-        <FrameLayout
+        <LinearLayout
+            android:id="@+id/catalog_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/com_10dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <com.android.volley.toolbox.NetworkImageView
-                android:id="@+id/catalog"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/com_400dp" />
+            <View
+                android:layout_width="@dimen/com_100dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/com_10dp"
+                android:background="@color/grey_bg"/>
 
-            <ImageView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/catalog_zoom" />
-        </FrameLayout>
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/com_10dp"
+                android:text="@string/check_catalog"
+                android:textStyle="bold"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/com_10dp">
+
+                <com.android.volley.toolbox.NetworkImageView
+                    android:id="@+id/catalog"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/com_400dp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/catalog_zoom"/>
+            </FrameLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="@dimen/com_100dp"
             android:layout_height="2dp"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/com_10dp"
-            android:background="@color/grey_bg" />
+            android:background="@color/grey_bg"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -220,7 +228,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/com_10dp"
             android:text="@string/opening_hours"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <LinearLayout
             android:id="@+id/opening_hours"
