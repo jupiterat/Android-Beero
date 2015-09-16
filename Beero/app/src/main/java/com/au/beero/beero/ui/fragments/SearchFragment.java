@@ -613,7 +613,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         if (size > 0) {
             int screenHeight = Utility.getScreenHeight(mActivity);
             int header = getResources().getDimensionPixelSize(R.dimen.com_50dp);
-            int listHeight = size * getResources().getDimensionPixelSize(R.dimen.com_100dp);
+            int listHeight = size * getResources().getDimensionPixelSize(R.dimen.com_120dp);
             int functionHeight = getResources().getDimensionPixelSize(R.dimen.com_60dp);
 
 
