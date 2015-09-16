@@ -19,6 +19,7 @@ import com.au.beero.beero.model.Store;
 import com.au.beero.beero.model.WiningDeal;
 import com.au.beero.beero.ui.activity.MainActivity;
 import com.au.beero.beero.ui.base.BaseFragment;
+import com.au.beero.beero.ui.dialog.CatalogDialog;
 import com.au.beero.beero.ui.stack.StackFragment;
 
 /**
@@ -36,6 +37,7 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
     private TextView mDealPackage;
     private TextView mLoosingTxt;
     private TextView mStoreClosed;
+    private TextView mCatalog;
     private NetworkImageView mProductImg;
     private static SearchResult mSearchResult;
     private FrameLayout mExclusiveContainer;
@@ -68,6 +70,8 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
         mLoosingTxt = (TextView) view.findViewById(R.id.show_loosing);
         mExclusiveContainer = (FrameLayout) view.findViewById(R.id.exclusive_container);
         mStoreContainer = (RelativeLayout) view.findViewById(R.id.store_container);
+        mCatalog = (TextView) view.findViewById(R.id.catalog);
+        mCatalog.setOnClickListener(this);
         mLoosingTxt.setOnClickListener(this);
         mStoreContainer.setOnClickListener(this);
         loadData();
@@ -134,6 +138,12 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
                     StoreDetailFragment storeDetailFragment = StoreDetailFragment.makeInstance(mSearchResult.getBrandName(), mSearchResult.getWiningDeal().getStore());
                     ((StackFragment) ((MainActivity) getActivity()).getCurrentStackFragment())
                             .addFragmentToStack(storeDetailFragment);
+                }
+                break;
+            case R.id.catalog:
+                if (mSearchResult.getWiningDeal().getStore().isHasCatalog()) {
+                    CatalogDialog dialog = new CatalogDialog(mActivity);
+                    dialog.show();
                 }
                 break;
         }

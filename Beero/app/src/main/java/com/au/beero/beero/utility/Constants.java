@@ -56,6 +56,7 @@ public class Constants {
         public static final String RES_REASON = "reason";
         public static final String RES_INFO = "info";
         public static final String RES_POSITION = "position";
+        public static final String RES_MESSAGE = "message";
     }
 
 
