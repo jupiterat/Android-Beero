@@ -16,6 +16,9 @@ public class Constants {
     public static final String STORE_DATE_TIME_FORMAT = "hh:mm a";
     public static final String FRAGMENT_INIT = "fragment_init";
     public static final long COUNT_DOWN_UNIT = 1000 * 60;
+    public static final String BRAND_BOTTLE = "brand_bottle";
+    public static final String BRAND_CAN = "brand_can";
+    public static final String BRAND_BOTTLE_CAN = "brand_bottle_can";
     //
 
     public static class SERVER_RES_KEY {
@@ -28,6 +31,7 @@ public class Constants {
 
         public static final String RES_BRAND_NAME = "brand_name";
         public static final String RES_QTY = "qty";
+        public static final String RES_IMAGE_ID = "image_id";
         public static final String RES_CONTAINER_TYPE = "container_type";
         public static final String RES_CONTAINER_SIZE = "container_size";
         public static final String RES_PRICE = "price";

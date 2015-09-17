@@ -17,6 +17,7 @@ public class SearchResult implements Comparable<SearchResult> {
     String brandName;
     WiningDeal winingDeal;
     List<LosingDeal> losingDeals;
+    String notFound = Constants.BRAND_BOTTLE_CAN;
 
     public SearchResult() {
     }
@@ -90,6 +91,13 @@ public class SearchResult implements Comparable<SearchResult> {
         this.position = position;
     }
 
+    public String getNotFound() {
+        return notFound;
+    }
+
+    public void setNotFound(String notFound) {
+        this.notFound = notFound;
+    }
     @Override
     public int compareTo(SearchResult searchResult) {
         int current = 0;

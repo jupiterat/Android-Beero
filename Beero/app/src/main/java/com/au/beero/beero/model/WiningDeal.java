@@ -18,6 +18,7 @@ public class WiningDeal {
     boolean isExclusive;
     Store store;
     String url;
+    String imageId = "1";
 
     public WiningDeal() {
     }
@@ -33,6 +34,11 @@ public class WiningDeal {
             }
             try {
                 setQty(jsonObject.getString(Constants.SERVER_RES_KEY.RES_QTY));
+            } catch (Exception e) {
+
+            }
+            try {
+                setImageId(jsonObject.getString(Constants.SERVER_RES_KEY.RES_IMAGE_ID));
             } catch (Exception e) {
 
             }
@@ -166,5 +172,12 @@ public class WiningDeal {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+    public String getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
     }
 }

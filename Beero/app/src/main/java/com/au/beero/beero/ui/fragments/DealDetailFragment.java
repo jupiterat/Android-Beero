@@ -7,13 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.au.beero.beero.R;
-import com.au.beero.beero.manager.VolleySingleton;
 import com.au.beero.beero.model.SearchResult;
 import com.au.beero.beero.model.Store;
 import com.au.beero.beero.model.WiningDeal;
@@ -38,7 +36,7 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
     private TextView mLoosingTxt;
     private TextView mStoreClosed;
     private TextView mCatalog;
-    private NetworkImageView mProductImg;
+    private ImageView mProductImg;
     private static SearchResult mSearchResult;
     private FrameLayout mExclusiveContainer;
     private RelativeLayout mStoreContainer;
@@ -63,7 +61,7 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
         mStoreClosed = (TextView) view.findViewById(R.id.store_closed);
         mStoreDistance = (TextView) view.findViewById(R.id.store_distance);
         mStoreOpening = (TextView) view.findViewById(R.id.store_opening);
-        mProductImg = (NetworkImageView) view.findViewById(R.id.product_img);
+        mProductImg = (ImageView) view.findViewById(R.id.product_img);
         mDealPrice = (TextView) view.findViewById(R.id.product_price_big);
         mDealPriceSmall = (TextView) view.findViewById(R.id.product_price_small);
         mDealPackage = (TextView) view.findViewById(R.id.product_container);
@@ -97,13 +95,17 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
         mStoreName.setText(store.getName());
         mStoreAdd.setText(store.getAddress());
         mStoreDistance.setText(String.format(getString(R.string.distance_drive_format), winingDeal.getBeautifiedDriveDistance()));
-        ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
-        if (winingDeal.getUrl() != null && !winingDeal.getUrl().isEmpty()) {
-            mProductImg.setImageUrl(winingDeal.getUrl(), loader);
-        }
+//        ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
+//        if (winingDeal.getUrl() != null && !winingDeal.getUrl().isEmpty()) {
+//            mProductImg.setImageUrl(winingDeal.getUrl(), loader);
+//        }
+//
+//        mProductImg.setErrorImageResId(R.drawable.brand_0);
+//        mProductImg.setDefaultImageResId(R.drawable.brand_0);
 
-        mProductImg.setErrorImageResId(R.drawable.brand_0);
-        mProductImg.setDefaultImageResId(R.drawable.brand_0);
+        final int resourceId = getResources().getIdentifier("brand_big_" + winingDeal.getImageId(), "drawable",
+                getActivity().getPackageName());
+        mProductImg.setImageResource(resourceId);
         String container = String.format(getString(R.string.container_format), winingDeal.getQty(), winingDeal.getContainerSize(), winingDeal.getContainerType());
         mDealPackage.setText(container);
 

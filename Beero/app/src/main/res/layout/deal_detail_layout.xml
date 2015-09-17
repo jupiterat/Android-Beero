@@ -208,13 +208,12 @@
             android:layout_above="@+id/exclusive_container"
             android:gravity="center_vertical">
 
-            <com.android.volley.toolbox.NetworkImageView
+            <ImageView
                 android:id="@+id/product_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/com_150dp"
+                android:layout_height="@dimen/com_150dp"
                 android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/brand_0"/>
+                android:layout_centerVertical="true"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"

@@ -36,6 +36,7 @@ import com.au.beero.beero.ui.stack.StackFragment;
 import com.au.beero.beero.ui.widget.ActionItem;
 import com.au.beero.beero.ui.widget.QuickAction;
 import com.au.beero.beero.utility.ApiUtility;
+import com.au.beero.beero.utility.Constants;
 import com.au.beero.beero.utility.Utility;
 import com.framework.network.request.AbstractHttpRequest;
 import com.framework.network.task.IDataEventHandler;
@@ -395,6 +396,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
             case R.id.cans_btn:
                 mContainer = KEY_CANS;
                 mContainerTxt.setText(getString(R.string.cans));
+                updateNotFound(Constants.BRAND_CAN);
                 search(mBrandStr, mPackage, mContainer);
                 mContainerSelection.setVisibility(View.GONE);
                 stopAnimation(mContainerArrowDown);
@@ -403,6 +405,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
             case R.id.bottle_btn:
                 mContainer = KEY_BOTTLE;
                 mContainerTxt.setText(getString(R.string.bottles));
+                updateNotFound(Constants.BRAND_BOTTLE);
                 search(mBrandStr, mPackage, mContainer);
                 mContainerSelection.setVisibility(View.GONE);
                 stopAnimation(mContainerArrowDown);
@@ -411,6 +414,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
             case R.id.both_btn:
                 mContainer = KEY_BOTH;
                 mContainerTxt.setText(getString(R.string.both));
+                updateNotFound(Constants.BRAND_BOTTLE_CAN);
                 search(mBrandStr, mPackage, mContainer);
                 mContainerSelection.setVisibility(View.GONE);
                 stopAnimation(mContainerArrowDown);
@@ -434,6 +438,12 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
                 break;
             default:
                 break;
+        }
+    }
+
+    private void updateNotFound(String value) {
+        for(SearchResult sr : searchResults) {
+            sr.setNotFound(value);
         }
     }
 
