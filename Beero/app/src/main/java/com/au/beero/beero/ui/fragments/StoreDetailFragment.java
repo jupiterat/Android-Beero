@@ -23,6 +23,7 @@ import com.au.beero.beero.ui.base.BaseFragment;
 import com.au.beero.beero.ui.dialog.CatalogDialog;
 import com.au.beero.beero.ui.stack.StackFragment;
 import com.au.beero.beero.utility.Constants;
+import com.au.beero.beero.utility.PhoneUtility;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -95,6 +96,7 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
         mCatalogContainer = (LinearLayout) view.findViewById(R.id.catalog_container);
         mZoomCatalog = (ImageView) view.findViewById(R.id.catalog_zoom);
         mZoomCatalog.setOnClickListener(this);
+        mStorePhone.setOnClickListener(this);
         mMapView.onCreate(savedInstanceState);
         try {
             MapsInitializer.initialize(mActivity);
@@ -163,6 +165,12 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
                 CatalogDialog dialog = new CatalogDialog(mActivity);
                 dialog.show();
             }
+        } else if(v.getId() == R.id.store_phone) {
+            String phone = "";
+            if(mStore.getPhone() != null) {
+                phone = mStore.getPhone();
+            }
+            PhoneUtility.makeInstance(getActivity()).call(phone);
         }
     }
 

@@ -18,7 +18,9 @@ import com.au.beero.beero.model.WiningDeal;
 import com.au.beero.beero.ui.activity.MainActivity;
 import com.au.beero.beero.ui.base.BaseFragment;
 import com.au.beero.beero.ui.dialog.CatalogDialog;
+import com.au.beero.beero.ui.dialog.ConfirmDialog;
 import com.au.beero.beero.ui.stack.StackFragment;
+import com.au.beero.beero.utility.PhoneUtility;
 
 /**
  * Created by jupiter.at@gmail.com on 8/15/2015.
@@ -36,10 +38,12 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
     private TextView mLoosingTxt;
     private TextView mStoreClosed;
     private TextView mCatalog;
+    private TextView mPhoneCall;
     private ImageView mProductImg;
     private static SearchResult mSearchResult;
     private FrameLayout mExclusiveContainer;
     private RelativeLayout mStoreContainer;
+    private ConfirmDialog dialog;
 
     public static Fragment makeInstance(SearchResult searchResult) {
         mSearchResult = searchResult;
@@ -69,7 +73,9 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
         mExclusiveContainer = (FrameLayout) view.findViewById(R.id.exclusive_container);
         mStoreContainer = (RelativeLayout) view.findViewById(R.id.store_container);
         mCatalog = (TextView) view.findViewById(R.id.catalog);
+        mPhoneCall = (TextView) view.findViewById(R.id.phone_call);
         mCatalog.setOnClickListener(this);
+        mPhoneCall.setOnClickListener(this);
         mLoosingTxt.setOnClickListener(this);
         mStoreContainer.setOnClickListener(this);
         loadData();
@@ -146,7 +152,23 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
                 if (mSearchResult.getWiningDeal().getStore().isHasCatalog()) {
                     CatalogDialog dialog = new CatalogDialog(mActivity);
                     dialog.show();
+                } else {
+                    dialog = new ConfirmDialog(getActivity(), getResources().getString(R.string.no_catalog), "OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.hideCancelButton(true);
+                    dialog.show();
                 }
+                break;
+            case R.id.phone_call:
+                String phone = "";
+                if(mSearchResult.getWiningDeal().getStore().getPhone() != null) {
+                    phone = mSearchResult.getWiningDeal().getStore().getPhone();
+                }
+                PhoneUtility.makeInstance(getActivity()).call(phone);
                 break;
         }
     }

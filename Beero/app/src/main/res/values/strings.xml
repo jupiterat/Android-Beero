@@ -45,4 +45,7 @@
     <!--  <string name="time_remaining_format" formatted="false">Closes in %s hours %s minutes</string>-->
     <string name="time_remaining_format">Closes in %s minutes</string>
     <string name="default_welcome">Hi, I’m Colin, manager of the Lachlan\nHotel bottle shop. If you need any advice\non wines, I’m here to help!</string>
+    <string name = "no_phone_available">No phone number is available!</string>
+    <string name = "no_phone_call_available">Phone call is not available on your device!</string>
+    <string name="no_catalog">No catalog available!</string>
 </resources>
