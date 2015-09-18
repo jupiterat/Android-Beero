@@ -95,6 +95,7 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
         mZoomCatalog = (ImageView) view.findViewById(R.id.catalog_zoom);
         mZoomCatalog.setOnClickListener(this);
         mStorePhone.setOnClickListener(this);
+
         mMapView.onCreate(savedInstanceState);
         try {
             MapsInitializer.initialize(mActivity);
@@ -143,14 +144,14 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                String uriStr  = "geo:" + marker.getPosition().latitude + "," + marker.getPosition().longitude + "?z=15";
-                Uri gmmIntentUri = Uri.parse(uriStr);
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    startActivity(mapIntent);
-                }
+                loadMap(String.valueOf(marker.getPosition().latitude), String.valueOf(marker.getPosition().longitude));
                 return false;
+            }
+        });
+        mMapView.getMap().setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                loadMap(mStore.getLat(), mStore.getLng());
             }
         });
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM_LEVEL));
@@ -268,5 +269,20 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
             }
         }
 
+    }
+
+    /**
+     * load map on google map app
+     * @param lat
+     * @param lng
+     */
+    private void loadMap(String lat, String lng) {
+        String uriStr = "geo:" + lat + "," + lng + "?z=15";
+        Uri gmmIntentUri = Uri.parse(uriStr);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(mapIntent);
+        }
     }
 }
