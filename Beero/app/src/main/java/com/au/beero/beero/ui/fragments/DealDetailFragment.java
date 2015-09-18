@@ -150,7 +150,7 @@ public class DealDetailFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.catalog:
                 if (mSearchResult.getWiningDeal().getStore().isHasCatalog()) {
-                    CatalogDialog dialog = new CatalogDialog(mActivity);
+                    CatalogDialog dialog = new CatalogDialog(mActivity, mSearchResult.getWiningDeal().getStore().getId());
                     dialog.show();
                 } else {
                     dialog = new ConfirmDialog(getActivity(), getResources().getString(R.string.no_catalog), "OK", new View.OnClickListener() {

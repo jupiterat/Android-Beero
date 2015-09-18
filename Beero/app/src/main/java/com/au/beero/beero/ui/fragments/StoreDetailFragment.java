@@ -35,9 +35,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.text.DateFormatSymbols;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -162,7 +160,7 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
     public void onClick(View v) {
         if (v == mZoomCatalog){
             if (mStore.isHasCatalog()){
-                CatalogDialog dialog = new CatalogDialog(mActivity);
+                CatalogDialog dialog = new CatalogDialog(mActivity, mStore.getId());
                 dialog.show();
             }
         } else if(v.getId() == R.id.store_phone) {
@@ -192,10 +190,10 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
         mStoreBanner.setDefaultImageResId(R.drawable.store_placeholder);
         mStoreBanner.setErrorImageResId(R.drawable.store_placeholder);
 //        mStoreBanner.setImageUrl("http://beero.com.au/stores/1/files/cover.jpg", loader);
-        if (mStore.isHasBanner()) {
+        if (mStore.isHasCover()) {
             mStoreBanner.setVisibility(View.VISIBLE);
 //            mStoreBanner.setImageUrl("", loader);
-            mStoreBanner.setImageUrl("http://beero.com.au/stores/1/files/cover.jpg", loader);
+            mStoreBanner.setImageUrl(String.format(getString(R.string.cover_url), mStore.getId().toString()), loader);
         } else {
             mStoreBanner.setVisibility(View.GONE);
         }
@@ -205,7 +203,7 @@ public class StoreDetailFragment extends BaseFragment implements OnMapReadyCallb
 //        mStoreCata.setImageUrl("http://beero.com.au/stores/1/files/catalog.png", loader);
         if (mStore.isHasCatalog()) {
             mCatalogContainer.setVisibility(View.VISIBLE);
-            mStoreCata.setImageUrl("http://beero.com.au/stores/1/files/catalog.png", loader);
+            mStoreCata.setImageUrl(String.format(getString(R.string.catalog_url), mStore.getId().toString()), loader);
         } else {
             mCatalogContainer.setVisibility(View.GONE);
         }

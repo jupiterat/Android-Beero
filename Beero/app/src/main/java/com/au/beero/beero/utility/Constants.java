@@ -47,7 +47,7 @@ public class Constants {
         public static final String RES_ADDRESS = "address";
         public static final String RES_PHONE = "phone";
         public static final String RES_HAS_CATALOG = "has_catalog";
-        public static final String RES_HAS_BANNER_IMG = "has_banner_img";
+        public static final String HAS_COVER_IMAGE = "has_cover_image";
         public static final String RES_HAS_MGR_IMG = "has_mgr_img";
         public static final String RES_MGR_WELCOME = "mgr_welcome";
         public static final String RES_OPEN_HOURS = "open_hours";

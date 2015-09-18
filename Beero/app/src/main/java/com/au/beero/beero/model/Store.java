@@ -27,7 +27,7 @@ public class Store {
     private String address;
     private String phone;
     private boolean hasCatalog;
-    private boolean hasBanner;
+    private boolean hasCover;
     private boolean hasMgr;
     private String mgrWelcome;
     private List<OpenTime> openHours;
@@ -81,7 +81,7 @@ public class Store {
 
             }
             try {
-                setHasBanner(jsonObject.getBoolean(Constants.SERVER_RES_KEY.RES_HAS_BANNER_IMG));
+                setHasCover(jsonObject.getBoolean(Constants.SERVER_RES_KEY.HAS_COVER_IMAGE));
             } catch (Exception e) {
 
             }
@@ -193,12 +193,12 @@ public class Store {
         this.hasCatalog = hasCatalog;
     }
 
-    public boolean isHasBanner() {
-        return hasBanner;
+    public boolean isHasCover() {
+        return hasCover;
     }
 
-    public void setHasBanner(boolean hasBanner) {
-        this.hasBanner = hasBanner;
+    public void setHasCover(boolean hasCover) {
+        this.hasCover = hasCover;
     }
 
     public boolean isHasMgr() {

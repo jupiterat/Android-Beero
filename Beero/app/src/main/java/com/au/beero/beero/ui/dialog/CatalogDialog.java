@@ -22,6 +22,7 @@ public class CatalogDialog extends CustomDialog implements View.OnClickListener 
     private WebView mWebview;
     private ImageView mCloseImg;
     private ProgressBar mProgressBar;
+    private String storeId = "";
 
     public CatalogDialog(Context context, int theme) {
         super(context, theme);
@@ -31,12 +32,13 @@ public class CatalogDialog extends CustomDialog implements View.OnClickListener 
         setCanceledOnTouchOutside(false);
     }
 
-    public CatalogDialog(Context context) {
+    public CatalogDialog(Context context, String store_id) {
         super(context);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         Window w = this.getWindow();
         w.setBackgroundDrawableResource(android.R.color.transparent);
         setCanceledOnTouchOutside(false);
+        storeId = store_id;
     }
 
     @Override
@@ -46,7 +48,8 @@ public class CatalogDialog extends CustomDialog implements View.OnClickListener 
         mCloseImg = (ImageView) v.findViewById(R.id.catalog_close);
         mProgressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
         mCloseImg.setOnClickListener(this);
-        setUpWebView();
+        String url = String.format(mContext.getResources().getString(R.string.catalog_pdf_url),storeId);
+        setUpWebView(url);
         setContentView(v);
     }
 
@@ -68,8 +71,7 @@ public class CatalogDialog extends CustomDialog implements View.OnClickListener 
         getWindow().getAttributes().windowAnimations = R.style.SmileWindow;
     }
 
-    private void setUpWebView() {
-        String pdfUrl = "http://beero.com.au/stores/1/files/catalog.pdf";
+    private void setUpWebView(String pdfUrl) {
         String embeddedUrl = "http://docs.google.com/gview?embedded=true&url=";
         mWebview.loadUrl(embeddedUrl + pdfUrl);
         mWebview.getSettings().setJavaScriptEnabled(true);
